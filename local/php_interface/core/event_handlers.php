@@ -11,9 +11,6 @@ Bitrix\Main\EventManager::getInstance()->addEventHandler(
     ["MailEventHandler", "onBeforeEventAddHandler"]
 );
 
-function r() {
-    return 1235;
-}
 
 class MailEventHandler
 {
