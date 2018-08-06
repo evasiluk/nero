@@ -11,9 +11,7 @@ Bitrix\Main\EventManager::getInstance()->addEventHandler(
     ["MailEventHandler", "onBeforeEventAddHandler"]
 );
 
-function remote() {
-return 1;
-}
+
 class MailEventHandler
 {
     static function onBeforeEventAddHandler(&$event, &$lid, &$arFields, &$message_id, &$files)
