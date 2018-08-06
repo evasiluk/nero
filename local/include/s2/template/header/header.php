@@ -93,3 +93,8 @@
         </div> -->
 
 </header>
+<?$APPLICATION->IncludeComponent(
+    "astronim:region.check",
+    "",
+    Array()
+);?>

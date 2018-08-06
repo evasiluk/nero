@@ -5,14 +5,16 @@ if (Loader::includeModule('rover.geoip')){
     if($_COOKIE["RegionCheck"] != true) {
         $current_host = $_SERVER["HTTP_HOST"];
         $current_ip = Location::getCurIp();
-//109.205.253.39 - питер
-//178.219.186.12 - москва
-//94.244.22.168 - киев
-//91.149.175.42 - беларусь
-        $current_ip = "94.244.22.168";
+        //109.205.253.39 - питер
+        //178.219.186.12 - москва
+        //94.244.22.168 - киев
+        //91.149.175.42 - беларусь
+        $current_ip = "91.149.175.42";
         $location = Location::getInstance($current_ip);
         $city = $location->getCityName();
         $country = $location->getCountryCode();
+
+
 
 
         if($country == "BY" && $current_host != BY_HOST) {

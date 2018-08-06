@@ -54,7 +54,7 @@ $request = \Bitrix\Main\Context::getCurrent()->getRequest();
                     </span>
             <? } ?>
             <? if ($arResult['isFormNote'] && $arResult["FORM_NOTE"]): ?>
-                <div class="success-text"><?= nl2br(preg_replace("/[\r\n]+/", "\n", $arResult["FORM_NOTE"])); ?></div>
+                <div class="success-text center-xs form-header" ><?= nl2br(preg_replace("/[\r\n]+/", "\n", $arResult["FORM_NOTE"])); ?></div>
             <? endif; ?>
         </div>
 

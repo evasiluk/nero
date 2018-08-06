@@ -11,6 +11,8 @@ Bitrix\Main\EventManager::getInstance()->addEventHandler(
     ["MailEventHandler", "onBeforeEventAddHandler"]
 );
 
+include __DIR__."/event_handlers/faq.php";
+
 
 class MailEventHandler
 {

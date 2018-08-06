@@ -3,7 +3,6 @@
 
 <script>
     var currentRegion = "<?=$arResult["PHRASE"]?>";
-    var test;
 </script>
 
 <?if($arResult):?>
