@@ -1,0 +1,7 @@
+# Ignore everything
+/local/templates/.default/assets/
+/.idea/
+
+# But not these files...
+!.gitignore
+!local/

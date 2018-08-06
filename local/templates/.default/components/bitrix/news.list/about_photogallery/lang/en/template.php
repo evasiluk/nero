@@ -1,0 +1,4 @@
+<?
+$MESS ['photogallery'] = "Gallery";
+
+?>

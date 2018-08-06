@@ -1,0 +1,121 @@
+<?
+$MESS["STEP_1_1"] = "Данные для входа";
+$MESS["STEP_1_2"] = "в систему";
+$MESS["STEP_1_3"] = "и восстановления пароля";
+$MESS["STEP_2_1"] = "Ввод данных";
+$MESS["STEP_2_2"] = "читательского билета";
+$MESS["STEP_2_3"] = "(при его наличии)";
+$MESS["STEP_3"] = "Персональные данные";
+$MESS["STEP_3_1"] = "Завер";
+$MESS["STEP_3_2"] = "шение";
+$MESS["STEP_3_3"] = "регистрации";
+$MESS["PASSWORD_MESSAGE"] = "Пароль должен быть не менее 6 символов длиной.";
+$MESS["BACK"] = "Назад";
+$MESS["NEXT"] = "Далее";
+$MESS["CAPTCHA_TEXT"] = "Введите символы с картинки";
+$MESS["PASS_NOT_AVAL"] = "Этот логин занят";
+$MESS["CYRILLIC_NOT_ALLOWED"] = "Кириллические символы недопустимы";
+$MESS["LOGIN_1"] = "Идентификатор";
+$MESS["LOGIN_2"] = "пользователя";
+$MESS["LOGIN_3"] = "(логин) ";
+$MESS["STEP_2_MESSAGE"] = "Если Вы уже записаны в библиотеку, можно зарегистрировать на интернет-портале Ваш читательский билет. Для этого следует ввести номер и пароль читательского билета. Если Вы меняли пароль в электронном каталоге библиотеки, введите измененный пароль. <br />
+Регистрация читательского билета позволит Вам осуществить заказ из электронного каталога, не приходя в библиотеку. Автоматически заполнится ряд данных шага 3. <br />
+Вы можете пропустить этот шаг и зарегистрировать билет позже в Личном кабинете в разделе «Читательский билет».";
+$MESS["CARD_NUMBER"] = "Номер читательского билета";
+$MESS["CARD_NUMBER_CHECK_1"] = "Номер читательского билета или пароль неверен";
+$MESS["CARD_NUMBER_CHECK_2"] = "Пароль";
+$MESS["BIRTHDAY_PLACEHOLDER"] = "дд.мм.гггг";
+
+$MESS["WORK_COMPANY"] = 'Название организации';
+$MESS["ORGANISATION"] = 'Организация';
+$MESS["PERSONAL_DATA"] = 'Личные данные';
+$MESS["SERVICES"] = 'Услуги';
+$MESS["PASSWORD"] = 'Пароль';
+$MESS["WORK_PROFILE"] = 'Деятельность организации';
+$MESS["WORK_COUNTRY"] = 'Страна';
+$MESS["CHOOSE_COUNTRY"] = 'Выберите страну';
+$MESS["WORK_PHONE"] = 'Телефон';
+$MESS["WORK_PHONE_PLACEHOLDER"] = 'Например, +79169991100';
+$MESS["WORK_STREET"] = 'Адрес';
+$MESS["WORK_STREET_PLACEHOLDER"] = 'Пожалуйста, укажите свой адрес, начиная с города, например: г.&nbsp;Москва,&nbsp;ул.&nbsp;Елецкая,&nbsp;2';
+$MESS["WORK_WWW"] = 'Сайт';
+$MESS["WORK_WWW_PLACEHOLDER"] = 'Например, mysite.ru';
+$MESS["REG_BACK"] = 'Назад';
+$MESS["REG_NEXT"] = "Далее";
+$MESS["REG_DONE"] = 'Готово';
+$MESS["LAST_NAME"] = 'Фамилия';
+$MESS["NAME"] = 'Имя';
+$MESS["SECOND_NAME"] = 'Отчество';
+$MESS["PERSONAL_PHONE"] = 'Телефон';
+$MESS["WORK_POSITION"] = 'Должность';
+$MESS["EMAIL"] = 'E-mail (Логин)';
+$MESS["UF_SERVICES"] = 'Услуги (выбрать из списка)';
+$MESS["UF_SERVICES_ADDITION"] = 'Услуги (если нет в списке)';
+$MESS["UF_SERVICES_WHERE"] = 'Где оказываете услуги';
+$MESS["PASSWORD"] = 'Пароль';
+$MESS["CONFIRM_PASSWORD"] = 'Повторите пароль';
+
+
+
+
+
+
+$MESS["AUTH_REGISTER"] = "Регистрация";
+$MESS["REGISTER_CAPTCHA_TITLE"] = "Защита от автоматической регистрации";
+$MESS["REGISTER_CAPTCHA_PROMT"] = "Введите слово на картинке";
+$MESS["AUTH_REQ"] = "Поля, обязательные для заполнения.";
+$MESS["USER_DONT_KNOW"] = "(неизвестно)";
+$MESS["USER_MALE"] = "Мужской";
+$MESS["USER_FEMALE"] = "Женский";
+$MESS["REGISTER_FIELD_LOGIN"] = "Логин (мин. 3 символа)";
+$MESS["REGISTER_FIELD_EMAIL"] = "Адрес эл. почты";
+$MESS["REGISTER_FIELD_PASSWORD"] = "Пароль";
+$MESS["REGISTER_FIELD_CONFIRM_PASSWORD"] = "Подтвердить пароль";
+$MESS["REGISTER_FIELD_TITLE"] = "Обращение";
+$MESS["REGISTER_FIELD_NAME"] = "Имя";
+$MESS["REGISTER_FIELD_SECOND_NAME"] = "Отчество";
+$MESS["REGISTER_FIELD_LAST_NAME"] = "Фамилия";
+$MESS["REGISTER_FIELD_AUTO_TIME_ZONE"] = "Часовой пояс";
+$MESS["REGISTER_FIELD_PERSONAL_PROFESSION"] = "Профессия";
+$MESS["REGISTER_FIELD_PERSONAL_WWW"] = "WWW-страница";
+$MESS["REGISTER_FIELD_PERSONAL_ICQ"] = "ICQ";
+$MESS["REGISTER_FIELD_PERSONAL_GENDER"] = "Ваш пол";
+$MESS["REGISTER_FIELD_PERSONAL_BIRTHDAY"] = "Дата рождения";
+$MESS["REGISTER_FIELD_PERSONAL_PHOTO"] = "Фотография";
+$MESS["REGISTER_FIELD_PERSONAL_PHONE"] = "Телефон";
+$MESS["REGISTER_FIELD_PERSONAL_FAX"] = "Факс";
+$MESS["REGISTER_FIELD_PERSONAL_MOBILE"] = "Мобильный";
+$MESS["REGISTER_FIELD_PERSONAL_PAGER"] = "Пейджер";
+$MESS["REGISTER_FIELD_PERSONAL_STREET"] = "Улица, дом";
+$MESS["REGISTER_FIELD_PERSONAL_MAILBOX"] = "Почтовый ящик";
+$MESS["REGISTER_FIELD_PERSONAL_CITY"] = "Город";
+$MESS["REGISTER_FIELD_PERSONAL_STATE"] = "Область / край";
+$MESS["REGISTER_FIELD_PERSONAL_ZIP"] = "Почтовый индекс";
+$MESS["REGISTER_FIELD_PERSONAL_COUNTRY"] = "Страна проживания";
+$MESS["REGISTER_FIELD_PERSONAL_NOTES"] = "Дополнительные заметки";
+$MESS["REGISTER_FIELD_WORK_COMPANY"] = "Наименование компании";
+$MESS["REGISTER_FIELD_WORK_DEPARTMENT"] = "Департамент / Отдел";
+$MESS["REGISTER_FIELD_WORK_POSITION"] = "Должность";
+$MESS["REGISTER_FIELD_WORK_WWW"] = "WWW-страница (работа)";
+$MESS["REGISTER_FIELD_WORK_PHONE"] = "Телефон (работа)";
+$MESS["REGISTER_FIELD_WORK_FAX"] = "Факс (работа)";
+$MESS["REGISTER_FIELD_WORK_PAGER"] = "Пейджер (работа)";
+$MESS["REGISTER_FIELD_WORK_STREET"] = "Улица, дом (работа)";
+$MESS["REGISTER_FIELD_WORK_MAILBOX"] = "Почтовый ящик (работа)";
+$MESS["REGISTER_FIELD_WORK_CITY"] = "Город (работа)";
+$MESS["REGISTER_FIELD_WORK_STATE"] = "Область / край (работа)";
+$MESS["REGISTER_FIELD_WORK_ZIP"] = "Почтовый индекс (работа)";
+$MESS["REGISTER_FIELD_WORK_COUNTRY"] = "Страна (работа)";
+$MESS["REGISTER_FIELD_WORK_PROFILE"] = "Направления деятельности";
+$MESS["REGISTER_FIELD_WORK_LOGO"] = "Логотип компании";
+$MESS["REGISTER_FIELD_WORK_NOTES"] = "Дополнительные заметки (работа)";
+$MESS["REGISTER_EMAIL_WILL_BE_SENT"] = "На указанный в форме e-mail придет запрос на подтверждение регистрации.";
+$MESS["MAIN_REGISTER_AUTH"] = "Вы зарегистрированы на сервере и успешно авторизованы.";
+$MESS["main_profile_time_zones_auto"] = "Автоматически определять часовой пояс:";
+$MESS["main_profile_time_zones_auto_def"] = "(по умолчанию)";
+$MESS["main_profile_time_zones_auto_yes"] = "Да, определить по браузеру";
+$MESS["main_profile_time_zones_auto_no"] = "Нет, выбрать из списка";
+$MESS["main_profile_time_zones_zones"] = "Часовой пояс:";
+$MESS["AUTH_SECURE_NOTE"] = "Перед отправкой формы пароль будет зашифрован в браузере. Это позволит избежать передачи пароля в открытом виде.";
+$MESS["AUTH_NONSECURE_NOTE"] = "Пароль будет отправлен в открытом виде. Включите JavaScript в браузере, чтобы зашифровать пароль перед отправкой.";
+?>

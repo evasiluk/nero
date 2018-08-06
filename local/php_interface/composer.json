@@ -1,0 +1,29 @@
+{
+  "name": "Astronim/National Library Belarus",
+  "authors": [
+    {
+      "name": "Valentine Matsveichyk",
+      "email": "mvc@astronim.com",
+      "homepage": "http://www.astronim.com",
+      "role": "Developer"
+    }
+  ],
+  "description": "",
+  "type": "project",
+  "require": {
+    "imangazaliev/didom": "^1.13",
+    "google/recaptcha": "~1.1",
+    "snscripts/html-helper": "1.*"
+  },
+  "autoload": {
+    "files": [
+      "core/constants.php",
+      "core/functions.php",
+      "core/event_handlers.php",
+      "core/buffer_content.php"
+    ],
+    "psr-4": {
+      "Astronim\\": "core/classes/"
+    }
+  }
+}

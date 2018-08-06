@@ -1,0 +1,4 @@
+<?
+$MESS ['history'] = "Company history";
+
+?>
