@@ -42,20 +42,29 @@ if ($request->isAjaxRequest()) {
         (null !== $request->get('finish'))
         || (null !== $request->get('registered'))
     ) {
-        if ($USER->IsAuthorized()) {
-            $result['result'] = true;
-        } elseif ($arResult["ERRORS"]) {
+//        if ($USER->IsAuthorized()) {
+//            $result['result'] = true;
+//        } elseif ($arResult["ERRORS"]) {
+//            $result['result'] = false;
+//            $result[] = $arResult["ERRORS"];
+//            $result['errors'] = $arResult['ERRORS'];
+//            $result['captcha']['src'] = "/bitrix/tools/captcha.php?captcha_sid={$arResult["CAPTCHA_CODE"]}";
+//            $result['captcha']['sid'] = $arResult["CAPTCHA_CODE"];
+//        } elseif ($arResult["USE_EMAIL_CONFIRMATION"] === "Y") {
+//            $result['result'] = true;
+//            $result['need_email_confirmation'] = true;
+//        } else {
+//            $result['result'] = false;
+//            $result['captcha']['src'] = "/bitrix/tools/captcha.php?captcha_sid={$arResult["CAPTCHA_CODE"]}";
+//            $result['captcha']['sid'] = $arResult["CAPTCHA_CODE"];
+//        }
+        if ($arResult["ERRORS"]) {
             $result['result'] = false;
             $result['errors'] = $arResult['ERRORS'];
             $result['captcha']['src'] = "/bitrix/tools/captcha.php?captcha_sid={$arResult["CAPTCHA_CODE"]}";
             $result['captcha']['sid'] = $arResult["CAPTCHA_CODE"];
-        } elseif ($arResult["USE_EMAIL_CONFIRMATION"] === "Y") {
-            $result['result'] = true;
-            $result['need_email_confirmation'] = true;
         } else {
-            $result['result'] = false;
-            $result['captcha']['src'] = "/bitrix/tools/captcha.php?captcha_sid={$arResult["CAPTCHA_CODE"]}";
-            $result['captcha']['sid'] = $arResult["CAPTCHA_CODE"];
+            $result['result'] = true;
         }
     }
 

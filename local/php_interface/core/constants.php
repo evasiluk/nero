@@ -11,6 +11,7 @@ define('MSK_HOST', 'nero-msk.test.astronim.com');
 define('SPB_HOST', 'nero-spb.test.astronim.com');
 define('UA_HOST', 'nero-ua.test.astronim.com');
 define('EN_HOST', 'nero-en.test.astronim.com');
+define('CURRENT_USER_HOST', $_SERVER["HTTP_HOST"]);
 
 
 define('GRECAPTCHA_PUBLIC', '6Lc081QUAAAAALVCChx-q1rrrPN1L9b1b1xyzthl');

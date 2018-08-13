@@ -88,7 +88,7 @@ $helper = new \Astronim\RegisterTemplateHtml($arParams, $arResult); ?>
                               fill-opacity="null" stroke-opacity="null" stroke-width="0">4</text>
                     </svg>
                 </div>
-                <span class="step-text"><?=GetMessage('PASSWORD')?></span>
+                <span class="step-text"><?=GetMessage('CONFIRM')?></span>
             </div>
 
         </header>
@@ -102,6 +102,10 @@ $helper = new \Astronim\RegisterTemplateHtml($arParams, $arResult); ?>
             <input type="hidden" name="REGISTER[LOGIN]" value="<?= uniqid() ?>"/>
             <input type="hidden" name="finish" value="1"/>
             <input type="hidden" name="register_submit_button" value="1"/>
+            <input type="hidden" name="UF_NERO_SITE" value="<?=CURRENT_USER_HOST?>">
+            <?$psswd = uniqid();?>
+            <input type="hidden" name="REGISTER[PASSWORD]" value="<?=$psswd?>">
+            <input type="hidden" name="REGISTER[CONFIRM_PASSWORD]" value="<?=$psswd?>">
             <? if ($arResult["BACKURL"] <> ''): ?>
                 <input type="hidden" name="backurl" value="<?= $arResult["BACKURL"] ?>"/>
             <? endif; ?>
@@ -159,23 +163,46 @@ $helper = new \Astronim\RegisterTemplateHtml($arParams, $arResult); ?>
             </div>
 
             <div class="reg-form-step" style="display: none;">
-                <? $helper->text('PASSWORD', GetMessage('PASSWORD'), [
-                    'id' => 'registration_password',
-                    'type' => 'password',
-                    'placeholder' => '',
-                    'required' => '',
-                    'autocomplete' => 'off',
-                    'data-parsley-min-length' => '6'
-                ]); ?>
-                <? $helper->text('CONFIRM_PASSWORD', GetMessage('CONFIRM_PASSWORD'), [
-                    'id' => 'registration_password_confirm',
-                    'type' => 'password',
-                    'data-parsley-equalto' => '#registration_password',
-                    'placeholder' => '',
-                    'required' => '',
-                    'autocomplete' => 'off',
-                    'data-parsley-min-length' => '6'
-                ]); ?>
+                <div class="reg-form js-reg-form-success" style="display: none;">
+                    <div class="usercontent">
+                        <?Helper::includeFile('registration/success')?>
+                    </div>
+                </div>
+
+                <div class="reg-form js-reg-form-error" style="display: none;">
+                    <div class="usercontent">
+                        <h2>Ошибка</h2>
+                        <div id="reg-errors"></div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-row flex-row">
+                    <div class="col-xs ">
+                        <div class="input">
+                            <span class="input-label"><?=GetMessage('CONFIRM_PHRASE')?></span>
+                        </div>
+                    </div>
+                </div>
+
+<!--                --><?// $helper->text('PASSWORD', GetMessage('PASSWORD'), [
+//                    'id' => 'registration_password',
+//                    'type' => 'password',
+//                    'placeholder' => '',
+//                    'required' => '',
+//                    'autocomplete' => 'off',
+//                    'data-parsley-min-length' => '6'
+//                ]); ?>
+<!--                --><?// $helper->text('CONFIRM_PASSWORD', GetMessage('CONFIRM_PASSWORD'), [
+//                    'id' => 'registration_password_confirm',
+//                    'type' => 'password',
+//                    'data-parsley-equalto' => '#registration_password',
+//                    'placeholder' => '',
+//                    'required' => '',
+//                    'autocomplete' => 'off',
+//                    'data-parsley-min-length' => '6'
+//                ]); ?>
                 <? if ($arResult["USE_CAPTCHA"] == "Y") {?>
 
                     <div class="form-row flex-row">
@@ -202,18 +229,7 @@ $helper = new \Astronim\RegisterTemplateHtml($arParams, $arResult); ?>
 
         </form>
 
-        <div class="reg-form js-reg-form-success" style="display: none;">
-            <div class="usercontent">
-                <?Helper::includeFile('registration/success')?>
-            </div>
-        </div>
 
-        <div class="reg-form js-reg-form-error" style="display: none;">
-            <div class="usercontent">
-                <h2>О нет!</h2>
-                <p>Что-то пошло не так.</p>
-            </div>
-        </div>
 
     </section>
 <? } ?>

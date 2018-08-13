@@ -52,8 +52,10 @@ $MESS["EMAIL"] = 'E-mail (Логин)';
 $MESS["UF_SERVICES"] = 'Услуги (выбрать из списка)';
 $MESS["UF_SERVICES_ADDITION"] = 'Услуги (если нет в списке)';
 $MESS["UF_SERVICES_WHERE"] = 'Где оказываете услуги';
+$MESS["CONFIRM"] = "Подтверждение";
 $MESS["PASSWORD"] = 'Пароль';
 $MESS["CONFIRM_PASSWORD"] = 'Повторите пароль';
+$MESS["CONFIRM_PHRASE"] = "Подтвердите, что Вы не робот:" ;
 
 
 
