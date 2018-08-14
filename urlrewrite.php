@@ -8,7 +8,7 @@ $arUrlRewrite=array (
     'PATH' => '/desktop_app/router.php',
     'SORT' => 100,
   ),
-  6 => 
+  8 => 
   array (
     'CONDITION' => '#^/content/lines/auto-rollers/#',
     'RULE' => '',
@@ -24,6 +24,14 @@ $arUrlRewrite=array (
     'PATH' => '/bitrix/services/ymarket/index.php',
     'SORT' => 100,
   ),
+  7 => 
+  array (
+    'CONDITION' => '#^/en/content/about/news/#',
+    'RULE' => '',
+    'ID' => 'bitrix:news',
+    'PATH' => '/en/content/about/news/index.php',
+    'SORT' => 100,
+  ),
   1 => 
   array (
     'CONDITION' => '#^/content/about/news/#',
@@ -32,14 +40,6 @@ $arUrlRewrite=array (
     'PATH' => '/content/about/news/index.php',
     'SORT' => 100,
   ),
-    7 =>
-        array (
-            'CONDITION' => '#^/en/content/about/news/#',
-            'RULE' => '',
-            'ID' => 'bitrix:news',
-            'PATH' => '/en/content/about/news/index.php',
-            'SORT' => 100,
-        ),
   4 => 
   array (
     'CONDITION' => '#^/online/(/?)([^/]*)#',
@@ -64,4 +64,10 @@ $arUrlRewrite=array (
     'PATH' => '/content/news/index.php',
     'SORT' => 100,
   ),
+    array(
+        "CONDITION" => "#^/managers/dealer/(.*)/(.*)#",
+        "RULE" => "uid=\$1",
+        "ID" => "",
+        "PATH" => "/managers/dealer/index.php",
+    ),
 );
