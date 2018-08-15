@@ -52,6 +52,26 @@ class RegisterTemplateHtml extends Html
         ));
     }
 
+    public function text_uf($key, $label, $attr = [])
+    {
+        $note = '';
+        if (is_array($label)) {
+            list($label, $note) = $label;
+
+            if(!$attr['placeholder'])
+                $attr['placeholder'] = '';
+        }
+        $attr = $this->prepareAttr($key, $attr);
+        if ($attr['required']) $label .= '<sup>*</sup>';
+
+        $this->printTextHtml($label, $note, $this->Form->input(
+        // translates to $_POST['REGISTER'][$key']
+            $key,
+            false,
+            $attr
+        ));
+    }
+
     public function select($key, $label, $options, $attr = [])
     {
         $note = '';
@@ -67,6 +87,27 @@ class RegisterTemplateHtml extends Html
         $this->printSelectHtml($label, $note, $this->Form->select(
         // translates to $_POST['REGISTER'][$key']
             'REGISTER.' . $key,
+            false,
+            $options,
+            $attr
+        ));
+    }
+
+    public function select_uf($key, $label, $options, $attr = [])
+    {
+        $note = '';
+        if (is_array($label)) {
+            list($label, $note) = $label;
+        }
+
+        $attr = $this->prepareAttr($key, $attr);
+        $attr['data-select'] = '';
+
+        if ($attr['required']) $label .= '<sup>*</sup>';
+
+        $this->printSelectHtml($label, $note, $this->Form->select(
+        // translates to $_POST['REGISTER'][$key']
+            $key,
             false,
             $options,
             $attr

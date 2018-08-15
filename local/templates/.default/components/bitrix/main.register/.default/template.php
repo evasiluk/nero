@@ -145,21 +145,67 @@ $helper = new \Astronim\RegisterTemplateHtml($arParams, $arResult); ?>
             </div>
 
             <div class="reg-form-step" style="display: none;">
-                <? $helper->select('UF_SERVICES',
-                    GetMessage('UF_SERVICES'),
-                    array_merge([
-                        '' => 'Выберите услугу'
-                    ], $arResult['USER_PROPERTIES']['DATA']['UF_SERVICES']['VALUES']),
-                    ['multiple' => '', 'data-multiple' => '']); ?>
+                <?
+                //print_pre($arResult['USER_PROPERTIES']['DATA']['UF_SERVICES']['VALUES']);
+                ?>
+                <div class="form-row flex-row">
+                    <div class="col-xs">
+                        <div class="input">
+                            <span class="input-label">Услуги (выбрать из списка)</span>
+                            <select value="" data-select="" id="Uf_services" name="UF_SERVICES">
+                                <option value="">Выберите услугу</option>
+                                <?foreach($arResult['USER_PROPERTIES']['DATA']['UF_SERVICES']['VALUES'] as $id=>$val):?>
+                                    <option value="<?=$id?>"><?=$val?></option>
+                                <?endforeach?>
 
-                <? $helper->text('UF_SERVICES_ADDITION', GetMessage('UF_SERVICES_ADDITION'), ['data-editable' => '']); ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+<!--                --><?// $helper->select_uf('UF_SERVICES',
+//                    GetMessage('UF_SERVICES'),
+//                    array_merge([
+//                        '' => 'Выберите услугу'
+//                    ], $arResult['USER_PROPERTIES']['DATA']['UF_SERVICES']['VALUES']),
+//                    ['multiple' => '', 'data-multiple' => '']); ?>
 
-                <? $helper->select('UF_SERVICES_WHERE',
-                    GetMessage('UF_SERVICES_WHERE'),
-                    array_merge([
-                        '' => 'Выберите'
-                    ], $arResult['USER_PROPERTIES']['DATA']['UF_SERVICES_WHERE']['VALUES']),
-                    ['multiple' => '', 'data-multiple' => '']); ?>
+<!--                --><?// $helper->text_uf('UF_SERVICES_ADDITION', GetMessage('UF_SERVICES_ADDITION'), ['data-editable' => '']); ?>
+                <div class="form-row flex-row">
+                    <label class="col-xs">
+                        <div class="input">
+                            <span class="input-label">Услуги (если нет в списке)</span>
+                            <div class="input-in">
+                                <input value="" type="text" name="UF_SERVICES_ADDITION[]">
+                                <span class="focus-border"></span>
+                                <span class="input-note"></span>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+<!--                --><?// $helper->select_uf('UF_SERVICES_WHERE',
+//                    GetMessage('UF_SERVICES_WHERE'),
+//                    array_merge([
+//                        '' => 'Выберите'
+//                    ], $arResult['USER_PROPERTIES']['DATA']['UF_SERVICES_WHERE']['VALUES']),
+//                    ['multiple' => '', 'data-multiple' => '']); ?>
+                <div class="form-row flex-row">
+                    <div class="col-xs">
+                        <div class="input">
+                            <span class="input-label"><?=GetMessage('UF_SERVICES_WHERE')?></span>
+                            <select value="" data-select="" id="Uf_services" name="UF_SERVICES_WHERE">
+                                <option value="">Выберите услугу</option>
+                                <?foreach($arResult['USER_PROPERTIES']['DATA']['UF_SERVICES_WHERE']['VALUES'] as $id=>$val):?>
+                                    <option value="<?=$id?>"><?=$val?></option>
+                                <?endforeach?>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+
             </div>
 
             <div class="reg-form-step" style="display: none;">

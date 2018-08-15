@@ -3,6 +3,7 @@ Bitrix\Main\EventManager::getInstance()->addEventHandler("main", "OnBeforeUserRe
 //Bitrix\Main\EventManager::getInstance()->addEventHandler("main", "OnBeforeUserUpdate", "OnBeforeUserRegisterHandler");
 function OnBeforeUserRegisterHandler(&$args)
 {
+
     if($args['ID']) {
         $before_args = \Bitrix\Main\UserTable::getById($args['ID'])->fetch();
     }
@@ -12,6 +13,7 @@ function OnBeforeUserRegisterHandler(&$args)
     $args['PASSWORD'] = $psswd;
     $args['CONFIRM_PASSWORD'] = $psswd;
     $args['ACTIVE'] = "N";
+
 
     if ($args['EMAIL'])
         $args['LOGIN'] = trim($args['EMAIL']);
@@ -27,6 +29,8 @@ function OnBeforeUserRegisterHandler(&$args)
         return $return;
     }
 }
+
+
 
 
 
