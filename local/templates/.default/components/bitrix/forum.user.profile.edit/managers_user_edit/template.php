@@ -7,14 +7,15 @@ endif;
 $path = str_replace(array("\\", "//"), "/", dirname(__FILE__)."/interface.php");
 include_once($path);
 // *****************************************************************************************
-if (!empty($arResult["ERROR_MESSAGE"])): 
+if (!empty($arResult["ERROR_MESSAGE"])):
 ?>
+    <br>
 <div class="forum-note-box forum-note-error">
 	<div class="forum-note-box-text"><?=ShowError($arResult["ERROR_MESSAGE"], "forum-note-error");?></div>
 </div>
 <?
 endif;
-if (!empty($arResult["OK_MESSAGE"])): 
+if (!empty($arResult["OK_MESSAGE"])):
 ?>
 <div class="forum-note-box forum-note-success">
 	<div class="forum-note-box-text"><?=ShowNote($arResult["OK_MESSAGE"], "forum-note-success")?></div>
@@ -32,8 +33,8 @@ endif;
 </div>
 <?*/
 ?>
+<?//print_pre($arResult["CURRENT_DEALER_GROUPS"])?>
 <?//print_pre($arResult)?>
-<?//print_pre($arResult["ALL_GROUPS"])?>
 <br>
 <h1>Регистрационные данные дилера</h1>
 <div>
@@ -44,6 +45,87 @@ endif;
         <?=bitrix_sessid_post()?>
         <input type="hidden" name="ACTION" value="EDIT" />
         <div class="form-row flex-row">
+            <div class="col-xs">
+                <div class="input">
+                    <div class="input-in">
+                        <label>
+                            <input type="checkbox" name="ACTIVE" size="40" maxlength="50" <?if($arResult["USER"]["ACTIVE"] == "Y"):?>checked<?endif?>/>
+                            <span>Активен</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row flex-row">
+            <div class="col-xs">
+                <div class="input">
+                    <div class="input-in">
+                        <label>
+                            <input type="checkbox" name="NOTIFY" size="40" maxlength="50"/>
+                            <span>Оповестить дилера</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row flex-row">
+            <label class="col-xs">
+                <div class="input">
+                    <span class="input-label">Дилер был оповещен</span>
+                    <div class="input-in">
+                        <input type="text" size="40" maxlength="50" value="<?=$arResult["USER"]["UF_NOTIFY_DATE"]?>"/>
+                    </div>
+                </div>
+            </label>
+        </div>
+        <div class="form-row flex-row">
+            <label class="col-xs">
+                <div class="input">
+                    <span class="input-label">*<?=GetMessage("F_LOGIN")?></span>
+                    <div class="input-in">
+                        <input type="text" name="LOGIN" size="40" maxlength="50" value="<?=$arResult["str_LOGIN"]?>"/>
+                    </div>
+                </div>
+            </label>
+        </div>
+        <div class="form-row flex-row">
+            <label class="col-xs">
+                <div class="input">
+                    <span class="input-label"><?=GetMessage("F_NEW_PASSWORD")?></span>
+                    <div class="input-in">
+                        <input type="text" name="NEW_PASSWORD" size="40" maxlength="50" value="<?=$arResult["NEW_PASSWORD"]?>" />
+                    </div>
+                </div>
+            </label>
+        </div>
+        <div class="form-row flex-row">
+            <label class="col-xs">
+                <div class="input">
+                    <span class="input-label"><?=GetMessage("F_PASSWORD_CONFIRM")?></span>
+                    <div class="input-in">
+                        <input type="text" name="NEW_PASSWORD_CONFIRM" size="40" maxlength="50" value="<?=$arResult["NEW_PASSWORD_CONFIRM"]?>" />
+                    </div>
+                </div>
+            </label>
+        </div>
+        <?if($arResult["REGION_DEALERS_GROUPS"]):?>
+            <div class="form-row flex-row">
+                <div class="col-xs">
+                    <div class="input">
+                        <span class="input-label">Группа дилеров</span>
+                        <div class="input-in">
+                            <select data-select name="DEALER_GROUP">
+                                <option value="0">Выбрать</option>
+                                <?foreach ($arResult["REGION_DEALERS_GROUPS"] as  $id):?>
+                                    <option <?if(in_array($id, $arResult["CURRENT_DEALER_GROUPS"])):?>selected<?endif?> value="<?=$id?>"><?=$arResult["ALL_GROUPS"][$id]["NAME"]?></option>
+                                <?endforeach?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?endif?>
+        <div class="form-row flex-row">
             <label class="col-xs">
                 <div class="input">
                     <span class="input-label"><?=GetMessage("F_NAME")?></span>
@@ -53,33 +135,6 @@ endif;
                 </div>
             </label>
         </div>
-        <div class="form-row flex-row">
-            <label class="col-xs">
-                <div class="input">
-                    <span class="input-label">Активен</span>
-                    <div class="input-in">
-                        <input type="checkbox" name="ACTIVE" size="40" maxlength="50" <?if($arResult["USER"]["ACTIVE"] == "Y"):?>checked<?endif?>/>
-                    </div>
-                </div>
-            </label>
-        </div>
-        <?if($arResult["REGION_DEALERS_GROUPS"]):?>
-            <div class="form-row flex-row">
-                <label class="col-xs">
-                    <div class="input">
-                        <span class="input-label">Группа дилеров</span>
-                        <div class="input-in">
-                            <select name="DEALER_GROUP">
-                                <option value="0">Выбрать</option>
-                                    <?foreach ($arResult["REGION_DEALERS_GROUPS"] as  $id):?>
-                                        <option value="<?=$id?>"><?=$arResult["ALL_GROUPS"][$id]["NAME"]?></option>
-                                    <?endforeach?>
-                            </select>
-                        </div>
-                    </div>
-                </label>
-            </div>
-        <?endif?>
         <div class="form-row flex-row">
             <label class="col-xs">
                 <div class="input">
@@ -120,36 +175,7 @@ endif;
                 </div>
             </label>
         </div>
-        <div class="form-row flex-row">
-            <label class="col-xs">
-                <div class="input">
-                    <span class="input-label">*<?=GetMessage("F_LOGIN")?></span>
-                    <div class="input-in">
-                        <input type="text" name="LOGIN" size="40" maxlength="50" value="<?=$arResult["str_LOGIN"]?>"/>
-                    </div>
-                </div>
-            </label>
-        </div>
-        <div class="form-row flex-row">
-            <label class="col-xs">
-                <div class="input">
-                    <span class="input-label"><?=GetMessage("F_NEW_PASSWORD")?></span>
-                    <div class="input-in">
-                        <input type="text" name="NEW_PASSWORD" size="40" maxlength="50" value="<?=$arResult["NEW_PASSWORD"]?>" />
-                    </div>
-                </div>
-            </label>
-        </div>
-        <div class="form-row flex-row">
-            <label class="col-xs">
-                <div class="input">
-                    <span class="input-label"><?=GetMessage("F_PASSWORD_CONFIRM")?></span>
-                    <div class="input-in">
-                        <input type="text" name="NEW_PASSWORD_CONFIRM" size="40" maxlength="50" value="<?=$arResult["NEW_PASSWORD_CONFIRM"]?>" />
-                    </div>
-                </div>
-            </label>
-        </div>
+
         <div class="form-row flex-row">
             <label class="col-xs">
                 <div class="input">
@@ -182,11 +208,11 @@ endif;
         </div>
 
         <div class="form-row flex-row">
-            <label class="col-xs">
+            <div class="col-xs">
                 <div class="input">
                     <span class="input-label"><?=GetMessage("F_COMPANY_LOCATION")?></span>
                     <div class="input-in">
-                        <select name="WORK_COUNTRY" id="WORK_COUNTRY">
+                        <select data-select name="WORK_COUNTRY" id="WORK_COUNTRY">
                             <option value=""><?=GetMessage("F_COUNTRY_NONE")?></option>
                             <?if (is_array($arResult["arr_WORK_COUNTRY"]["data"]) && !empty($arResult["arr_WORK_COUNTRY"]["data"])):?>
                                 <?foreach ($arResult["arr_WORK_COUNTRY"]["data"] as $value => $option):?>
@@ -196,7 +222,7 @@ endif;
                         </select>
                     </div>
                 </div>
-            </label>
+            </div>
         </div>
 
         <div class="form-row flex-row">
@@ -221,8 +247,9 @@ endif;
             </label>
         </div>
         <?foreach ($arResult["USER_PROPERTIES"]["DATA"] as $FIELD_NAME => $arUserField):?>
+            <?if($FIELD_NAME == "UF_NOTIFY_DATE") continue;?>
             <div class="form-row flex-row">
-                <label class="col-xs">
+                <div class="col-xs">
                     <div class="input">
                         <span class="input-label"><?=$arUserField["EDIT_FORM_LABEL"]?></span>
                         <div class="input-in">
@@ -232,7 +259,7 @@ endif;
                                 array("bVarsFromForm" => $arResult["bVarsFromForm"], "arUserField" => $arUserField), null, array("HIDE_ICONS"=>"Y"));?>
                         </div>
                     </div>
-                </label>
+                </div>
             </div>
         <?endforeach;?>
         <div class="col-xs-6 col-sm end-xs js-reg-submit">

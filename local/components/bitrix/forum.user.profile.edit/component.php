@@ -57,6 +57,12 @@ if($manager_code) {
     $arResult["REGION_DEALERS_GROUPS"] = $class->get_dilers_groups($manager_code);
 }
 
+
+
+//текущие группы пользователя
+$arGroups = CUser::GetUserGroup($arParams["UID"]);
+$arResult["CURRENT_DEALER_GROUPS"] = $arGroups;
+
 //print_pre($arResult["ALL_GROUPS"]);
 //print_pre($arResult["REGION_DEALERS_GROUPS"]);
 //список групп конец
@@ -144,6 +150,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST" && $_POST["ACTION"]=="EDIT")
 
 		$arFields = Array(
             "ACTIVE"                => $_POST["ACTIVE"]? "Y" : "N",
+            "GROUP_ID"              => array($_POST["DEALER_GROUP"]),
 			"NAME"					=> $_POST["NAME"],
             "SECOND_NAME"				=> $_POST["SECOND_NAME"],
 			"LAST_NAME"				=> $_POST["LAST_NAME"],
@@ -168,6 +175,11 @@ if ($_SERVER["REQUEST_METHOD"]=="POST" && $_POST["ACTION"]=="EDIT")
 			"WORK_PROFILE"			=> $_POST["WORK_PROFILE"],
 			"AUTO_TIME_ZONE"		=> ($_POST["AUTO_TIME_ZONE"] == "Y" || $_POST["AUTO_TIME_ZONE"] == "N"? $_POST["AUTO_TIME_ZONE"] : ""),
 		);
+
+        if($_POST["NOTIFY"] && trim($_POST["NEW_PASSWORD"]) && trim($_POST["NEW_PASSWORD_CONFIRM"])) {
+            $arFields["UF_NOTIFY_DATE"] = date("d.m.Y");
+        }
+
 		if(isset($_POST["TIME_ZONE"]))
 			$arFields["TIME_ZONE"] = $_POST["TIME_ZONE"];
 
@@ -213,6 +225,17 @@ if ($_SERVER["REQUEST_METHOD"]=="POST" && $_POST["ACTION"]=="EDIT")
 
 			if ((intVal($FID)<=0) && (!$APPLICATION->GetException()))
 				$APPLICATION->ThrowException(GetMessage("FP_ERR_PROF"));
+
+            // мой exception
+            if($_POST["NOTIFY"]) {
+                //print_pre($_POST);
+                if(!trim($_POST["NEW_PASSWORD"]) && !trim($_POST["NEW_PASSWORD_CONFIRM"])) {
+                    $error = "Для отправки оповещения необходимо корректно заполнить поля \"Новый пароль\" и \"Подтверждение пароля\"";
+                    $APPLICATION->ThrowException($error);
+                }
+
+            }
+
 		}
 	}
 
