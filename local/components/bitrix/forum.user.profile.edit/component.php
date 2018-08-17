@@ -139,7 +139,10 @@ if ($_SERVER["REQUEST_METHOD"]=="POST" && $_POST["ACTION"]=="EDIT")
 		$arError[] = array(
 			"code" => "session time is up",
 			"title" => GetMessage("F_ERR_SESSION_TIME_IS_UP"));
-	}
+	} elseif(isset($_POST["delete"])){
+        CUser::Delete($_POST["UID"]);
+        LocalRedirect("/managers/");
+    }
 	else
 	{
 		$APPLICATION->ResetException();
@@ -232,6 +235,13 @@ if ($_SERVER["REQUEST_METHOD"]=="POST" && $_POST["ACTION"]=="EDIT")
                 if(!trim($_POST["NEW_PASSWORD"]) && !trim($_POST["NEW_PASSWORD_CONFIRM"])) {
                     $error = "Для отправки оповещения необходимо корректно заполнить поля \"Новый пароль\" и \"Подтверждение пароля\"";
                     $APPLICATION->ThrowException($error);
+                } else {
+                    $fields = array();
+                    $fields["EMAIL"] = $_POST["EMAIL"];
+                    $fields["LOGIN"] = $_POST["LOGIN"];
+                    $fields["PASSWORD"] = $_POST["NEW_PASSWORD"];
+
+                    CEvent::Send("DEALER_NOTIFY", "s1", $fields);
                 }
 
             }

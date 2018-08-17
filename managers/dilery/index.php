@@ -20,6 +20,8 @@ $APPLICATION->SetTitle("Дилеры");
                     <li><a href="/managers/dealer/<?=$us["ID"]?>/"><?=$us["LOGIN"]?></a></li>
                 <?endforeach?>
             </ol>
+        <?else:?>
+            <p>Активных дилеров нет</p>
         <?endif?>
     </div>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

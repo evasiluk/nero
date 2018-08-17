@@ -262,8 +262,10 @@ endif;
                 </div>
             </div>
         <?endforeach;?>
+        <br>
         <div class="col-xs-6 col-sm end-xs js-reg-submit">
             <input type="submit" class="button button--bgred button--big" name="save" value="<?=GetMessage("F_SAVE")?>">
+            <input type="submit" class="button button--bgred button--big" name="delete" value="Удалить">
         </div><br>
     </form>
 </div>
