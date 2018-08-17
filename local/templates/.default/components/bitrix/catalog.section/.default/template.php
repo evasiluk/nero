@@ -155,7 +155,7 @@ if ($showTopPager)
 }
 
 ?>
-<?//print_pre($arResult["ITEMS"])?>
+<?//print_pre($arResult)?>
 <div class="catalog flex-row js-ajax-content" id="catalog-ajax">
     <?foreach($arResult["ITEMS"] as $item):?>
         <div class="catalog-col col-xs-12 col-sm-6 col-lg-4">

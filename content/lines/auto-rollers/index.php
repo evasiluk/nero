@@ -189,7 +189,7 @@ switch($_SERVER["HTTP_HOST"]) {
 		"SET_TITLE" => "Y",
 		"SHOW_404" => "N",
 		"SHOW_DEACTIVATED" => "N",
-		"SHOW_DISCOUNT_PERCENT" => "N",
+		"SHOW_DISCOUNT_PERCENT" => "Y",
 		"SHOW_MAX_QUANTITY" => "N",
 		"SHOW_OLD_PRICE" => "N",
 		"SHOW_PRICE_COUNT" => "1",

@@ -7,6 +7,9 @@
 
 $component = $this->getComponent();
 $arParams = $component->applyTemplateModifications();
+//print_pre($arResult);
+
+
 
 foreach($arResult["ITEMS"] as &$item) {
     if($item["OFFERS"]) {
