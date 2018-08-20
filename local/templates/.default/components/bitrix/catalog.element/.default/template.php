@@ -184,7 +184,6 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
                             foreach($offer["PROPERTIES"]["MORE_PHOTO"]["VALUE"] as $img) {
                                 $ob .= "{'src': '".CFile::GetPath($img)."', 'thumb': '".CFile::GetPath($img)."', 'skin': '".$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"]."', 'price' : '".$offer["PRICES"]["base"]["VALUE"]."'},";
                             }
-
                         } else {
                                 $ob = "{'src': '".$offer["PREVIEW_PICTURE"]["SRC"]."', 'thumb': '".$offer["PREVIEW_PICTURE"]["SRC"]."', 'skin': '".$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"]."', 'price' : '".$offer["PRICES"]["base"]["VALUE"]."'}";
                         }

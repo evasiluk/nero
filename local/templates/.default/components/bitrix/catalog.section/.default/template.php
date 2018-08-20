@@ -158,13 +158,28 @@ if ($showTopPager)
 <?//print_pre($arResult)?>
 <div class="catalog flex-row js-ajax-content" id="catalog-ajax">
     <?foreach($arResult["ITEMS"] as $item):?>
+        <?$has_old_price = false;?>
         <div class="catalog-col col-xs-12 col-sm-6 col-lg-4">
             <?//print_pre($item["OFFERS"]);?>
             <?if($item["OFFERS"]):?>
                 <?
                 $json_str = "[";
                     foreach($item["OFFERS"] as $i=>$offer) {
-                        $ob = '{"image": "'.$offer["PREVIEW_PICTURE"]["SRC"].'", "color": "'.$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"].'", "price": "'.$offer["PRICES"]["base"]["VALUE"].'"}';
+                        //$ob = '{"image": "'.$offer["PREVIEW_PICTURE"]["SRC"].'", "color": "'.$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"].'", "price": "'.$offer["PRICES"]["base"]["VALUE"].'"}';
+
+                        $ob = '{';
+                        $ob .= '"image" : "'.$offer["PREVIEW_PICTURE"]["SRC"].'", ';
+                        $ob .= '"color" : "'.$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"].'"';
+                        if($offer["PRICES"]["dealer_price"]["VALUE"]) {
+                            $has_old_price = true;
+                            $ob .= ', "price" : "'.$offer["PRICES"]["dealer_price"]["VALUE"].'", "price-old" : "'.$offer["PRICES"]["rosnitsa_price"]["VALUE"].'"';
+                        } else {
+                            $ob .= ', "price" : "'.$offer["PRICES"]["rosnitsa_price"]["VALUE"].'"';
+
+                        }
+                        $ob .= '}';
+
+
                         $json_str .= $ob;
                         if(($i + 1) != count($item["OFFERS"])) {
                             $json_str .= ", ";
@@ -173,7 +188,21 @@ if ($showTopPager)
                 $json_str .= "]";
                 ?>
             <?else:?>
-                <?$json_str = '[{"image": "'.$item["PREVIEW_PICTURE"]["SRC"].'", "color": "'.$item["PROPERTIES"]["COLOR_CODE"]["VALUE"].'", "price": "'.$item["PRICES"]["base"]["VALUE"].'"}]';?>
+                <?
+                //print_pre($item);
+                //$json_str = '[{"image": "'.$item["PREVIEW_PICTURE"]["SRC"].'", "color": "'.$item["PROPERTIES"]["COLOR_CODE"]["VALUE"].'", "price": "'.$item["PRICES"]["base"]["VALUE"].'"}]';
+                $json_str = '[{';
+                $json_str .= '"image" : "'.$item["PREVIEW_PICTURE"]["SRC"].'", ';
+                $json_str .= '"color" : "'.$item["PROPERTIES"]["COLOR_CODE"]["VALUE"].'"';
+                if($item["PRICES"]["dealer_price"]["VALUE"]) {
+                    $has_old_price = true;
+                    $json_str .= ', "price" : "'.$item["PRICES"]["dealer_price"]["VALUE"].'", "price-old" : "'.$item["PRICES"]["rosnitsa_price"]["VALUE"].'"';
+                } else {
+                    $json_str .= ', "price" : "'.$item["PRICES"]["rosnitsa_price"]["VALUE"].'"';
+                }
+
+                $json_str .= '}]';
+                ?>
             <?endif?>
             <div class="product js-product" data-json='<?=$json_str?>'>
 
@@ -201,6 +230,27 @@ if ($showTopPager)
                             </span>
                             <sup><?=$arResult["VALUTE_SHORT"]?></sup>
                         </div>
+                        <?if($has_old_price):?>
+                            <div class="product-price-old">
+                                <span class="json-price-old">123</span>
+                                <sup><?=$arResult["VALUTE_SHORT"]?></sup>
+                            </div>
+                        <?endif?>
+                    </div>
+                    <div class="product-footer-row">
+                        <div class="c-number-input c-number-input__sm">
+									<span data-reactroot="" class="c-number-input c-number-input__sm">
+										<input type="number" value="1" class="js-number-input c-number-input_real">
+										<button data-delta="-1" class="c-number-input_btn c-number-input_btn__prev" type="button"></button>
+										<button data-delta="1" class="c-number-input_btn c-number-input_btn__next" type="button"></button>
+									</span>
+                        </div>
+                        <object>
+                            <a href="#" class="button button--bgred button-buy">
+                                <svg class="ico-basket" viewBox="0 0 389.5 355.8"><use xlink:href="#ico-basket"></use></svg>
+                                <span>В корзину</span>
+                            </a>
+                        </object>
                     </div>
                 </div>
                 <div class="product-aside">

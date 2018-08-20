@@ -14,5 +14,7 @@ define('EN_HOST', 'nero-en.test.astronim.com');
 define('CURRENT_USER_HOST', $_SERVER["HTTP_HOST"]);
 
 
+
+
 define('GRECAPTCHA_PUBLIC', '6Lc081QUAAAAALVCChx-q1rrrPN1L9b1b1xyzthl');
 define('GRECAPTCHA_PRIVATE', '6Lc081QUAAAAAEzayyO29Uaqzp7jQY2eI1pcrBN_');

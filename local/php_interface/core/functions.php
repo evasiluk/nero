@@ -127,6 +127,10 @@ function get_valute_short($iblock_id) {
     return $valute_short;
 }
 
+function is_dealer($uid) {
+
+}
+
 
 
 /**

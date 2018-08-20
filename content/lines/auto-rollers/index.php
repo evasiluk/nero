@@ -160,7 +160,7 @@ switch($_SERVER["HTTP_HOST"]) {
 		"PAGER_TITLE" => "Товары",
 		"PAGE_ELEMENT_COUNT" => "30",
 		"PARTIAL_PRODUCT_PROPERTIES" => "N",
-		"PRICE_CODE" => array("base"),
+		"PRICE_CODE" => array("deal_1", "deal_2", "deal_3", "deal_4", "deal_5", "rosn"),
 		"PRICE_VAT_INCLUDE" => "Y",
 		"PRICE_VAT_SHOW_VALUE" => "N",
 		"PRODUCT_DISPLAY_MODE" => "N",
