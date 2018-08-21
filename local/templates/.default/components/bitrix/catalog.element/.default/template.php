@@ -182,17 +182,54 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
                         if($offer["PROPERTIES"]["MORE_PHOTO"]["VALUE"]) {
                             $ob = "";
                             foreach($offer["PROPERTIES"]["MORE_PHOTO"]["VALUE"] as $img) {
-                                $ob .= "{'src': '".CFile::GetPath($img)."', 'thumb': '".CFile::GetPath($img)."', 'skin': '".$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"]."', 'price' : '".$offer["PRICES"]["base"]["VALUE"]."'},";
+                                //$ob .= "{'src': '".CFile::GetPath($img)."', 'thumb': '".CFile::GetPath($img)."', 'skin': '".$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"]."', 'price' : '".$offer["PRICES"]["base"]["VALUE"]."'},";
+
+                                $ob .= '{';
+                                $ob .= '"src" : "'.CFile::GetPath($img).'", ';
+                                $ob .= '"thumb" : "'.CFile::GetPath($img).'", ';
+                                $ob .= '"skin" : "'.$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"].'"';
+                                if($offer["PRICES"]["dealer_price"]["VALUE"]) {
+                                    $has_old_price = true;
+                                    $ob .= ', "price" : "'.$offer["PRICES"]["dealer_price"]["VALUE"].'", "price-old" : "'.$offer["PRICES"]["rosnitsa_price"]["VALUE"].'"';
+                                } else {
+                                    $ob .= ', "price" : "'.$offer["PRICES"]["rosnitsa_price"]["VALUE"].'"';
+                                }
+                                $ob .= '},';
                             }
+
                         } else {
-                                $ob = "{'src': '".$offer["PREVIEW_PICTURE"]["SRC"]."', 'thumb': '".$offer["PREVIEW_PICTURE"]["SRC"]."', 'skin': '".$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"]."', 'price' : '".$offer["PRICES"]["base"]["VALUE"]."'}";
+                                //$ob = "{'src': '".$offer["PREVIEW_PICTURE"]["SRC"]."', 'thumb': '".$offer["PREVIEW_PICTURE"]["SRC"]."', 'skin': '".$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"]."', 'price' : '".$offer["PRICES"]["base"]["VALUE"]."'}";
+                                $ob .= '{';
+                                $ob .= '"src" : "'.$offer["PREVIEW_PICTURE"]["SRC"].'", ';
+                                $ob .= '"thumb" : "'.$offer["PREVIEW_PICTURE"]["SRC"].'", ';
+                                $ob .= '"skin" : "'.$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"].'"';
+                                if($offer["PRICES"]["dealer_price"]["VALUE"]) {
+                                    $has_old_price = true;
+                                    $ob .= ', "price" : "'.$offer["PRICES"]["dealer_price"]["VALUE"].'", "price-old" : "'.$offer["PRICES"]["rosnitsa_price"]["VALUE"].'"';
+                                } else {
+                                    $ob .= ', "price" : "'.$offer["PRICES"]["rosnitsa_price"]["VALUE"].'"';
+                                }
+                                $ob .= '}';
                         }
 
 
                         $str .= $ob;
                     }
                 } else {
-                    $ob = "{'src': '".$arResult["DETAIL_PICTURE"]["SRC"]."', 'thumb': '".$arResult["DETAIL_PICTURE"]["SRC"]."', 'skin': '".$arResult["PROPERTIES"]["COLOR_CODE"]["VALUE"]."', 'price' : '".$arResult["PRICES"]["base"]["VALUE"]."'}";
+
+                    //$ob = "{'src': '".$arResult["DETAIL_PICTURE"]["SRC"]."', 'thumb': '".$arResult["DETAIL_PICTURE"]["SRC"]."', 'skin': '".$arResult["PROPERTIES"]["COLOR_CODE"]["VALUE"]."', 'price' : '".$arResult["PRICES"]["base"]["VALUE"]."'}";
+                    $ob = "";
+                    $ob .= '{';
+                    $ob .= '"src" : "'.$arResult["DETAIL_PICTURE"]["SRC"].'", ';
+                    $ob .= '"thumb" : "'.$arResult["DETAIL_PICTURE"]["SRC"].'", ';
+                    $ob .= '"skin" : "'.$arResult["PROPERTIES"]["COLOR_CODE"]["VALUE"].'"';
+                    if($arResult["PRICES"]["dealer_price"]["VALUE"]) {
+                        $has_old_price = true;
+                        $ob .= ', "price" : "'.$arResult["PRICES"]["dealer_price"]["VALUE"].'", "price-old" : "'.$arResult["PRICES"]["rosnitsa_price"]["VALUE"].'"';
+                    } else {
+                        $ob .= ', "price" : "'.$arResult["PRICES"]["rosnitsa_price"]["VALUE"].'"';
+                    }
+                    $ob .= '}';
                     $str = $ob;
                 }
                 ?>
@@ -234,16 +271,16 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
             <hr>
 
             <div class="device-node device-price">
-
-                <div class="product-price">
-                    <?if($arResult["OFFERS"]):?>
-                        <span class="json-price"><?=$arResult["OFFERS"][0]["PRICES"]["base"]["VALUE"]?></span>
-                    <?else:?>
-                        <span><?=$arResult["PRICES"]["base"]["VALUE"]?></span>
+                    <div class="product-price">
+                        <span class="json-price"></span>
+                        <sup><?=$arResult["VALUTE_SHORT"]?></sup>
+                    </div>
+                    <?if($has_old_price):?>
+                        <div class="product-price-old">
+                            <span class="json-price-old"></span>
+                            <sup><?=$arResult["VALUTE_SHORT"]?></sup>
+                        </div>
                     <?endif?>
-                    <sup><?=$arResult["VALUTE_SHORT"]?></sup>
-                </div>
-
             </div>
 
             <hr>
