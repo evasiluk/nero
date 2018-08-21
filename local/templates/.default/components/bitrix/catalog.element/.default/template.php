@@ -177,7 +177,6 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
                 <?
                 $str = "";
                 if($arResult["OFFERS"]) {
-
                     foreach($arResult["OFFERS"] as $i=>$offer) {
                         if($offer["PROPERTIES"]["MORE_PHOTO"]["VALUE"]) {
                             $ob = "";
@@ -185,6 +184,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
                                 //$ob .= "{'src': '".CFile::GetPath($img)."', 'thumb': '".CFile::GetPath($img)."', 'skin': '".$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"]."', 'price' : '".$offer["PRICES"]["base"]["VALUE"]."'},";
 
                                 $ob .= '{';
+                                $ob .= '"id" : "'.$offer["ID"].'", ';
                                 $ob .= '"src" : "'.CFile::GetPath($img).'", ';
                                 $ob .= '"thumb" : "'.CFile::GetPath($img).'", ';
                                 $ob .= '"skin" : "'.$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"].'"';
@@ -200,6 +200,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
                         } else {
                                 //$ob = "{'src': '".$offer["PREVIEW_PICTURE"]["SRC"]."', 'thumb': '".$offer["PREVIEW_PICTURE"]["SRC"]."', 'skin': '".$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"]."', 'price' : '".$offer["PRICES"]["base"]["VALUE"]."'}";
                                 $ob .= '{';
+                                $ob .= '"id" : "'.$offer["ID"].'", ';
                                 $ob .= '"src" : "'.$offer["PREVIEW_PICTURE"]["SRC"].'", ';
                                 $ob .= '"thumb" : "'.$offer["PREVIEW_PICTURE"]["SRC"].'", ';
                                 $ob .= '"skin" : "'.$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"].'"';
@@ -220,6 +221,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
                     //$ob = "{'src': '".$arResult["DETAIL_PICTURE"]["SRC"]."', 'thumb': '".$arResult["DETAIL_PICTURE"]["SRC"]."', 'skin': '".$arResult["PROPERTIES"]["COLOR_CODE"]["VALUE"]."', 'price' : '".$arResult["PRICES"]["base"]["VALUE"]."'}";
                     $ob = "";
                     $ob .= '{';
+                    $ob .= '"id" : "'.$arResult["ID"].'", ';
                     $ob .= '"src" : "'.$arResult["DETAIL_PICTURE"]["SRC"].'", ';
                     $ob .= '"thumb" : "'.$arResult["DETAIL_PICTURE"]["SRC"].'", ';
                     $ob .= '"skin" : "'.$arResult["PROPERTIES"]["COLOR_CODE"]["VALUE"].'"';
@@ -304,21 +306,21 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
                             <?endif?>
                         </ul>
                     </div>
-                    <!--                    <div class="device-options-col device-options-col-number">-->
-                    <!--                        <div class="c-number-input c-number-input__sm">-->
-                    <!--										<span data-reactroot="" class="c-number-input c-number-input__sm">-->
-                    <!--											<input type="number" value="1" class="js-number-input c-number-input_real">-->
-                    <!--											<button data-delta="-1" class="c-number-input_btn c-number-input_btn__prev" type="button"></button>-->
-                    <!--											<button data-delta="1" class="c-number-input_btn c-number-input_btn__next" type="button"></button>-->
-                    <!--										</span>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-                    <!--                    <div class="device-options-col device-options-col-button">-->
-                    <!--                        <a href="#" class="button button--bgred button-buy">-->
-                    <!--                            <svg class="ico-basket" viewBox="0 0 389.5 355.8"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ico-basket"></use></svg>-->
-                    <!--                            <span>В корзину</span>-->
-                    <!--                        </a>-->
-                    <!--                    </div>-->
+                    <div class="device-options-col device-options-col-number">
+                        <div class="c-number-input c-number-input__sm">
+                            <span data-reactroot="" class="c-number-input c-number-input__sm">
+                                <input type="number" value="1" class="js-number-input c-number-input_real">
+                                <button data-delta="-1" class="c-number-input_btn c-number-input_btn__prev" type="button"></button>
+                                <button data-delta="1" class="c-number-input_btn c-number-input_btn__next" type="button"></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="device-options-col device-options-col-button">
+                        <a href="#" class="button button--bgred button-buy json-product-id" data-id="">
+                            <svg class="ico-basket" viewBox="0 0 389.5 355.8"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ico-basket"></use></svg>
+                            <span>В корзину</span>
+                        </a>
+                    </div>
 
                 </div>
 

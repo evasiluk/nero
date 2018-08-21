@@ -107,7 +107,7 @@ if($dealer) {
     }
 }
 
-
+//print_pre($arResult["OFFERS"]);
 
 
 //if($arResult["OFFERS"]) {

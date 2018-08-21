@@ -168,6 +168,7 @@ if ($showTopPager)
                         //$ob = '{"image": "'.$offer["PREVIEW_PICTURE"]["SRC"].'", "color": "'.$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"].'", "price": "'.$offer["PRICES"]["base"]["VALUE"].'"}';
 
                         $ob = '{';
+                        $ob .= '"id" : "'.$offer["ID"].'", ';
                         $ob .= '"image" : "'.$offer["PREVIEW_PICTURE"]["SRC"].'", ';
                         $ob .= '"color" : "'.$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"].'"';
                         if($offer["PRICES"]["dealer_price"]["VALUE"]) {
@@ -192,6 +193,7 @@ if ($showTopPager)
                 //print_pre($item);
                 //$json_str = '[{"image": "'.$item["PREVIEW_PICTURE"]["SRC"].'", "color": "'.$item["PROPERTIES"]["COLOR_CODE"]["VALUE"].'", "price": "'.$item["PRICES"]["base"]["VALUE"].'"}]';
                 $json_str = '[{';
+                $json_str .= '"id" : "'.$item["ID"].'", ';
                 $json_str .= '"image" : "'.$item["PREVIEW_PICTURE"]["SRC"].'", ';
                 $json_str .= '"color" : "'.$item["PROPERTIES"]["COLOR_CODE"]["VALUE"].'"';
                 if($item["PRICES"]["dealer_price"]["VALUE"]) {
@@ -246,7 +248,7 @@ if ($showTopPager)
 									</span>
                         </div>
                         <object>
-                            <a href="#" class="button button--bgred button-buy">
+                            <a href="#" class="button button--bgred button-buy json-product-id" data-id="">
                                 <svg class="ico-basket" viewBox="0 0 389.5 355.8"><use xlink:href="#ico-basket"></use></svg>
                                 <span>В корзину</span>
                             </a>
