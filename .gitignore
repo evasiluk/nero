@@ -5,3 +5,4 @@
 # But not these files...
 !.gitignore
 !local/
+!/local/templates/.default/assets/js/custom.js
