@@ -7,7 +7,7 @@ if($_REQUEST["product_id"]) {
 
         Add2BasketByProductID(
             $_REQUEST["product_id"],
-            1,
+            $_REQUEST["quantity"],
             array(),
             array()
         );
