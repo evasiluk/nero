@@ -165,17 +165,47 @@ if ($showTopPager)
             <?if($item["OFFERS"]):?>
                 <?
                 $json_str = "[";
-                    foreach($item["OFFERS"] as $i=>$offer) {
-                        $ob = '{"image": "'.$offer["PREVIEW_PICTURE"]["SRC"].'", "color": "'.$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"].'", "price": "'.$offer["PRICES"]["base"]["VALUE"].'"}';
-                        $json_str .= $ob;
-                        if(($i + 1) != count($item["OFFERS"])) {
-                            $json_str .= ", ";
-                        }
+                foreach($item["OFFERS"] as $i=>$offer) {
+                    //$ob = '{"image": "'.$offer["PREVIEW_PICTURE"]["SRC"].'", "color": "'.$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"].'", "price": "'.$offer["PRICES"]["base"]["VALUE"].'"}';
+
+                    $ob = '{';
+                    $ob .= '"id" : "'.$offer["ID"].'", ';
+                    $ob .= '"image" : "'.$offer["PREVIEW_PICTURE"]["SRC"].'", ';
+                    $ob .= '"color" : "'.$offer["PROPERTIES"]["COLOR_CODE"]["VALUE"].'"';
+                    if($offer["PRICES"]["dealer_price"]["VALUE"]) {
+                        $has_old_price = true;
+                        $ob .= ', "price" : "'.$offer["PRICES"]["dealer_price"]["VALUE"].'", "price-old" : "'.$offer["PRICES"]["rosnitsa_price"]["VALUE"].'"';
+                    } else {
+                        $ob .= ', "price" : "'.$offer["PRICES"]["rosnitsa_price"]["VALUE"].'"';
+
                     }
+                    $ob .= '}';
+
+
+                    $json_str .= $ob;
+                    if(($i + 1) != count($item["OFFERS"])) {
+                        $json_str .= ", ";
+                    }
+                }
                 $json_str .= "]";
                 ?>
             <?else:?>
-                <?$json_str = '[{"image": "'.$item["PREVIEW_PICTURE"]["SRC"].'", "color": "'.$item["PROPERTIES"]["COLOR_CODE"]["VALUE"].'", "price": "'.$item["PRICES"]["base"]["VALUE"].'"}]';?>
+                <?
+
+                //$json_str = '[{"image": "'.$item["PREVIEW_PICTURE"]["SRC"].'", "color": "'.$item["PROPERTIES"]["COLOR_CODE"]["VALUE"].'", "price": "'.$item["PRICES"]["base"]["VALUE"].'"}]';
+                $json_str = '[{';
+                $json_str .= '"id" : "'.$item["ID"].'", ';
+                $json_str .= '"image" : "'.$item["PREVIEW_PICTURE"]["SRC"].'", ';
+                $json_str .= '"color" : "'.$item["PROPERTIES"]["COLOR_CODE"]["VALUE"].'"';
+                if($item["PRICES"]["dealer_price"]["VALUE"]) {
+                    $has_old_price = true;
+                    $json_str .= ', "price" : "'.$item["PRICES"]["dealer_price"]["VALUE"].'", "price-old" : "'.$item["PRICES"]["rosnitsa_price"]["VALUE"].'"';
+                } else {
+                    $json_str .= ', "price" : "'.$item["PRICES"]["rosnitsa_price"]["VALUE"].'"';
+                }
+
+                $json_str .= '}]';
+                ?>
             <?endif?>
             <div class="product js-product" data-json='<?=$json_str?>'>
 
@@ -203,14 +233,15 @@ if ($showTopPager)
                         <?endif?>
                         <div class="product-price">
                             <span class="json-price">
-                                <?if($item["OFFERS"]):?>
-                                    <?=$item["OFFERS"]["PRICES"]["base"]["VALUE"]?>
-                                <?else:?>
-                                    <?=$item["PRICES"]["base"]["VALUE"]?>
-                                <?endif?>
                             </span>
                             <sup><?=$arResult["VALUTE_SHORT"]?></sup>
                         </div>
+                        <?if($has_old_price):?>
+                            <div class="product-price-old">
+                                <span class="json-price-old">123</span>
+                                <sup><?=$arResult["VALUTE_SHORT"]?></sup>
+                            </div>
+                        <?endif?>
                     </div>
                 </div>
                 <div class="product-aside">

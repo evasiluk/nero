@@ -316,7 +316,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
                         </div>
                     </div>
                     <div class="device-options-col device-options-col-button">
-                        <a href="#" class="button button--bgred button-buy json-product-id" data-id="">
+                        <a href="#" class="button button--bgred button-buy json-button" data-id="">
                             <svg class="ico-basket" viewBox="0 0 389.5 355.8"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ico-basket"></use></svg>
                             <span>В корзину</span>
                         </a>
@@ -728,7 +728,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
                 "PAGER_TITLE" => "Товары",
                 "PAGE_ELEMENT_COUNT" => "18",
                 "PARTIAL_PRODUCT_PROPERTIES" => "N",
-                "PRICE_CODE" => array(0=>"base",),
+                "PRICE_CODE" => array("deal_1", "deal_2", "deal_3", "deal_4", "deal_5", "rosn"),
                 "PRICE_VAT_INCLUDE" => "Y",
                 "PRODUCT_BLOCKS_ORDER" => "price,props,sku,quantityLimit,quantity,buttons",
                 "PRODUCT_DISPLAY_MODE" => "N",
