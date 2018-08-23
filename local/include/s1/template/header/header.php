@@ -116,24 +116,40 @@
                     c-8.7-33.1-22-64.6-39.5-94c-17.5,29.3-30.7,60.7-39.3,93.6L478.3,156.5z"/>
                 </svg>
             </a>
-        </div>
-        <div class="header-col">
-            <a href="#" class="h-ico h-user">
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="400px" height="382.5px" viewBox="0 0 400 382.5" enable-background="new 0 0 400 382.5" xml:space="preserve">
-                    <path d="M244.1,213.8c31.7-18.7,53.4-56.8,53.4-100.8c0-62.4-43.6-113-97.4-113s-97.4,50.6-97.4,113
-                    c0,43.9,21.6,81.9,53,100.6C27.7,226.4,0,297.2,0,382.5h400C400,297.5,366,227,244.1,213.8z"/>
-                </svg>
-            </a>
-        </div>
-        <div class="header-col">
-            <a href="#" class="h-basket">
-                <svg class="ico-basket" viewBox="285.2 46.1 389.5 355.8">
-                    <path d="M439.2 328.9c-20.1 0-36.5 16.4-36.5 36.5s16.4 36.5 36.5 36.5 36.5-16.4 36.5-36.5-16.3-36.5-36.5-36.5zm0 50.6c-7.8 0-14.1-6.3-14.1-14.1s6.3-14.1 14.1-14.1 14.1 6.3 14.1 14.1-6.3 14.1-14.1 14.1zm117.4-50.6c-20.1 0-36.5 16.4-36.5 36.5s16.4 36.5 36.5 36.5 36.5-16.4 36.5-36.5-16.4-36.5-36.5-36.5zm0 50.6c-7.8 0-14.1-6.3-14.1-14.1s6.3-14.1 14.1-14.1 14.1 6.3 14.1 14.1-6.4 14.1-14.1 14.1zm116.1-244.8c-2.1-3-5.5-4.7-9.1-4.7H369l-19.8-75.6c-1.3-4.9-5.7-8.4-10.8-8.4h-42c-6.2 0-11.2 5-11.2 11.2 0 6.2 5 11.2 11.2 11.2h33.3l63.6 242.7c1.3 4.9 5.7 8.4 10.8 8.4h203.5c6.2 0 11.2-5 11.2-11.2 0-6.2-5-11.2-11.2-11.2H412.8l-8.1-30.8h219c4.8 0 9-3 10.6-7.5l39.9-114c1.1-3.3.6-7.1-1.5-10.1zM615.8 244H398.9l-24-91.6h272.9l-32 91.6z"/>
-                </svg>
-                <span>0</span>
-            </a>
-            <span class="basket-price"></span>
-        </div> -->
+        </div>-->
+<!--        <div class="header-col">-->
+<!--            <a href="#" class="h-ico h-user">-->
+<!--                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="400px" height="382.5px" viewBox="0 0 400 382.5" enable-background="new 0 0 400 382.5" xml:space="preserve">-->
+<!--                    <path d="M244.1,213.8c31.7-18.7,53.4-56.8,53.4-100.8c0-62.4-43.6-113-97.4-113s-97.4,50.6-97.4,113-->
+<!--                    c0,43.9,21.6,81.9,53,100.6C27.7,226.4,0,297.2,0,382.5h400C400,297.5,366,227,244.1,213.8z"/>-->
+<!--                </svg>-->
+<!--            </a>-->
+<!--        </div>-->
+    <?$APPLICATION->IncludeComponent(
+        "bitrix:sale.basket.basket.line",
+        "small_basket2",
+        Array(
+            "HIDE_ON_BASKET_PAGES" => "Y",
+            "PATH_TO_AUTHORIZE" => "",
+            "PATH_TO_BASKET" => "",
+            "PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
+            "PATH_TO_PERSONAL" => SITE_DIR."personal/",
+            "PATH_TO_PROFILE" => SITE_DIR."personal/",
+            "PATH_TO_REGISTER" => SITE_DIR."login/",
+            "POSITION_FIXED" => "N",
+            "SHOW_AUTHOR" => "N",
+            "SHOW_DELAY" => "N",
+            "SHOW_EMPTY_VALUES" => "Y",
+            "SHOW_IMAGE" => "Y",
+            "SHOW_NOTAVAIL" => "N",
+            "SHOW_NUM_PRODUCTS" => "Y",
+            "SHOW_PERSONAL_LINK" => "Y",
+            "SHOW_PRICE" => "Y",
+            "SHOW_PRODUCTS" => "Y",
+            "SHOW_SUMMARY" => "Y",
+            "SHOW_TOTAL_PRICE" => "Y"
+        )
+    );?>
 
 </header>
 <?$APPLICATION->IncludeComponent(
