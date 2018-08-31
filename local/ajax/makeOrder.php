@@ -106,13 +106,11 @@ $order->doFinalAction(true);
 $result = $order->save();
 $orderId = $order->getId();
 
-
+//скидка
 $order = Sale\Order::load($orderId);
 $discount = $order->getDiscount();
 $discount->calculate();
 $ar = $discount->getApplyResult();
-echo '<pre>>'; print_r($ar); echo '<</pre>';
-
 $order->save();
 
 

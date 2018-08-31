@@ -1,13 +1,6 @@
 <?
 $aMenuLinks = Array(
 	Array(
-		"Заказы", 
-		"/content/personal/order/", 
-		Array(), 
-		Array(), 
-		"" 
-	),
-	Array(
 		"Корзина", 
 		"/content/personal/cart/", 
 		Array(), 
@@ -15,22 +8,15 @@ $aMenuLinks = Array(
 		"" 
 	),
 	Array(
-		"Регулярные платежи", 
-		"/content/personal/regular-payment/", 
+		"История заказов", 
+		"/content/personal/order/", 
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
-		"Профили покупателя", 
-		"/content/personal/customer-profiles/", 
-		Array(), 
-		Array(), 
-		"" 
-	),
-	Array(
-		"Счет пользователя", 
-		"/content/personal/account/", 
+		"Личные данные", 
+		"/content/personal/lichnye-dannye/", 
 		Array(), 
 		Array(), 
 		"" 
