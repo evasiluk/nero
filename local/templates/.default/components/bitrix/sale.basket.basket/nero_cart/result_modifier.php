@@ -57,7 +57,6 @@ $arResult["TOTAL_ITEMS_COUNT"] = count($arResult["GRID"]["ROWS"]);
 $arResult["TOTAL_SUM"] = 0;
 $arResult["TOTAL_SUM_DISCOUNT"] = 0;
 $arResult["VALUTE_SHORT"] = get_valute_short($iblock_id);
-$arResult["DISCOUNT"] = 0;
 
 $arResult["BASKET_ITEMS"] = array();
 
@@ -81,8 +80,6 @@ foreach($arResult["GRID"]["ROWS"] as &$arItem) {
         $arItem["COLOR_CODE"] = $arFields["PROPERTY_COLOR_CODE_VALUE"];
     }
 
-    $arResult["DISCOUNT"] = $arItem["DISCOUNT_PRICE_PERCENT"];
-
     $arItem["FULL_PRICE"] = convert_valute($arItem["FULL_PRICE"], $iblock_id);  // без скидки
     $arItem["FULL_PRICE_SUM"] = $arItem["FULL_PRICE"] * $arItem["QUANTITY"];
 //    $arItem["PRICE"] = convert_valute($arItem["PRICE"], $iblock_id);   // со скидкой
@@ -95,5 +92,78 @@ foreach($arResult["GRID"]["ROWS"] as &$arItem) {
 }
 
 $arResult["FINAL_SUM"] = $arResult["TOTAL_SUM"] - $arResult["TOTAL_SUM_DISCOUNT"];
+
+
+
+
+
+
+
+// накопительная скидка для пользователя
+use Bitrix\Main\Loader,
+    \Astronim\Dealer,
+    Bitrix\Iblock\ElementTable;
+
+global $USER;
+$arGroups = CUser::GetUserGroup($USER->GetID());
+
+
+CModule::IncludeModule("sale");
+$db_res = CSaleDiscount::GetList(
+    array("SORT" => "ASC"),
+    array(
+        "LID" => SITE_ID,
+        "ACTIVE" => "Y",
+        "USER_GROUPS" => $arGroups, // фильтруем по группам
+
+    ),
+    false,
+    false,
+    array()
+);
+
+$discount = array();
+
+if ($ar_res = $db_res->Fetch())
+{
+    $discount = $ar_res;
+}
+
+
+
+
+function getCumulativeDiscount($discount_id)
+{
+    $discount = 0;
+    //$cumulativeDiscountId = 1; // id накопительной скидки
+    $cumulativeDiscountId = $discount_id;
+
+    if (Loader::includeModule("sale")) {
+        global $USER;
+        $cumulativeCalc = new Bitrix\Sale\Discount\CumulativeCalculator($USER->GetID(), SITE_ID);
+        // сумма всех оплаченных заказов.
+        $orderSum = $cumulativeCalc->calculate();
+
+        $arCumulativeDiscount = CSaleDiscount::GetByID($cumulativeDiscountId);
+        $arDiscountRanges = unserialize($arCumulativeDiscount['ACTIONS'])['CHILDREN'][0]['DATA']['ranges'];
+        //ищем попадание суммы оплаченных заказов в интервалы  скидок
+        foreach ($arDiscountRanges as $arRange) {
+            if ($orderSum >= $arRange['sum']) {
+                if ($arRange['type'] == 'P') {
+                    $discount =  $arRange['value'].'%';
+                } else {
+                    $discount =  $arRange['value'].' руб.';
+                }
+            }
+        }
+    }
+
+    return $discount;
+}
+
+if($discount["ID"]) {
+    $dis = getCumulativeDiscount($discount["ID"]);
+    $arResult["USER_DISCOUNT"] = $dis;
+}
 
 //print_pre($arResult);

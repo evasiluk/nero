@@ -217,7 +217,7 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
                 <div class="basket-foot">
                     <div class="flex-row flex-row-padding">
                         <div class="col-xs-4">
-                            <?if($arResult["DISCOUNT"]):?>
+                            <?if($arResult["USER_DISCOUNT"]):?>
                                 <div class="basket-discount bg--white">
                                     <div class="personal-item personal-info-header">
                                         Ваша скидка
@@ -228,9 +228,9 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
                                     <!--                            </div>-->
                                     <div class="personal-item">
                                         <label class="personal-label label-off">Накопительная:</label>
-                                        <div class="personal-input"><span class="bg--red outline--red" data-discound-custom="<?=$arResult["DISCOUNT"]?>%"><?=$arResult["DISCOUNT"]?>%</span></div>
+                                        <div class="personal-input"><span class="bg--red outline--red" data-discound-custom="<?=$arResult["USER_DISCOUNT"]?>"><?=$arResult["USER_DISCOUNT"]?></span></div>
                                     </div>
-                                    <input type="hidden" class="js-basket-discount-value" value="<?=$arResult["DISCOUNT"]?>">
+                                    <input type="hidden" class="js-basket-discount-value" value="<?=$arResult["USER_DISCOUNT"]?>">
                                 </div>
                             <?endif?>
                         </div>
@@ -244,7 +244,7 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
                         </div>
                         <div class="col-xs-4 end-xs">
                             <div class="basket-summary">
-                                <?if($arResult["DISCOUNT"]):?>
+                                <?if($arResult["USER_DISCOUNT"]):?>
                                 <div class="b-summary-node">
                                     <span>Сумма без скидки:</span>
                                     <div class="basket-item-price">
