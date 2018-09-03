@@ -17,7 +17,7 @@ $(document).ready(function() {
 
         postData[prod_id] = prod_quantity;
 
-        console.log(postData);
+        //console.log(postData);
 
         $.ajax({
             type: "POST",
@@ -25,6 +25,7 @@ $(document).ready(function() {
             data: postData,
             dataType: 'json',
             success: function(msg){
+                getNewNumbers();
                 updateSmallBasket();
             }
         });
@@ -92,7 +93,20 @@ $(document).ready(function() {
             $("#small-basket-ajax").html(data);
         });
     }
+
+    function getNewNumbers() {
+        $.post("/local/ajax/basketNewSum.php", {}, function(data) {
+            console.log(data);
+        });
+    }
 })
+
+
+
+
+
+
+
 
 
 

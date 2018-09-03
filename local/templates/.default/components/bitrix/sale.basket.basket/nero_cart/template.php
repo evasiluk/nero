@@ -179,12 +179,12 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
                             </div>
                             <div class="b-item-node">
                                 <div class="basket-item-price">
-                                    <span class="js-basket-product-price" data-price="<?=$arItem["PRICE"]?>"><?=$arItem["PRICE"]?></span>
+                                    <span class="js-basket-product-price" data-price="<?=$arItem["FULL_PRICE"]?>"><?=$arItem["FULL_PRICE"]?></span>
                                     <sup><?=$arResult["VALUTE_SHORT"]?></sup>
                                 </div>
-                                <?if($arItem["DISCOUNT_PRICE"]):?>
+                                <?if($arItem["ROSN_PRICE"]):?>
                                     <div class="basket-item-price-old">
-                                        <span><?=$arItem["FULL_PRICE"]?></span>
+                                        <span><?=$arItem["ROSN_PRICE"]?></span>
                                         <sup><?=$arResult["VALUTE_SHORT"]?></sup>
                                     </div>
                                 <?endif?>
@@ -200,8 +200,8 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
                             </div>
                             <div class="b-item-node">
                                 <div class="basket-item-price">
-                                    <span class="js-basket-product-sum">---</span>
-                                    <sup>руб.</sup>
+                                    <span class="js-basket-product-sum"><?=$arItem["FULL_PRICE_SUM"]?></span>
+                                    <sup><?=$arResult["VALUTE_SHORT"]?></sup>
                                 </div>
                             </div>
                             <div class="b-item-node">
@@ -244,26 +244,28 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
                         </div>
                         <div class="col-xs-4 end-xs">
                             <div class="basket-summary">
+                                <?if($arResult["DISCOUNT"]):?>
                                 <div class="b-summary-node">
                                     <span>Сумма без скидки:</span>
                                     <div class="basket-item-price">
-                                        <span class="js-basket-price">---</span>
-                                        <sup>руб.</sup>
+                                        <span class="js-basket-price"><?=$arResult["TOTAL_SUM"]?></span>
+                                        <sup><?=$arResult["VALUTE_SHORT"]?></sup>
                                     </div>
                                 </div>
                                 <div class="b-summary-node">
                                     <span>Cкидка:</span>
                                     <div class="basket-item-price">
-                                        <span class="js-basket-discount">---</span>
-                                        <sup>руб.</sup>
+                                        <span class="js-basket-discount"><?=$arResult["TOTAL_SUM_DISCOUNT"]?></span>
+                                        <sup><?=$arResult["VALUTE_SHORT"]?></sup>
                                     </div>
                                 </div>
+                                <?endif?>
                                 <div class="b-summary-node b-summary-result">
                                     <span>Итого:</span>
                                     <div class="basket-item-price basket-item-price--big">
-                                        <span class="js-total">---</span>
+                                        <span class="js-total"><?=$arResult["FINAL_SUM"]?></span>
                                         <input type="hidden" class="js-input-total" value="---">
-                                        <sup>руб.</sup>
+                                        <sup><?=$arResult["VALUTE_SHORT"]?></sup>
                                     </div>
                                 </div>
                                 <div class="b-summary-node">

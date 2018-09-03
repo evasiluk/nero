@@ -96,4 +96,17 @@ foreach($arResult["GRID"]["ROWS"] as &$arItem) {
 
 $arResult["FINAL_SUM"] = $arResult["TOTAL_SUM"] - $arResult["TOTAL_SUM_DISCOUNT"];
 
+$ajax = array();
+$ajax["ITEMS"] = array();
+
+foreach($arResult["BASKET_ITEMS"] as $arItem) {
+    $ajax["ITEMS"][] = array("id" => $arItem["ID"], "NEW_SUM" => $arItem["FULL_PRICE_SUM"]);
+}
+
+$ajax["TOTAL_SUM"] = $arResult["TOTAL_SUM"];
+$ajax["TOTAL_SUM_DISCOUNT"] = $arResult["TOTAL_SUM_DISCOUNT"];
+$ajax["FINAL_SUM"] = $arResult["FINAL_SUM"];
+
+print_r(json_encode($ajax)); exit;
+
 //print_pre($arResult);
