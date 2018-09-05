@@ -91,7 +91,7 @@ function get_iblock_properties($iblock) {
     return $props;
 }
 
-function convert_valute($value, $iblock_id) {
+function convert_valute($value, $iblock_id, $date = "") {
     $valute_from = "EUR";
     $valute_to = "BYN";
 
@@ -106,8 +106,44 @@ function convert_valute($value, $iblock_id) {
         case 64: $valute_to = "EUR";
             break;
     }
-    $price = number_format(CCurrencyRates::ConvertCurrency($value, $valute_from, $valute_to), 2, '.', ' ');
+    $price = number_format(CCurrencyRates::ConvertCurrency($value, $valute_from, $valute_to, $date), 2, '.', ' ');
     return $price;
+}
+
+function get_currency_code($iblock_id) {
+    $code = "BYN";
+
+    switch($iblock_id) {
+        case 30: $code = "BYN";
+            break;
+        case 59:
+        case 60: $code = "RUB";
+            break;
+        case 58: $code = "UAH";
+            break;
+        case 64: $code = "EUR";
+            break;
+    }
+
+    return $code;
+}
+
+function get_region_catalog_iblock() {
+    $iblock_id = 30;
+    switch($_SERVER["HTTP_HOST"]) {
+        case BY_HOST: $iblock_id = 30;
+            break;
+        case UA_HOST : $iblock_id = 58;
+            break;
+        case SPB_HOST : $iblock_id = 59;
+            break;
+        case MSK_HOST : $iblock_id = 60;
+            break;
+        case EN_HOST : $iblock_id = 64;
+            break;
+    }
+
+    return $iblock_id;
 }
 
 function get_valute_short($iblock_id) {

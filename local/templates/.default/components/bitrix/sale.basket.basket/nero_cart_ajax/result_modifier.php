@@ -100,7 +100,17 @@ $ajax = array();
 $ajax["ITEMS"] = array();
 
 foreach($arResult["BASKET_ITEMS"] as $arItem) {
-    $ajax["ITEMS"][] = array("id" => $arItem["ID"], "NEW_SUM" => $arItem["FULL_PRICE_SUM"]);
+    $ajax["ITEMS"][] = array(
+        "id" => $arItem["ID"],
+        "ITEM_PRICE" => $arItem["FULL_PRICE"],
+        "NEW_SUM" => $arItem["FULL_PRICE_SUM"],
+        "COLOR_CODE" => $arItem["COLOR_CODE"],
+        "NAME" => $arItem["NAME"],
+        "HREF" => $arItem["DETAIL_PAGE_URL"],
+        "IMAGE" => $arItem["PREVIEW_PICTURE_SRC"],
+        "VALUTE" => $arResult["VALUTE_SHORT"],
+        "QUANTITY" => $arItem["QUANTITY"]
+    );
 }
 
 $ajax["TOTAL_SUM"] = $arResult["TOTAL_SUM"];

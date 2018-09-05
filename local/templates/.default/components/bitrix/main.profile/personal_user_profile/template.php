@@ -7,7 +7,7 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 ?>
-<div class="maxwrap">
+
 
     <form method="post" name="form1" action="<?=$arResult["FORM_TARGET"]?>" enctype="multipart/form-data" class="usercontent wrap-content personal-data js-personal-data bg--white">
         <input type="hidden" name="lang" value="<?=LANG?>" />
@@ -122,5 +122,5 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
             </div>
         </div>
     </form>
-</div>
+
 

@@ -33,19 +33,8 @@ if ('' == $arParams['TEMPLATE_THEME'])
 
 
 //
-$iblock_id = 30;
-switch($_SERVER["HTTP_HOST"]) {
-    case BY_HOST: $iblock_id = 30;
-        break;
-    case UA_HOST : $iblock_id = 58;
-        break;
-    case SPB_HOST : $iblock_id = 59;
-        break;
-    case MSK_HOST : $iblock_id = 60;
-        break;
-}
-
-
+$iblock_id = get_region_catalog_iblock();
+$arResult["VALUTE_SHORT"] = get_valute_short($iblock_id);
 
 $class = new neroCatalogClass();
 $dealer = $class->is_dealer(CUser::GetUserGroup(CUser::GetID()));
@@ -56,7 +45,7 @@ $dealer = $class->is_dealer(CUser::GetUserGroup(CUser::GetID()));
 $arResult["TOTAL_ITEMS_COUNT"] = count($arResult["GRID"]["ROWS"]);
 $arResult["TOTAL_SUM"] = 0;
 $arResult["TOTAL_SUM_DISCOUNT"] = 0;
-$arResult["VALUTE_SHORT"] = get_valute_short($iblock_id);
+
 
 $arResult["BASKET_ITEMS"] = array();
 
