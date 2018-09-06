@@ -9,7 +9,6 @@ $APPLICATION->SetTitle("Заявки");
 
     $manager_code = $class->get_manager_code($manager_groups);
     $manager_host = $class->get_manager_host($manager_code);
-    $dealers_groups = $class->get_dilers_groups($manager_code);
     $pretenders = $class->get_pretenders_list($manager_host);
     ?>
     <br>

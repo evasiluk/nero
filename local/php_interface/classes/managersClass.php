@@ -57,6 +57,17 @@ class managersClass {
        return $arSpecUser;
    }
 
+    public function get_active_dealers_list($groups) {
+        $filter = Array("GROUPS_ID" => $groups, "ACTIVE" => "Y");
+        $rsUsers = CUser::GetList(($by = "NAME"), ($order = "desc"), $filter);
+        $arSpecUser = array();
+        while ($arUser = $rsUsers->Fetch()) {
+            $arSpecUser[] = $arUser;
+        }
+
+        return $arSpecUser;
+    }
+
    public function get_dealer($uid) {
        $filter = Array("ID" => $uid);
        $rsUsers = CUser::GetList(($by = "NAME"), ($order = "desc"), $filter, array("SELECT"=>array("UF_*")));
@@ -68,14 +79,5 @@ class managersClass {
        return $arSpecUser;
    }
 
-   public function get_active_dealers_list($host) {
-       $filter = Array("UF_NERO_SITE" => $host, "ACTIVE" => "Y");
-       $rsUsers = CUser::GetList(($by = "NAME"), ($order = "desc"), $filter);
-       $arSpecUser = array();
-       while ($arUser = $rsUsers->Fetch()) {
-           $arSpecUser[] = $arUser;
-       }
 
-       return $arSpecUser;
-   }
 }
