@@ -16,6 +16,7 @@ use \Bitrix\Sale\Basket, \Bitrix\Sale\Internals\OrderPropsValueTable,
 
 global $USER;
 $site = Context::getCurrent()->getSite();
+//$order = Order::create($siteId, $USER->isAuthorized() ? $USER->GetID() : 539);  // дописать для неавторизованных
 $order = Bitrix\Sale\Order::create(SITE_ID, $USER->GetID());
 $order->setPersonTypeId(1);
 

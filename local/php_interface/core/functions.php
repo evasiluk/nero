@@ -106,7 +106,7 @@ function convert_valute($value, $iblock_id, $date = "") {
         case 64: $valute_to = "EUR";
             break;
     }
-    $price = number_format(CCurrencyRates::ConvertCurrency($value, $valute_from, $valute_to, $date), 2, '.', ' ');
+    $price = number_format(CCurrencyRates::ConvertCurrency($value, $valute_from, $valute_to, $date), 2, '.', '');
     return $price;
 }
 

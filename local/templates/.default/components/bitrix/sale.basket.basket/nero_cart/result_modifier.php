@@ -155,4 +155,3 @@ if($discount["ID"]) {
     $arResult["USER_DISCOUNT"] = $dis;
 }
 
-//print_pre($arResult);
