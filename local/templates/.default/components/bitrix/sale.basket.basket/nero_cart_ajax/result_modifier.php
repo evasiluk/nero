@@ -103,7 +103,7 @@ foreach($arResult["BASKET_ITEMS"] as $arItem) {
     $ajax["ITEMS"][] = array(
         "id" => $arItem["ID"],
         "ITEM_PRICE" => $arItem["FULL_PRICE"],
-        "NEW_SUM" => $arItem["FULL_PRICE_SUM"],
+        "NEW_SUM" => number_format($arItem["FULL_PRICE_SUM"], 2, '.', ''),
         "COLOR_CODE" => $arItem["COLOR_CODE"],
         "NAME" => $arItem["NAME"],
         "HREF" => $arItem["DETAIL_PAGE_URL"],
@@ -115,7 +115,7 @@ foreach($arResult["BASKET_ITEMS"] as $arItem) {
 
 $ajax["TOTAL_SUM"] = $arResult["TOTAL_SUM"];
 $ajax["TOTAL_SUM_DISCOUNT"] = $arResult["TOTAL_SUM_DISCOUNT"];
-$ajax["FINAL_SUM"] = $arResult["FINAL_SUM"];
+$ajax["FINAL_SUM"] = number_format($arResult["FINAL_SUM"], 2, '.', '');
 
 print_r(json_encode($ajax)); exit;
 
