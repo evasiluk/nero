@@ -52,9 +52,10 @@
         </div>
 
         <?foreach($arResult["ORDERS"] as $arItem):?>
+        <?//print_pre($arItem)?>
             <div class="personal-basket-item">
                 <div class="personal-history-item js-history-head">
-                    <div class="p-item-node"><a href="#" class="js-history-toggle js-history-toggle dotted color--black"><span><?=CIBlockFormatProperties::DateFormat('d F Y', strtotime($arItem["ORDER"]["DATE_STATUS"]->format("Y-m-d")))?></span></a></div>
+                    <div class="p-item-node"><a href="#" class="js-history-toggle js-history-toggle dotted color--black"><span>Заказ №<?=$arItem["ORDER"]["ID"]?> от <?=CIBlockFormatProperties::DateFormat('d F Y', strtotime($arItem["ORDER"]["DATE_INSERT_FORMATED"]))?></span></a></div>
                     <div class="p-item-node"><?=$arResult["INFO"]["STATUS"][$arItem["ORDER"]["STATUS_ID"]]["NAME"]?></div>
                     <div class="p-item-node">
                         <div class="basket-item-price align-left">
