@@ -79,5 +79,34 @@ class managersClass {
        return $arSpecUser;
    }
 
+   public function get_dealer_iblock($groups) {
+       $manager_code = "";
+
+       foreach($this->managers_groups as $code=>$id) {
+           if(in_array($id, $groups)) {
+               $manager_code = $code;
+               break;
+           }
+       }
+
+       $host = $this->managers_by_host[$manager_code];
+
+       $iblock_id = 30;
+       switch($host) {
+           case BY_HOST: $iblock_id = 30;
+               break;
+           case UA_HOST : $iblock_id = 58;
+               break;
+           case SPB_HOST : $iblock_id = 59;
+               break;
+           case MSK_HOST : $iblock_id = 60;
+               break;
+           case EN_HOST : $iblock_id = 64;
+               break;
+       }
+
+       return $iblock_id;
+   }
+
 
 }

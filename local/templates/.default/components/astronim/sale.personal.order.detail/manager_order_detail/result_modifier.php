@@ -1,7 +1,13 @@
 <?
 CModule::IncludeModule("currency");
 
-$iblock_id = get_region_catalog_iblock();
+$class = new managersClass();
+$manager_groups = CUser::GetUserGroup(CUser::GetID());
+
+// определяем иблок не по общей функции
+// т.к. манагер ВСЕГДА будет на by хосте и следовательно всегда будут возвращаться рубли, даже если это манагер украинец
+// потому определяем по манагеру: его группа - его хост - id иблока
+$iblock_id = $class->get_dealer_iblock($manager_groups);
 $currency_code = get_currency_code($iblock_id);
 $arResult["VALUTE_SHORT"] = get_valute_short($iblock_id);
 
@@ -37,4 +43,6 @@ foreach($arResult["BASKET"] as &$item) {
     $item["PRICE_ALL"] = $item["PRICE"] * $item["QUANTITY"];
 }
 
-//print_pre($arResult['BASKET']);
+
+
+//print_pre($arResult);
