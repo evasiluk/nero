@@ -42,6 +42,9 @@ else
 
 
 <br>
+    <?
+    $APPLICATION->SetTitle("Заказ №".htmlspecialcharsbx($arResult["ACCOUNT_NUMBER"]));
+    ?>
 	<div class="container-fluid sale-order-detail">
 		<div class="sale-order-detail-title-container">
 			<h1 class="sale-order-detail-title-element">
@@ -159,6 +162,9 @@ else
 									<div class="sale-order-detail-about-order-inner-container-price-detail">
 										<strong><?= $arResult["PRICE_FORMATED"]?></strong>
 									</div>
+                                    <div class="sale-order-detail-about-order-inner-container-price-detail">
+                                        <strong><?= $arResult["PRICE_IN_VALUTE"]?> <?=$arResult["VALUTE_SHORT"]?></strong>
+                                    </div>
 								</div>
 
 							</div>
@@ -412,7 +418,8 @@ else
 													<div class="sale-order-detail-order-item-td sale-order-detail-order-item-properties bx-text-right">
 														<div class="sale-order-detail-order-item-td-title col-xs-7 col-sm-5 visible-xs visible-sm"><?= Loc::getMessage('SPOD_ORDER_PRICE')?></div>
 														<div class="sale-order-detail-order-item-td-text">
-															<strong class="bx-price all"><?=$basketItem['FORMATED_SUM']?></strong>
+															<strong class="bx-price all"><?=$basketItem['FORMATED_SUM']?></strong><br>
+                                                            <strong class="bx-price all"><?=$basketItem['PRICE_ALL']?> <?=$arResult["VALUTE_SHORT"]?></strong>
 														</div>
 													</div>
 												</div>
@@ -454,7 +461,7 @@ else
 							{
 								?>
 								<li class="sale-order-detail-total-payment-list-left-item">
-									<?= Loc::getMessage('SPOD_DELIVERY')?>:
+									<strong><?= Loc::getMessage('SPOD_DELIVERY')?>:</strong>
 								</li>
 								<?
 							}
@@ -468,7 +475,7 @@ else
 								<?
 							}
 							?>
-							<li class="sale-order-detail-total-payment-list-left-item"><?= Loc::getMessage('SPOD_SUMMARY')?>:</li>
+							<li class="sale-order-detail-total-payment-list-left-item"><strong><?= Loc::getMessage('SPOD_SUMMARY')?>:</strong></li>
 						</ul>
 						<ul class="col-md-4 col-sm-6 col-xs-6 sale-order-detail-total-payment-list-right">
 							<?
@@ -489,7 +496,7 @@ else
 							if (strlen($arResult["PRICE_DELIVERY_FORMATED"]))
 							{
 								?>
-								<li class="sale-order-detail-total-payment-list-right-item"><?= $arResult["PRICE_DELIVERY_FORMATED"] ?></li>
+								<li class="sale-order-detail-total-payment-list-right-item"><strong><?= $arResult["PRICE_DELIVERY_FORMATED"] ?></strong></li>
 								<?
 							}
 
@@ -500,7 +507,8 @@ else
 								<?
 							}
 							?>
-							<li class="sale-order-detail-total-payment-list-right-item"><?=$arResult['PRICE_FORMATED']?></li>
+							<li class="sale-order-detail-total-payment-list-right-item"><strong><?=$arResult['PRICE_FORMATED']?></strong></li>
+                            <li class="sale-order-detail-total-payment-list-right-item"><strong><?= $arResult["PRICE_IN_VALUTE"]?> <?=$arResult["VALUTE_SHORT"]?></strong></li>
 						</ul>
 					</div>
 				</div>
