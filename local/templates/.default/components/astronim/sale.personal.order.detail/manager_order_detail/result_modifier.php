@@ -43,6 +43,4 @@ foreach($arResult["BASKET"] as &$item) {
     $item["PRICE_ALL"] = $item["PRICE"] * $item["QUANTITY"];
 }
 
-
-
 //print_pre($arResult);

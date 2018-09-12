@@ -94,7 +94,7 @@ foreach ($basket as $basketItem)
 
 $paymentCollection = $order->getPaymentCollection();
 $payment = $paymentCollection->createItem(
-    Bitrix\Sale\PaySystem\Manager::getObjectById(1)
+    Bitrix\Sale\PaySystem\Manager::getObjectById(2)
 );
 
 

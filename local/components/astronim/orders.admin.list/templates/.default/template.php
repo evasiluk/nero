@@ -12,6 +12,9 @@
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);
 ?>
+<?
+//print_pre($arResult);
+?>
 <div>
     <span>Сортировать по:</span>
     <ul>
@@ -52,7 +55,13 @@ $this->setFrameMode(true);
                     </div>
                     <div class="item-prop flex-row">
                         <div class="key col-xs-12 col-sm-6">Статус:</div>
-                        <div class="value col-xs-12 col-sm-6"><?= $arResult['STATUS'][$arOrder['STATUS_ID']]['NAME'] ?></div>
+                        <div class="value col-xs-12 col-sm-6">
+                            <?if($arOrder["CANCELED"] == "Y"):?>
+                                Отменен
+                            <?else:?>
+                                <?= $arResult['STATUS'][$arOrder['STATUS_ID']]['NAME'] ?>
+                            <?endif?>
+                        </div>
                     </div>
                     <div class="item-prop flex-row">
                         <div class="key col-xs-12 col-sm-6">Создан:</div>

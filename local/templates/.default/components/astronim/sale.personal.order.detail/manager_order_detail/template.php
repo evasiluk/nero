@@ -42,9 +42,12 @@ else
 
 
 <br>
+
     <?
     $APPLICATION->SetTitle("Заказ №".htmlspecialcharsbx($arResult["ACCOUNT_NUMBER"]));
     ?>
+    <form action="/managers/zakazy/order_handler.php" method="post">
+    <input type="hidden" name="id" value="<?=$arResult["ID"]?>">
 	<div class="container-fluid sale-order-detail">
 		<div class="sale-order-detail-title-container">
 			<h1 class="sale-order-detail-title-element">
@@ -142,15 +145,20 @@ else
 										)) ?>
 									</div>
 									<div class="sale-order-detail-about-order-inner-container-status-detail">
+                                        <select name="status">
+                                            <option value="N" <?if($arResult["STATUS"]["ID"] == "N"):?>selected<?endif?>>Принят, ожидается оплата</option>
+                                            <option value="F" <?if($arResult["STATUS"]["ID"] == "F"):?>selected<?endif?>>Выполнен</option>
+                                            <option value="С" <?if($arResult['CANCELED'] == 'Y'):?>selected<?endif?>>Отменен</option>
+                                        </select>
 										<?
-										if ($arResult['CANCELED'] !== 'Y')
-										{
-											echo htmlspecialcharsbx($arResult["STATUS"]["NAME"]);
-										}
-										else
-										{
-											echo Loc::getMessage('SPOD_ORDER_CANCELED');
-										}
+//										if ($arResult['CANCELED'] !== 'Y')
+//										{
+//											echo htmlspecialcharsbx($arResult["STATUS"]["NAME"]);
+//										}
+//										else
+//										{
+//											echo Loc::getMessage('SPOD_ORDER_CANCELED');
+//										}
 										?>
 									</div>
 								</div>
@@ -514,7 +522,15 @@ else
 				</div>
 			</div>
 		</div><!--sale-order-detail-general-->
+
+        <input style="float: right; margin-top: 25px;" type="submit" class="button button--bgred button--big" name="save" value="Сохранить">
+
+
+    </form>
 	</div>
+
+
+
 	<?
 	$javascriptParams = array(
 		"url" => CUtil::JSEscape($this->__component->GetPath().'/ajax.php'),
