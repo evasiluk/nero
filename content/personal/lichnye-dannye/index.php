@@ -3,6 +3,10 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Личные данные");
 ?>
     <div class="maxwrap">
+        <?
+        global $USER;
+        if($USER->IsAuthorized()):
+        ?>
         <?$APPLICATION->IncludeComponent("bitrix:main.profile", "personal_user_profile", Array(
             "AJAX_MODE" => "N",
                 "AJAX_OPTION_ADDITIONAL" => "",
@@ -21,5 +25,12 @@ $APPLICATION->SetTitle("Личные данные");
             ),
             false
         );?>
+        <?else:?>
+            <div class="usercontent bg--white basket-is-empty js-basket-is-empty">
+                <div class="wrap wrap-content">
+                    <a href="/content/personal/register/">Зарегистрируйтесь</a> и/или <a href="/content/personal/auth/">авторизуйтесь</a> для просмотра личных данных.
+                </div>
+            </div>
+        <?endif?>
     </div>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

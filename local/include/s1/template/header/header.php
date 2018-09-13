@@ -117,14 +117,14 @@
                 </svg>
             </a>
         </div>-->
-<!--        <div class="header-col">-->
-<!--            <a href="#" class="h-ico h-user">-->
-<!--                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="400px" height="382.5px" viewBox="0 0 400 382.5" enable-background="new 0 0 400 382.5" xml:space="preserve">-->
-<!--                    <path d="M244.1,213.8c31.7-18.7,53.4-56.8,53.4-100.8c0-62.4-43.6-113-97.4-113s-97.4,50.6-97.4,113-->
-<!--                    c0,43.9,21.6,81.9,53,100.6C27.7,226.4,0,297.2,0,382.5h400C400,297.5,366,227,244.1,213.8z"/>-->
-<!--                </svg>-->
-<!--            </a>-->
-<!--        </div>-->
+        <div class="header-col">
+            <a href="/content/personal/" class="h-ico h-user">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="400px" height="382.5px" viewBox="0 0 400 382.5" enable-background="new 0 0 400 382.5" xml:space="preserve">
+                    <path d="M244.1,213.8c31.7-18.7,53.4-56.8,53.4-100.8c0-62.4-43.6-113-97.4-113s-97.4,50.6-97.4,113
+                    c0,43.9,21.6,81.9,53,100.6C27.7,226.4,0,297.2,0,382.5h400C400,297.5,366,227,244.1,213.8z"/>
+                </svg>
+            </a>
+        </div>
     <?$APPLICATION->IncludeComponent(
         "bitrix:sale.basket.basket.line",
         "small_basket2",

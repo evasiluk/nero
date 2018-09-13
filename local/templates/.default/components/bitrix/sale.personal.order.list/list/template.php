@@ -43,6 +43,7 @@
 
 
 ?>
+
 <?if($arResult["ORDERS"]):?>
 <div class="usercontent personal-history js-personal-history">
     <div class="personal-history-wrap bg--white">
