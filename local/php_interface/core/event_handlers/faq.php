@@ -28,40 +28,6 @@ function my_onBeforeResultAdd($WEB_FORM_ID, &$arFields, &$arrVALUES)
             "PROPERTY_VALUES" => array("EMAIL" => $arrVALUES["form_text_13"])
         );
         $ELEMENT_ID = $el->Add($arNew);
-    } elseif($arrVALUES["WEB_FORM_ID"] == 5) {
-        $user = new CUser;
-
-        $country = "";
-        switch($arrVALUES["form_dropdown_SIMPLE_QUESTION_838"]) {
-            case 23: $country = 4; //беларусь
-                break;
-            case 24: $country = 14; //украина
-                break;
-            case 25: $country = 1;  //россия
-                break;
-        }
-
-
-        $arFields = array(
-            'NAME'             => $arrVALUES["form_text_22"],
-            'EMAIL'            => $arrVALUES["form_email_26"],
-            'LOGIN'            => $arrVALUES["form_email_26"], // минимум 3 символа
-            'ACTIVE'           => 'Y',
-            'PASSWORD'         => $arrVALUES["form_password_28"], // минимум 6 символов
-            'CONFIRM_PASSWORD' => $arrVALUES["form_password_28"],
-            'GROUP_ID'         => array(26),
-            'PERSONAL_PHONE'   => $arrVALUES["form_text_27"],
-            "PERSONAL_COUNTRY" => $country,
-            "UF_NERO_SITE"     => CURRENT_USER_HOST
-        );
-
-
-        $ID = $user->Add($arFields);
-        if($ID) {
-            global $USER;
-            $USER->Authorize($ID);
-        }
-        //return false;
     }
 }
 
