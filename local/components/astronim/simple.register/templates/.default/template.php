@@ -1,25 +1,39 @@
 <? if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 ?>
 
+
 <?if($arResult["USER_REGISTERED"]):?>
-    <p>Вы успешно зарегистрированы и авторизованы.</p>
+    <section class="wrap form-wrap">
+        <div class="reg-form">
+            <div class="usercontent">
+                <h2>Спасибо!</h2>
+                <p>Вы успешно зарегистрированы.</p>
+            </div>
+        </div>
+    </section>
 <?else:?>
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
     <?if($arResult["ERRORS"]):?>
-        <div class="errors">
-            <?foreach($arResult["ERRORS"] as $er):?>
-                <span><?=$er?></span><br>
-            <?endforeach?>
+        <div class="js-form-error-template">
+            <ol>
+                <?foreach($arResult["ERRORS"] as $er):?>
+                    <li><?=$er?></li>
+                <?endforeach?>
+            </ol>
         </div>
     <?endif?>
 
-
-    <div id="ajax_result"></div>
-
-
     <section class="wrap form-wrap">
-        <form action="#" class="js-form" method="post" id="simple_register">
+        <form action="#" class="reg-form js-form" method="post" id="simple_register">
+            <h5 class="align-center">Регистрация</h5>
+
+            <div class="form-row flex-row">
+                <label class="col-xs">
+                    <div id="ajax_result" class="form-error"></div>
+                </label>
+            </div>
+
             <div class="form-row flex-row">
                 <label class="col-xs">
                     <div class="input">
@@ -68,7 +82,6 @@
                     </div>
                 </label>
             </div>
-
             <div class="form-row flex-row">
                 <label class="col-xs">
                     <div class="input">
@@ -81,7 +94,6 @@
                     </div>
                 </label>
             </div>
-
             <div class="form-row flex-row">
                 <label class="col-xs">
                     <div class="input">
@@ -95,16 +107,19 @@
                 </label>
             </div>
 
-            <div class="form-row flex-row form-footer">
-                <div class="col-xs center-xs">
+            <div class="form-row flex-row">
+                <div class="col-xs">
                     <div class="g-recaptcha" data-sitekey="<?=GRECAPTCHA_PUBLIC?>"></div>
-                    <p><button type="submit" class="button button--big button-hover--bgblack" id="send">Отправить</button></p>
-                    <div class="cu-form-note">* Поля обязательные для заполнения</div>
                 </div>
             </div>
 
+            <div class="form-row flex-row form-footer">
+                <div class="col-xs center-xs">
+                    <p><button type="submit" class="button button--big button-hover--bgblack" id="send">Отправить</button></p>
+                    <div class="form-note">* Поля обязательные для заполнения</div>
+                </div>
+            </div>
         </form>
-
     </section>
 <?endif?>
 

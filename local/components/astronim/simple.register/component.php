@@ -21,6 +21,8 @@ if (isset($_POST['g-recaptcha-response'])){
 
         if ($ar = CUser::GetList($by = "timestamp_x", $order = "desc", ['EMAIL' => $email])->GetNext()) {
             $arResult["ERRORS"][] = "Данный Email уже занят :(";
+        }if(strlen($_POST["password"]) < 5){
+            $arResult["ERRORS"][] = "Пароль должен быть не менее 6 символов.";
         } else {
 
             $user = new CUser;
