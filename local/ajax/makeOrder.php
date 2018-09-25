@@ -23,11 +23,14 @@ $order->setPersonTypeId(1);
 
 
 $site_basket = Sale\Basket::loadItemsForFUser(Sale\Fuser::getId(), Bitrix\Main\Context::getCurrent()->getSite());
-$discounts = Discount::loadByBasket($site_basket);
-$site_basket->refreshData(array('PRICE', 'COUPONS'));
-$discounts->calculate();
-$discountResult = $discounts->getApplyResult();
-$site_basket->save();
+
+
+// вроде как не надо
+//$discounts = Discount::loadByBasket($site_basket);
+//$site_basket->refreshData(array('PRICE', 'COUPONS'));
+//$discounts->calculate();
+//$discountResult = $discounts->getApplyResult();
+//$site_basket->save();
 
 
 $basketItems = array();
@@ -80,8 +83,13 @@ $order->setBasket($basket);
 
 
 $shipmentCollection = $order->getShipmentCollection();
+
+// 1 - без доставки
+// 5 - самовывоз
+// 6 - курьер
+
 $shipment = $shipmentCollection->createItem(
-    Bitrix\Sale\Delivery\Services\Manager::getObjectById(1)
+    Bitrix\Sale\Delivery\Services\Manager::getObjectById(6)
 );
 
 $shipmentItemCollection = $shipment->getShipmentItemCollection();
@@ -101,7 +109,23 @@ $payment = $paymentCollection->createItem(
 $payment->setField("SUM", $order->getPrice());
 $payment->setField("CURRENCY", $order->getField("CURRENCY"));
 $order->setField('COMMENTS', 'Заказ оформлен через АПИ. ');
-$order->setField('USER_DESCRIPTION', "ifkfubknlvc fg");
+$order->setField('USER_DESCRIPTION', "Случайный текст комментария пользователя");
+
+
+
+$propertyCollection = $order->getPropertyCollection();
+$adress = $propertyCollection->getItemByOrderPropertyId(2);
+$adress->setValue("Минск");
+$street = $propertyCollection->getItemByOrderPropertyId(3);
+$street->setValue("ул. Октябрьская");
+$house = $propertyCollection->getItemByOrderPropertyId(4);
+$house->setValue("25");
+$korpus = $propertyCollection->getItemByOrderPropertyId(5);
+$korpus->setValue("");
+$room = $propertyCollection->getItemByOrderPropertyId(6);
+$room->setValue("312");
+//print_pre($ar); exit;
+
 
 $order->doFinalAction(true);
 $result = $order->save();
