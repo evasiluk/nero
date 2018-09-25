@@ -11,7 +11,8 @@ use \Bitrix\Sale\Basket, \Bitrix\Sale\Internals\OrderPropsValueTable,
     \Bitrix\Main\Config\Option,
     \Bitrix\Main\Loader,
     \Bitrix\Sale,
-    \Bitrix\Main\Context;
+    \Bitrix\Main\Context,
+    \Bitrix\Sale\Delivery;
 
 
 global $USER;
@@ -21,21 +22,8 @@ $order = Bitrix\Sale\Order::create(SITE_ID, $USER->GetID());
 $order->setPersonTypeId(1);
 
 
-
 $site_basket = Sale\Basket::loadItemsForFUser(Sale\Fuser::getId(), Bitrix\Main\Context::getCurrent()->getSite());
-
-
-// вроде как не надо
-//$discounts = Discount::loadByBasket($site_basket);
-//$site_basket->refreshData(array('PRICE', 'COUPONS'));
-//$discounts->calculate();
-//$discountResult = $discounts->getApplyResult();
-//$site_basket->save();
-
-
 $basketItems = array();
-
-//print_pre($site_basket); exit;
 
 foreach ($site_basket as $i=>$basketItem) {
 
@@ -55,7 +43,6 @@ foreach ($site_basket as $i=>$basketItem) {
 
 $basket = Basket::create($site);
 
-//print_pre($basketItems); exit;
 
 foreach($basketItems as $item) {
     $basketItem = $basket->createItem('catalog', $item["PRODUCT_ID"]);
@@ -74,32 +61,57 @@ foreach($basketItems as $item) {
     $basketItemPropertyCollection = $basketItem->getPropertyCollection();
 }
 
-//print_pre($basket);
-
-
-
-
 $order->setBasket($basket);
 
 
+/*Shipment*/
+
+//$shipmentCollection = $order->getShipmentCollection();
+//$shipment = $shipmentCollection->createItem(
+//    Bitrix\Sale\Delivery\Services\Manager::getObjectById(18)
+//);
+//
+//$shipmentItemCollection = $shipment->getShipmentItemCollection();
+//
+//foreach ($basket as $basketItem)
+//{
+//    $item = $shipmentItemCollection->createItem($basketItem);
+//    $item->setQuantity($basketItem->getQuantity());
+//}
+
+
+//$shipmentCollection = $order->getShipmentCollection();
+//$shipment = $shipmentCollection->createItem();
+//$shipment->setFields(array(
+//    'DELIVERY_ID' => 6,
+//    'DELIVERY_NAME' => 'Курьер',
+//    'CURRENCY' => "BYN",
+//    'PRICE_DELIVERY' => 100
+//));
+//
+//
+//$shipmentItemCollection = $shipment->getShipmentItemCollection();
+//
+//foreach ($order->getBasket() as $item)
+//{
+//    $shipmentItem = $shipmentItemCollection->createItem($item);
+//    $shipmentItem->setQuantity($item->getQuantity());
+//}
+
+
 $shipmentCollection = $order->getShipmentCollection();
-
-// 1 - без доставки
-// 5 - самовывоз
-// 6 - курьер
-
-$shipment = $shipmentCollection->createItem(
-    Bitrix\Sale\Delivery\Services\Manager::getObjectById(6)
-);
-
+$shipment = $shipmentCollection->createItem();
+$service = Delivery\Services\Manager::getById(6);
+$shipment->setFields(array(
+    'DELIVERY_ID' => $service['ID'],
+    'DELIVERY_NAME' => $service['NAME'],
+));
 $shipmentItemCollection = $shipment->getShipmentItemCollection();
+$shipmentItem = $shipmentItemCollection->createItem($basketItem);
+$shipmentItem->setQuantity($basketItem->getQuantity());
 
-foreach ($basket as $basketItem)
-{
-    $item = $shipmentItemCollection->createItem($basketItem);
-    $item->setQuantity($basketItem->getQuantity());
-}
 
+/*Payment*/
 $paymentCollection = $order->getPaymentCollection();
 $payment = $paymentCollection->createItem(
     Bitrix\Sale\PaySystem\Manager::getObjectById(2)
@@ -124,11 +136,14 @@ $korpus = $propertyCollection->getItemByOrderPropertyId(5);
 $korpus->setValue("");
 $room = $propertyCollection->getItemByOrderPropertyId(6);
 $room->setValue("312");
-//print_pre($ar); exit;
+//print_pre($order); exit;
 
+//$pr = $order->getDeliveryPrice();
+//echo $pr; exit;
 
 $order->doFinalAction(true);
 $result = $order->save();
+//print_pre($result);
 $orderId = $order->getId();
 
 //скидка
@@ -136,7 +151,14 @@ $order = Sale\Order::load($orderId);
 $discount = $order->getDiscount();
 $discount->calculate();
 $ar = $discount->getApplyResult();
+
+
 $order->save();
+
+$arFields = array(
+    "PRICE_DELIVERY" => 15
+);
+CSaleOrder::Update($orderId, $arFields);
 
 
 echo $orderId;
