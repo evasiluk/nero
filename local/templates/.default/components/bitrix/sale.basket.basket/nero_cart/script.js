@@ -1,104 +1,104 @@
 $(document).ready(function() {
-    $(".js-number-input").on("change", function() {
-//        alert($(this).val());
-        //$(this).attr("data-id")
+	$(".js-number-input2").on("change", function() {
+		//alert($(this).val());
+		//$(this).attr("data-id")
 
-        var prod_id = $(this).attr("data-id");
-        prod_id = "QUANTITY_" + prod_id;
+		var prod_id = $(this).attr("data-id");
+		prod_id = "QUANTITY_" + prod_id;
 
-        var prod_quantity = $(this).val()
+		var prod_quantity = $(this).val()
 
-        var postData = {
-            sessid: BX.bitrix_sessid(),
-            site_id: BX.message('SITE_ID'),
-            action_var: 'basketAction',
-            basketAction: "recalculate"
-        };
+		var postData = {
+			sessid: BX.bitrix_sessid(),
+			site_id: BX.message('SITE_ID'),
+			action_var: 'basketAction',
+			basketAction: "recalculate"
+		};
 
-        postData[prod_id] = prod_quantity;
+		postData[prod_id] = prod_quantity;
 
-        //console.log(postData);
+		//console.log(postData);
 
-        $.ajax({
-            type: "POST",
-            url: "/bitrix/components/bitrix/sale.basket.basket/ajax.php",
-            data: postData,
-            dataType: 'json',
-            success: function(msg){
-                getNewNumbers();
-                updateSmallBasket();
-            }
-        });
-    })
-
-
-    $(".js-basket-product-remove").on("click", function() {
-
-        var prod_id = $(this).attr("data-id");
-        prod_id = "DELETE_" + prod_id;
-
-        var postData = {
-            sessid: BX.bitrix_sessid(),
-            site_id: BX.message('SITE_ID'),
-            action_var: 'basketAction',
-            basketAction: "recalculate"
-        };
-
-        postData[prod_id] = "Y";
-
-        $.ajax({
-            type: "POST",
-            url: "/bitrix/components/bitrix/sale.basket.basket/ajax.php",
-            data: postData,
-            dataType: 'json',
-            success: function(msg){
-                updateSmallBasket();
-            }
-        });
-    });
-
-    $(".js-basket-cleanup").on("click", function() {
-
-        var postData = {
-            sessid: BX.bitrix_sessid(),
-            site_id: BX.message('SITE_ID'),
-            action_var: 'basketAction',
-            basketAction: "recalculate"
-        };
-
-        $(".js-basket-product-remove").each(function() {
-            var prod_id = $(this).attr("data-id");
-            prod_id = "DELETE_" + prod_id;
-
-            postData[prod_id] = "Y";
-        });
+		$.ajax({
+			type: "POST",
+			url: "/bitrix/components/bitrix/sale.basket.basket/ajax.php",
+			data: postData,
+			dataType: 'json',
+			success: function(msg){
+				getNewNumbers();
+				updateSmallBasket();
+			}
+		});
+	})
 
 
-        $.ajax({
-            type: "POST",
-            url: "/bitrix/components/bitrix/sale.basket.basket/ajax.php",
-            data: postData,
-            dataType: 'json',
-            success: function(msg){
-                updateSmallBasket();
-            }
-        });
-    })
+	$(".js-basket-product-remove2").on("click", function() {
+
+		var prod_id = $(this).attr("data-id");
+		prod_id = "DELETE_" + prod_id;
+
+		var postData = {
+			sessid: BX.bitrix_sessid(),
+			site_id: BX.message('SITE_ID'),
+			action_var: 'basketAction',
+			basketAction: "recalculate"
+		};
+
+		postData[prod_id] = "Y";
+
+		$.ajax({
+			type: "POST",
+			url: "/bitrix/components/bitrix/sale.basket.basket/ajax.php",
+			data: postData,
+			dataType: 'json',
+			success: function(msg){
+				updateSmallBasket();
+			}
+		});
+	});
+
+	$(".js-basket-cleanup2").on("click", function() {
+
+		var postData = {
+			sessid: BX.bitrix_sessid(),
+			site_id: BX.message('SITE_ID'),
+			action_var: 'basketAction',
+			basketAction: "recalculate"
+		};
+
+		$(".js-basket-product-remove").each(function() {
+			var prod_id = $(this).attr("data-id");
+			prod_id = "DELETE_" + prod_id;
+
+			postData[prod_id] = "Y";
+		});
+
+
+		$.ajax({
+			type: "POST",
+			url: "/bitrix/components/bitrix/sale.basket.basket/ajax.php",
+			data: postData,
+			dataType: 'json',
+			success: function(msg){
+				updateSmallBasket();
+			}
+		});
+	})
 
 
 
 
-    function updateSmallBasket() {
-        $.post("/local/ajax/smallBasket.php", {}, function(data) {
-            $("#small-basket-ajax").html(data);
-        });
-    }
+	function updateSmallBasket() {
+		$.post("/local/ajax/smallBasket.php", {}, function(data) {
+			$("#small-basket-ajax").html(data);
+		});
+	}
 
-    function getNewNumbers() {
-        $.post("/local/ajax/basketNewSum.php", {}, function(data) {
-            console.log(data);
-        });
-    }
+	function getNewNumbers() {
+		$.post("/local/ajax/basketNewSum.php", {}, function(data) {
+			console.log(data);
+		});
+	}
 })
 
 

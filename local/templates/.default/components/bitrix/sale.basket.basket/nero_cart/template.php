@@ -129,6 +129,174 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
 }
 	?>
     <!-- наш шаблон-->
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+
+   <!--  <div id="basketPage" class="usercontent personal-basket" style="display: none;">
+        <p>{{ message }}</p>
+        <div class="personal-basket-header">
+            <div class="flex-row flex-row-padding">
+                <div class="col-xs-6">
+                    <div class="personal-basket-title">
+                        Товаров в заказе: <span>0</span>
+                    </div>
+                </div>
+                <div class="col-xs-6 end-xs">
+                    <a href="#basket-cleanup" class="basket-cleanup">
+                        <span>Очистить корзину</span>
+                        <svg class="ico-close" viewBox="0 0 32 32">
+                            <use xlink:href="#ico-close"></use>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="basket">
+            <div class="basket-head bg--white">
+                <div class="b-head-node">Наименование</div>
+                <div class="b-head-node">Цвет</div>
+                <div class="b-head-node">Цена</div>
+                <div class="b-head-node">Кол-во</div>
+                <div class="b-head-node">Сумма</div>
+                <div class="b-head-node"></div>
+            </div>
+            <div class="basket-body bg--white">
+                <div class="basket-item" v-for="item in items" :key="item.id">
+                    <div class="b-item-node">
+                        <a :href="item.HREF" class="basket-device">
+                            <div class="basket-device-img">
+                                <img class="lozad" :src="item.IMAGE" alt="">
+                            </div>
+                            <div class="basket-device-txt">
+                                <div class="basket-device-title">{{item.NAME}}</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="b-item-node">
+                        <div class="device-color" :style="{ 'background-color' : item.COLOR_CODE }"></div>
+                    </div>
+                    <div class="b-item-node">
+                        <div class="basket-item-price">
+                            <span>{{item.ITEM_PRICE}}</span>
+                            <sup>{{item.VALUTE}}</sup>
+                        </div>
+                        <div class="basket-item-price-old">
+                            <span></span>
+                            <sup></sup>
+                        </div>
+                    </div>
+                    <div class="b-item-node">
+                        <div class="c-number-input c-number-input__sm">
+                            <span class="c-number-input c-number-input__sm">
+                                <input type="number" :value="item.QUANTITY" class="c-number-input_real">
+                                <button data-delta="1" class="c-number-input_btn c-number-input_btn__next" type="button" @click="number('inc', item)"></button>
+                                <button data-delta="-1" class="c-number-input_btn c-number-input_btn__prev" type="button" @click="number('dec', item)"></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="b-item-node">
+                        <div class="basket-item-price">
+                            <span>{{item.NEW_SUM}}</span>
+                            <sup>{{item.VALUTE}}</sup>
+                        </div>
+                    </div>
+                    <div class="b-item-node">
+                        <div class="basket-item-remove">
+                            <svg class="ico-close" viewBox="0 0 32 32">
+                                <use xlink:href="#ico-close"></use>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <script>
+    /*
+    var basketPage = new Vue({
+        el: '#basketPage',
+        data() {
+            return {
+                postData: {
+                    sessid: BX.bitrix_sessid(),
+                    site_id: BX.message('SITE_ID'),
+                    action_var: 'basketAction',
+                    basketAction: 'default'
+                },
+                message: 'Hello Vue!',
+                basket: {},
+                items: [],
+                itemsLength: 0
+            }
+        },
+
+        // template: '#basketItemTemplate',
+
+        created: function(){
+            // console.log('created');
+            this.fetchBasket();
+        },
+
+        methods: {
+            fetchBasket: function () {
+                // console.log('fetchBasket');
+                axios.get('/local/ajax/basketNewSum.php')
+                  .then(function (response) {
+                    console.log(response.data);
+                    basketPage.basket = response.data;
+                    basketPage.items = response.data['ITEMS'];
+                    basketPage.itemsLength = basketPage.items.length;
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  })
+                  .then(function () {
+                    // always executed
+                  });
+            },
+            number: function(param, item) {
+                // console.log(param, item);
+
+                var quantity = item['QUANTITY'];
+                if (quantity > 1 && quantity < 1000) {
+                    if (param === 'inc') {
+                        item['QUANTITY'] += 1;
+                    }
+                    if (param === 'dec') {
+                        item['QUANTITY'] -= 1;
+                    }
+
+                    console.log(basketPage.postData);
+
+                    var postData = basketPage.postData;
+                    postData.basketAction = 'recalculate';
+                    postData['QUANTITY_' + item.id] = item['QUANTITY'];
+
+                    this.recalculate(postData);
+                }
+
+            },
+
+            recalculate: function(postData) {
+                console.log(postData);
+
+                axios.post('/bitrix/components/bitrix/sale.basket.basket/ajax.php', postData)
+                  .then(function (response) {
+                    // console.log(response);
+                    basketPage.fetchBasket();
+                  })
+                  .catch(function (error) {
+                    // console.log(error);
+                  });
+            },
+        }
+    });
+    */
+    </script>
+
+
     <?if(count($arResult["BASKET_ITEMS"])):?>
         <form action="" class="usercontent personal-basket js-personal-basket">
             <?//print_pre($arResult["BASKET_ITEMS"]);?>
