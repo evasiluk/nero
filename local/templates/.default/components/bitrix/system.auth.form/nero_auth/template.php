@@ -5,15 +5,20 @@ CJSCore::Init();
 
 <div class="bx-system-auth-form">
 
-<?
-if ($arResult['SHOW_ERRORS'] == 'Y' && $arResult['ERROR'])
-	ShowMessage($arResult['ERROR_MESSAGE']);
-?>
-
 <?if($arResult["FORM_TYPE"] == "login"):?>
     <br>
 <form class="reg-form js-reg-form" name="system_auth_form<?=$arResult["RND"]?>" method="post" target="_top" action="<?=$arResult["AUTH_URL"]?>">
-<?if($arResult["BACKURL"] <> ''):?>
+    <?if($arResult['ERROR_MESSAGE']["TYPE"] == "ERROR"):?>
+        <div class="form-row flex-row">
+            <label class="col-xs">
+                <div id="ajax_result" class="form-error" style="display: block;"><ol>
+                        <li><?=$arResult['ERROR_MESSAGE']["MESSAGE"]?></li>
+                    </ol></div>
+            </label>
+        </div>
+    <?endif?>
+
+    <?if($arResult["BACKURL"] <> ''):?>
 	<input type="hidden" name="backurl" value="<?=$arResult["BACKURL"]?>" />
 <?endif?>
 <?foreach ($arResult["POST"] as $key => $value):?>

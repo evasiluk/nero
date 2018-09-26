@@ -13,6 +13,7 @@ Bitrix\Main\EventManager::getInstance()->addEventHandler(
 
 include __DIR__."/event_handlers/faq.php";
 include __DIR__."/event_handlers/dealers_register.php";
+include __DIR__."/event_handlers/user_auth.php";
 
 
 class MailEventHandler
