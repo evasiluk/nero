@@ -28,7 +28,7 @@ $this->setFrameMode(true);
 
 <? $APPLICATION->IncludeComponent(
     "bitrix:main.pagenavigation",
-    "",
+    "nero_order_list_pagination",
     array(
         "NAV_OBJECT" => $arResult['nav'],
         "SEF_MODE" => "N",
@@ -108,7 +108,7 @@ $this->setFrameMode(true);
 <?
 $APPLICATION->IncludeComponent(
     "bitrix:main.pagenavigation",
-    "",
+    "nero_order_list_pagination",
     array(
         "NAV_OBJECT" => $arResult['nav'],
         "SEF_MODE" => "N",
