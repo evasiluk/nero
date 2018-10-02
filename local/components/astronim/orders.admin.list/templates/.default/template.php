@@ -18,11 +18,11 @@ $this->setFrameMode(true);
 <div>
     <span>Сортировать по:</span>
     <ul>
-        <? foreach ($arResult['orders'] as $id => $order) { ?>
+        <? foreach ($arResult['orders'] as $id => $order):?>
             <li class="<?= ($order['current'] ? 'active' : ''); ?>"><a href="<?= $order['link'] ?>">
                     <?= $order['name'] ?> <?= ($order['order'] == 'asc' ? '&uarr;' : '&darr;'); ?>
                 </a></li>
-        <? } ?>
+        <?endforeach?>
     </ul>
 </div>
 
