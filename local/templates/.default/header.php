@@ -352,3 +352,12 @@ $site = CSite::GetByID(SITE_ID)->GetNext();
     </div>
 <? endif; ?>
 <div class="page-wrap">
+    <?
+    $class = new managersClass();
+    $manager_groups = CUser::GetUserGroup(CUser::GetID());
+    $manager_code = $class->get_manager_code($manager_groups);
+    if(CSite::InDir("/managers/") && !$manager_code) {
+        LocalRedirect("/");
+    }
+    ?>
+

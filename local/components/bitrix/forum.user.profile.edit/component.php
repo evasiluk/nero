@@ -6,15 +6,15 @@ elseif (!$USER->IsAuthorized()):
 	$APPLICATION->AuthForm(GetMessage("FP_NO_AUTHORIZE"));
 	return 0;
 elseif (!$USER->CanDoOperation('edit_own_profile')):
-	ShowError(GetMessage("F_ACCESS_DENIED"));
-	return 0;
+//	ShowError(GetMessage("F_ACCESS_DENIED"));
+//	return 0;
 endif;
 /********************************************************************
 				Input params
 ********************************************************************/
 /***************** BASE ********************************************/
 $arParams["UID"] = intval(!empty($arParams["UID"]) ? $arParams["UID"] : (!empty($_REQUEST["UID"]) ? $_REQUEST["UID"] : $_REQUEST["ID"]));
-$arParams["UID"] = (!$USER->IsAdmin() ? intval($USER->GetId()) : $arParams["UID"]);
+//$arParams["UID"] = (!$USER->IsAdmin() ? intval($USER->GetId()) : $arParams["UID"]);
 /***************** URL *********************************************/
 $URL_NAME_DEFAULT = array(
 	"profile_view" => "PAGE_NAME=profile_view&UID=#UID#");
