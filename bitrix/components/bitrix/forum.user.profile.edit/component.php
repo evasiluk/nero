@@ -1,4 +1,5 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+
 if (!CModule::IncludeModule("forum")):
 	ShowError(GetMessage("F_NO_MODULE"));
 	return 0;
@@ -9,6 +10,7 @@ elseif (!$USER->CanDoOperation('edit_own_profile')):
 	ShowError(GetMessage("F_ACCESS_DENIED"));
 	return 0;
 endif;
+
 /********************************************************************
 				Input params
 ********************************************************************/
@@ -120,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST" && $_POST["ACTION"]=="EDIT")
 
 		$arFields = Array(
 			"NAME"					=> $_POST["NAME"],
-
+            
 			"LAST_NAME"				=> $_POST["LAST_NAME"],
 			"EMAIL"					=> $_POST["EMAIL"],
 			"LOGIN"					=> $_POST["LOGIN"],

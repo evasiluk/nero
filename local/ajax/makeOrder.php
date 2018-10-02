@@ -15,10 +15,49 @@ use \Bitrix\Sale\Basket, \Bitrix\Sale\Internals\OrderPropsValueTable,
     \Bitrix\Sale\Delivery;
 
 
+
+if($_POST["make_order"]) {
+
+}
+
 global $USER;
+$user_id = $USER->GetID();
+
+if(!$user_id) {
+    $us_name = $_POST["user"]["name"];
+    $us_email = $_POST["user"]["email"];
+    $us_phone = $_POST["user"]["phone"];
+
+    $ar = CUser::GetList($by = "timestamp_x", $order = "desc", ['EMAIL' => $us_email])->GetNext();
+    if($ar["ID"]) {
+        $user_id = $ar["ID"];
+    } else {
+        $user = new CUser;
+        $psswd = uniqid();
+
+        $arFields = array(
+            'NAME'             => $us_name,
+            'EMAIL'            => $us_email,
+            'LOGIN'            => $us_email, // минимум 3 символа
+            'ACTIVE'           => 'Y',
+            'PASSWORD'         => $psswd, // минимум 6 символов
+            'CONFIRM_PASSWORD' => $psswd,
+            'GROUP_ID'         => array(26),
+            'PERSONAL_PHONE'   => $us_phone,
+            "UF_NERO_SITE"     => CURRENT_USER_HOST
+        );
+
+        if($user_id = $user->Add($arFields)) {
+            global $USER;
+        } else {
+            die("New user create error.");
+        }
+    }
+}
+
 $site = Context::getCurrent()->getSite();
 //$order = Order::create($siteId, $USER->isAuthorized() ? $USER->GetID() : 539);  // дописать для неавторизованных
-$order = Bitrix\Sale\Order::create(SITE_ID, $USER->GetID());
+$order = Bitrix\Sale\Order::create(SITE_ID, $user_id);
 $order->setPersonTypeId(1);
 
 
@@ -43,7 +82,6 @@ foreach ($site_basket as $i=>$basketItem) {
 
 $basket = Basket::create($site);
 
-
 foreach($basketItems as $item) {
     $basketItem = $basket->createItem('catalog', $item["PRODUCT_ID"]);
 
@@ -63,45 +101,17 @@ foreach($basketItems as $item) {
 
 $order->setBasket($basket);
 
+$items_total_sum =  $order->getPrice();
 
 /*Shipment*/
-
-//$shipmentCollection = $order->getShipmentCollection();
-//$shipment = $shipmentCollection->createItem(
-//    Bitrix\Sale\Delivery\Services\Manager::getObjectById(18)
-//);
-//
-//$shipmentItemCollection = $shipment->getShipmentItemCollection();
-//
-//foreach ($basket as $basketItem)
-//{
-//    $item = $shipmentItemCollection->createItem($basketItem);
-//    $item->setQuantity($basketItem->getQuantity());
-//}
-
-
-//$shipmentCollection = $order->getShipmentCollection();
-//$shipment = $shipmentCollection->createItem();
-//$shipment->setFields(array(
-//    'DELIVERY_ID' => 6,
-//    'DELIVERY_NAME' => 'Курьер',
-//    'CURRENCY' => "BYN",
-//    'PRICE_DELIVERY' => 100
-//));
-//
-//
-//$shipmentItemCollection = $shipment->getShipmentItemCollection();
-//
-//foreach ($order->getBasket() as $item)
-//{
-//    $shipmentItem = $shipmentItemCollection->createItem($item);
-//    $shipmentItem->setQuantity($item->getQuantity());
-//}
-
+$delivery_id = 5; // самовывоз
+if($_POST["delivery"][0] == 2) {
+    $delivery_id = 23; //курьер
+}
 
 $shipmentCollection = $order->getShipmentCollection();
 $shipment = $shipmentCollection->createItem();
-$service = Delivery\Services\Manager::getById(6);
+$service = Delivery\Services\Manager::getById($delivery_id);
 $shipment->setFields(array(
     'DELIVERY_ID' => $service['ID'],
     'DELIVERY_NAME' => $service['NAME'],
@@ -112,30 +122,40 @@ $shipmentItem->setQuantity($basketItem->getQuantity());
 
 
 /*Payment*/
+$payment_id = 2; //наличные
+if($_POST["payment"][0] == 2) {
+    $payment_id = 3;
+}
+
 $paymentCollection = $order->getPaymentCollection();
 $payment = $paymentCollection->createItem(
-    Bitrix\Sale\PaySystem\Manager::getObjectById(2)
+    Bitrix\Sale\PaySystem\Manager::getObjectById($payment_id)
 );
+
 
 
 $payment->setField("SUM", $order->getPrice());
 $payment->setField("CURRENCY", $order->getField("CURRENCY"));
 $order->setField('COMMENTS', 'Заказ оформлен через АПИ. ');
-$order->setField('USER_DESCRIPTION', "Случайный текст комментария пользователя");
+if($_POST["user_comment"]) {
+    $order->setField('USER_DESCRIPTION', $_POST["user_comment"]);
+}
 
 
 
-$propertyCollection = $order->getPropertyCollection();
-$adress = $propertyCollection->getItemByOrderPropertyId(2);
-$adress->setValue("Минск");
-$street = $propertyCollection->getItemByOrderPropertyId(3);
-$street->setValue("ул. Октябрьская");
-$house = $propertyCollection->getItemByOrderPropertyId(4);
-$house->setValue("25");
-$korpus = $propertyCollection->getItemByOrderPropertyId(5);
-$korpus->setValue("");
-$room = $propertyCollection->getItemByOrderPropertyId(6);
-$room->setValue("312");
+if($_POST["delivery"][0] == 2) {
+    $propertyCollection = $order->getPropertyCollection();
+    $adress = $propertyCollection->getItemByOrderPropertyId(2);
+    $adress->setValue($_POST["kur"]["city"]);
+    $street = $propertyCollection->getItemByOrderPropertyId(3);
+    $street->setValue($_POST["kur"]["street"]);
+    $house = $propertyCollection->getItemByOrderPropertyId(4);
+    $house->setValue($_POST["kur"]["house"]);
+    $korpus = $propertyCollection->getItemByOrderPropertyId(5);
+    $korpus->setValue($_POST["kur"]["house-2"]);
+    $room = $propertyCollection->getItemByOrderPropertyId(6);
+    $room->setValue($_POST["kur"]["kv"]);
+}
 //print_pre($order); exit;
 
 //$pr = $order->getDeliveryPrice();
@@ -155,12 +175,15 @@ $ar = $discount->getApplyResult();
 
 $order->save();
 
-$arFields = array(
-    "PRICE_DELIVERY" => 15
-);
-CSaleOrder::Update($orderId, $arFields);
+
+if($_POST["delivery"][0] == 2 && $items_total_sum > 300) {
+    $arFields = array(
+        "PRICE_DELIVERY" => 0
+    );
+    CSaleOrder::Update($orderId, $arFields);
+}
+
+echo json_encode(array("status" => "ok", "order_id" => $orderId));
 
 
-echo $orderId;
 
-//print_pre($basketItems);
