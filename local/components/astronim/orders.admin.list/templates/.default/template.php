@@ -15,104 +15,60 @@ $this->setFrameMode(true);
 <?
 //print_pre($arResult);
 ?>
-<div>
-    <span>Сортировать по:</span>
-    <ul>
-        <? foreach ($arResult['orders'] as $id => $order):?>
-            <li class="<?= ($order['current'] ? 'active' : ''); ?>"><a href="<?= $order['link'] ?>">
-                    <?= $order['name'] ?> <?= ($order['order'] == 'asc' ? '&uarr;' : '&darr;'); ?>
-                </a></li>
-        <?endforeach?>
-    </ul>
-</div>
 
-<? $APPLICATION->IncludeComponent(
-    "bitrix:main.pagenavigation",
-    "nero_order_list_pagination",
-    array(
-        "NAV_OBJECT" => $arResult['nav'],
-        "SEF_MODE" => "N",
-    ),
-    false
-); ?>
 
-<div class="admin-orders-list flex-row">
-    <? foreach ($arResult['ORDERS'] as $arOrder): ?>
-        <div class="admin-order-item col-xs-12">
-            <div class="item-id">
-                <?= "
-                    <a href='{$arOrder['DETAIL_URL']}'>
-                    Заказ  
-                    №{$arOrder['ACCOUNT_NUMBER']}
-                    </a>
-                " ?>
-            </div>
-            <div class="flex-row item-props">
-                <div class="col-xs-12 col-sm-6">
-                    <div class="item-prop flex-row">
-                        <div class="key col-xs-12 col-sm-6">Пользователь:</div>
-                        <div class="value  col-xs-12 col-sm-6"><?= "{$arOrder['USER']['LAST_NAME']} {$arOrder['USER']['NAME']} {$arOrder['USER']['SECOND_NAME']}" ?></div>
-                    </div>
-                    <div class="item-prop flex-row">
-                        <div class="key col-xs-12 col-sm-6">Статус:</div>
-                        <div class="value col-xs-12 col-sm-6">
-                            <?if($arOrder["CANCELED"] == "Y"):?>
-                                Отменен
-                            <?else:?>
-                                <?= $arResult['STATUS'][$arOrder['STATUS_ID']]['NAME'] ?>
-                            <?endif?>
-                        </div>
-                    </div>
-                    <div class="item-prop flex-row">
-                        <div class="key col-xs-12 col-sm-6">Создан:</div>
-                        <div class="value col-xs-12 col-sm-6"><?= $arOrder['DATE_INSERT'] ?></div>
-                    </div>
+<div class="usercontent personal-history js-personal-history">
+    <div class="personal-history-wrap bg--white">
+    	<!-- <div class="personal-history-head">
+            <div class="p-head-node">Дата</div>
+            <div class="p-head-node">Статус заказа</div>
+            <div class="p-head-node">Пользователь</div>
+        </div> -->
+        <div class="personal-history-head">
+            <? foreach ($arResult['orders'] as $id => $order):?>
+            	<div class="p-head-node">
+            		<a href="<?= $order['link'] ?>" class="dotted color--black" style="<?= ($order['current'] ? 'font-weight: 600' : ''); ?>">
+            			<span>
+        					<?= $order['name'] ?>
+        					<?if($order["current"]):?>
+        						<?= ($order['order'] == 'asc' ? '&uarr;' : '&darr;'); ?>
+        					<?endif?>
+            			</span>
+            		</a>
+            	</div>
+            <?endforeach?>
+        </div>
+        <? foreach ($arResult['ORDERS'] as $arOrder): ?>
+        <div class="personal-basket-item">
+            <div class="personal-history-item js-history-head">
+                <div class="p-item-node"><a href="<?= $arOrder['DETAIL_URL'] ?>" class="dotted color--black"><span>Заказ №<?= $arOrder['ACCOUNT_NUMBER'] ?></span></a> от <?= $arOrder['DATE_INSERT'] ?></div>
+                <div class="p-item-node">
+                	<?if($arOrder["CANCELED"] == "Y"):?>
+                		<span class="color--darkgrey">Отменен</span>
+                	<?else:?>
+                		<span class="<?if($arOrder['STATUS_ID'] == "F"):?>color--green<?elseif($arOrder['STATUS_ID'] == "N"):?>status--pending<?endif?>">
+                			<?= $arResult['STATUS'][$arOrder['STATUS_ID']]['NAME'] ?>
+                		</span>
+                	<?endif?>
+                </div>
+                <div class="p-item-node">
+                	<?= "{$arOrder['USER']['LAST_NAME']} {$arOrder['USER']['NAME']} {$arOrder['USER']['SECOND_NAME']}" ?>
                 </div>
             </div>
         </div>
-    <? endforeach; ?>
+        <? endforeach; ?>
+    </div>
 </div>
-<style>
-    .admin-order-item {
-        padding: 15px 20px;
-        border-bottom: 1px #999 solid;
-    }
 
-    .admin-order-item .item-id {
-        margin-bottom: 5px;
-    }
 
-    .admin-order-item .item-id a {
-        color: #000083;
-        font-size: 22px;
-        font-weight: bolder;
-    }
-
-    .item-prop > div {
-        display: inline-block;
-        margin-top: 5px;
-    }
-
-    .item-prop .key {
-        font-size: 14px;
-        color: #999;
-        text-transform: uppercase;
-    }
-
-    .item-prop .value {
-        font-size: 14px;
-        color: #019875;
-        text-transform: uppercase;
-    }
-</style>
 <?
 $APPLICATION->IncludeComponent(
-    "bitrix:main.pagenavigation",
-    "nero_order_list_pagination",
-    array(
-        "NAV_OBJECT" => $arResult['nav'],
-        "SEF_MODE" => "N",
-    ),
-    false
+	"bitrix:main.pagenavigation",
+	"nero_order_list_pagination",
+	array(
+		"NAV_OBJECT" => $arResult['nav'],
+		"SEF_MODE" => "N",
+	),
+	false
 );
 ?>
