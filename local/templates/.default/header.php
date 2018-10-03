@@ -356,8 +356,8 @@ $site = CSite::GetByID(SITE_ID)->GetNext();
     $class = new managersClass();
     $manager_groups = CUser::GetUserGroup(CUser::GetID());
     $manager_code = $class->get_manager_code($manager_groups);
-    if(CSite::InDir("/managers/") && !$manager_code) {
-        LocalRedirect("/");
+    if(CSite::InDir("/managers/") && $APPLICATION->GetCurDir() != "/managers/" && !$manager_code) {
+        LocalRedirect("/managers/");
     }
     ?>
 
