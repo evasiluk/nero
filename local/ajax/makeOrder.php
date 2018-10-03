@@ -23,6 +23,8 @@ if($_POST["make_order"]) {
 global $USER;
 $user_id = $USER->GetID();
 
+$person_id = 1; //дилер
+
 if(!$user_id) {
     $us_name = $_POST["user"]["name"];
     $us_email = $_POST["user"]["email"];
@@ -31,6 +33,7 @@ if(!$user_id) {
     $ar = CUser::GetList($by = "timestamp_x", $order = "desc", ['EMAIL' => $us_email])->GetNext();
     if($ar["ID"]) {
         $user_id = $ar["ID"];
+        $person_id = 2; //зарегестрированный пользователь
     } else {
         $user = new CUser;
         $psswd = uniqid();
@@ -48,17 +51,23 @@ if(!$user_id) {
         );
 
         if($user_id = $user->Add($arFields)) {
-            global $USER;
+            $person_id = 3; // незарегестрированный пользователь
         } else {
-            die("New user create error.");
+            echo json_encode(array("status" => "error", "error" => "New user create error."));
+            exit;
         }
     }
+
+
 }
 
 $site = Context::getCurrent()->getSite();
 //$order = Order::create($siteId, $USER->isAuthorized() ? $USER->GetID() : 539);  // дописать для неавторизованных
 $order = Bitrix\Sale\Order::create(SITE_ID, $user_id);
-$order->setPersonTypeId(1);
+
+
+
+$order->setPersonTypeId($person_id);
 
 
 $site_basket = Sale\Basket::loadItemsForFUser(Sale\Fuser::getId(), Bitrix\Main\Context::getCurrent()->getSite());
@@ -143,7 +152,7 @@ if($_POST["user_comment"]) {
 
 
 
-if($_POST["delivery"][0] == 2) {
+if($_POST["delivery"][0] == 2 && $person_id == 1) {
     $propertyCollection = $order->getPropertyCollection();
     $adress = $propertyCollection->getItemByOrderPropertyId(2);
     $adress->setValue($_POST["kur"]["city"]);
@@ -154,6 +163,34 @@ if($_POST["delivery"][0] == 2) {
     $korpus = $propertyCollection->getItemByOrderPropertyId(5);
     $korpus->setValue($_POST["kur"]["house-2"]);
     $room = $propertyCollection->getItemByOrderPropertyId(6);
+    $room->setValue($_POST["kur"]["kv"]);
+}
+
+if($_POST["delivery"][0] == 2 && $person_id == 2) {
+    $propertyCollection = $order->getPropertyCollection();
+    $adress = $propertyCollection->getItemByOrderPropertyId(7);
+    $adress->setValue($_POST["kur"]["city"]);
+    $street = $propertyCollection->getItemByOrderPropertyId(8);
+    $street->setValue($_POST["kur"]["street"]);
+    $house = $propertyCollection->getItemByOrderPropertyId(9);
+    $house->setValue($_POST["kur"]["house"]);
+    $korpus = $propertyCollection->getItemByOrderPropertyId(10);
+    $korpus->setValue($_POST["kur"]["house-2"]);
+    $room = $propertyCollection->getItemByOrderPropertyId(11);
+    $room->setValue($_POST["kur"]["kv"]);
+}
+
+if($_POST["delivery"][0] == 2 && $person_id == 3) {
+    $propertyCollection = $order->getPropertyCollection();
+    $adress = $propertyCollection->getItemByOrderPropertyId(12);
+    $adress->setValue($_POST["kur"]["city"]);
+    $street = $propertyCollection->getItemByOrderPropertyId(13);
+    $street->setValue($_POST["kur"]["street"]);
+    $house = $propertyCollection->getItemByOrderPropertyId(14);
+    $house->setValue($_POST["kur"]["house"]);
+    $korpus = $propertyCollection->getItemByOrderPropertyId(15);
+    $korpus->setValue($_POST["kur"]["house-2"]);
+    $room = $propertyCollection->getItemByOrderPropertyId(16);
     $room->setValue($_POST["kur"]["kv"]);
 }
 //print_pre($order); exit;
