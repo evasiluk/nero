@@ -65,7 +65,7 @@ else
             <?endif?>
                 <?$page++?>
             <?endwhile?>
-            <?if($arResult["CURRENT_PAGE"] < $arResult["PAGE_COUNT"] - 2):?>
+            <?if($arResult["CURRENT_PAGE"] < ($arResult["PAGE_COUNT"] - 2) && $arResult["PAGE_COUNT"] != 4):?>
                 <span>…</span>
             <?endif?>
             <?if($arResult["CURRENT_PAGE"] < $arResult["PAGE_COUNT"]):?>

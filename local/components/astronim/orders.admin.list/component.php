@@ -60,17 +60,17 @@ if(!function_exists('getOrderValues')){
 // sorter
 $arResult['orders'] = [
     'date' => [
-        'name' => 'Дате добавления',
+        'name' => 'Дата',
         'by' => 'DATE_INSERT',
         'default' => 'desc'
     ],
     'status' => [
-        'name' => 'Статусу',
+        'name' => 'Статус',
         'by' => 'STATUS_ID',
         'default' => 'desc'
     ],
     'user' => [
-        'name' => 'Пользователю',
+        'name' => 'Пользователь',
         'by' => 'USER.LOGIN',
         'default' => 'asc'
     ],
