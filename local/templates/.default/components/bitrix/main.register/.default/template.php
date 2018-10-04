@@ -224,7 +224,7 @@ $helper = new \Astronim\RegisterTemplateHtml($arParams, $arResult); ?>
 
 
 
-                <div class="form-row flex-row">
+                <div class="form-row flex-row kill-on-success">
                     <div class="col-xs ">
                         <div class="input">
                             <span class="input-label"><?=GetMessage('CONFIRM_PHRASE')?></span>
@@ -251,7 +251,7 @@ $helper = new \Astronim\RegisterTemplateHtml($arParams, $arResult); ?>
 //                ]); ?>
                 <? if ($arResult["USE_CAPTCHA"] == "Y") {?>
 
-                    <div class="form-row flex-row">
+                    <div class="form-row flex-row kill-on-success">
                         <div class="col-xs">
                             <?= $arResult['recaptcha']['div'] . $arResult['recaptcha']['error'] ?>
                         </div>
@@ -259,7 +259,7 @@ $helper = new \Astronim\RegisterTemplateHtml($arParams, $arResult); ?>
                 <? } // isUseCaptcha?>
             </div>
 
-            <div class="form-navigation">
+            <div class="form-navigation kill-on-success">
                 <div class="form-row flex-row">
                     <div class="col-xs-6 col-sm start-xs js-reg-prev">
                         <button class="button button--black button--big button--arrow-back"><span><?=GetMessage("REG_BACK")?></span></button>
@@ -274,8 +274,6 @@ $helper = new \Astronim\RegisterTemplateHtml($arParams, $arResult); ?>
             </div>
 
         </form>
-
-
 
     </section>
 <? } ?>
