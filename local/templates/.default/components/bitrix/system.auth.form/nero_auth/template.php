@@ -3,7 +3,7 @@
 CJSCore::Init();
 ?>
 
-<div class="bx-system-auth-form">
+
 
 <?if($arResult["FORM_TYPE"] == "login"):?>
     <br>
@@ -17,7 +17,7 @@ CJSCore::Init();
             </label>
         </div>
     <?endif?>
-
+    <h5 class="align-center">Авторизация</h5>
     <?if($arResult["BACKURL"] <> ''):?>
 	<input type="hidden" name="backurl" value="<?=$arResult["BACKURL"]?>" />
 <?endif?>
@@ -74,6 +74,15 @@ CJSCore::Init();
                     </div>
                 </div>
             </div>
+        <div class="form-row flex-row">
+            <div class="col-xs">
+                <div class="input">
+                    <div class="input-in">
+                        <a href="/content/personal/forgot/">Забыли пароль?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     <div class="col-xs-6 col-sm end-xs js-reg-submit">
@@ -148,4 +157,4 @@ else:
 	</table>
 </form>
 <?endif?>
-</div>
+
