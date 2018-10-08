@@ -16,7 +16,7 @@ use \Bitrix\Sale\Basket,
     \Bitrix\Main\Context,
     \Bitrix\Sale\Delivery;
 
-
+// ________________________________user info
 global $USER;
 if($USER->IsAuthorized()) {
     $arResult["USER_LOGIN"] = true;
@@ -40,13 +40,7 @@ if($USER->IsAuthorized()) {
 }
 
 
-
-
-
-
-
-
-
+// ______________________________basket info
 $dbBasketItems = CSaleBasket::GetList(
     array("ID" => "ASC"),
     array(
@@ -94,8 +88,11 @@ $DISCOUNT_PRICE_ALL = 0;
 $DISCOUNT_PRICE_ALL_REGION = 0;
 $QUANTITY_ALL = 0;
 $PRICE_ALL_BASE = 0;
+$WEIGHT_ALL = 0;
 
 $iblock_id = get_region_catalog_iblock();
+
+//print_pre($arOrder["BASKET_ITEMS"]);
 
 foreach ($arOrder["BASKET_ITEMS"] as $arOneItem)
 {
@@ -104,6 +101,7 @@ foreach ($arOrder["BASKET_ITEMS"] as $arOneItem)
     $DISCOUNT_PRICE_ALL += $arOneItem["DISCOUNT_PRICE"] * $arOneItem["QUANTITY"];
     $PRICE_ALL_BASE += $arOneItem["BASE_PRICE"] * $arOneItem["QUANTITY"];
     $QUANTITY_ALL += $arOneItem['QUANTITY'];
+    $WEIGHT_ALL += $arOneItem['QUANTITY'] * $arOneItem['WEIGHT'];
 
 
     $price_region = convert_valute($arOneItem["BASE_PRICE"], $iblock_id);
@@ -120,25 +118,196 @@ $arResult["PRICE_ALL_REGION"] = $PRICE_ALL_REGION;
 $arResult['DISCOUNT_PRICE_ALL_REGION'] = $DISCOUNT_PRICE_ALL_REGION;
 $arResult['PRICE_ALL_REGION_FINAL'] = $arResult["PRICE_ALL_REGION"] - $arResult['DISCOUNT_PRICE_ALL_REGION'];
 $arResult["VALUTE_SHORT"] = get_valute_short($iblock_id);
-//print_pre($result);
+$arResult["WEIGHT_ALL"] = $WEIGHT_ALL;
+
+
+// _______________________________________________ new delivery
+
+
+// курьер
+$delivery_parents_array = array(
+    BY_HOST => 27,
+    MSK_HOST => 40,
+    SPB_HOST => 42,
+    UA_HOST => 44
+
+);
+$delivery_parent_courier_id = $delivery_parents_array[CURRENT_USER_HOST];
+
+if($delivery_parent_courier_id) {
+    $db_dtype = CSaleDelivery::GetList(
+        array(
+            "SORT" => "ASC",
+            "NAME" => "ASC"
+        ),
+        array(
+            "ACTIVE" => "Y",
+            "PARENT_ID" => $delivery_parent_courier_id,
+            "ORDER_PRICE" => $arResult['PRICE_ALL_REGION_FINAL'],
+        ),
+        false,
+        false,
+        array()
+    );
+    if ($ar_dtype = $db_dtype->Fetch())
+    {
+        do
+        {
+            $arResult["DELIVERY"]["COURIER"] = $ar_dtype;
+        }
+        while ($ar_dtype = $db_dtype->Fetch());
+
+        if(CURRENT_USER_HOST == MSK_HOST) {
+            $arResult["DELIVERY"]["COURIER"]["NOTICE"] = "Возможность доставки уточняйте у менеджера";
+        }
+    }
+}
+
+//print_pre($arResult["DELIVERY"]["COURIER"]);
+
+
+//грузоперевозчики
+$delivery_parents_array = array(
+    BY_HOST => 32,
+);
+$delivery_parent_cargo_id = $delivery_parents_array[CURRENT_USER_HOST];
+
+if($delivery_parent_cargo_id) {
+    $db_dtype = CSaleDelivery::GetList(
+        array(
+            "SORT" => "ASC",
+            "NAME" => "ASC"
+        ),
+        array(
+            "ACTIVE" => "Y",
+            "PARENT_ID" => $delivery_parent_cargo_id,
+            "ORDER_PRICE" => $arResult['PRICE_ALL_REGION_FINAL'],
+            "WEIGHT" => $arResult["WEIGHT_ALL"],
+        ),
+        false,
+        false,
+        array()
+    );
+    if ($ar_dtype = $db_dtype->Fetch())
+    {
+        do
+        {
+            $arResult["DELIVERY"]["CARGO"] = $ar_dtype;
+        }
+        while ($ar_dtype = $db_dtype->Fetch());
+    }
+
+    $arResult["DELIVERY"]["CARGO"][BY_HOST]["REGIONS"] = array(
+        "Брестская область",
+        "Витебская область",
+        "Гомельская область",
+        "Березинский район",
+        "Клецкий район",
+        "Копыльский район",
+        "Стародорожский район",
+        "Узденский район",
+        "Червенский район",
+        "Мядельский район",
+        "Несвижский район",
+        "Любанский район",
+        "Молодечненский район",
+        "Крупский район",
+        "Логойский район",
+        "Смолевичский район",
+        "Столбцовский район",
+        "Солигорский район",
+        "Пуховичский район",
+        "Слуцкий район",
+        "Дзержинский район",
+        "Воложинский район",
+        "Вилейский район",
+        "Борисовский район",
+        "Жодино",
+        "Могилёвская область",
+        "Гродненская область",
+        "Старые Дороги",
+        "Заславль");
+}
+
+//print_pre($arResult["DELIVERY"]["CARGO"]);
+
+
+// ______________ new delivery end
 
 
 
 
+//$arResult["DELIVERY"] = array();
+//$arResult["DELIVERY"]["COURIER"][BY_HOST]["PHRASE"] = "Минску и Минскому району";
+//$arResult["DELIVERY"]["COURIER"][BY_HOST]["COST"] = ($arResult['PRICE_ALL_FINAL_EUR'] > 300)? "бесплатно" : "5 руб.";
+//$arResult["DELIVERY"]["COURIER"][BY_HOST]["COST_INT"] = ($arResult['PRICE_ALL_FINAL_EUR'] > 300)? 0 : 5;
+//$arResult["DELIVERY"]["COURIER"][MSK_HOST]["PHRASE"] = "Москве";
+//$arResult["DELIVERY"]["COURIER"][MSK_HOST]["COST"] = "Возможность доставки уточняйте у менеджера";
+//$arResult["DELIVERY"]["COURIER"][MSK_HOST]["COST_INT"] = "Возможность доставки уточняйте у менеджера";
+//$arResult["DELIVERY"]["COURIER"][SPB_HOST]["PHRASE"] = "Санкт-Петербургу";
+//$arResult["DELIVERY"]["COURIER"][SPB_HOST]["COST"] = "бесплатно";
+//$arResult["DELIVERY"]["COURIER"][SPB_HOST]["COST_INT"] = 0;
+//$arResult["DELIVERY"]["COURIER"][UA_HOST]["PHRASE"] = "Киеву";
+//$arResult["DELIVERY"]["COURIER"][UA_HOST]["COST"] = "бесплатно";
+//$arResult["DELIVERY"]["COURIER"][UA_HOST]["COST_INT"] = 0;
 
-$arResult["DELIVERY"] = array();
-$arResult["DELIVERY"]["COURIER"][BY_HOST]["PHRASE"] = "Минску и Минскому району";
-$arResult["DELIVERY"]["COURIER"][BY_HOST]["COST"] = ($arResult['PRICE_ALL_FINAL_EUR'] > 300)? "бесплатно" : "5 руб.";
-$arResult["DELIVERY"]["COURIER"][BY_HOST]["COST_INT"] = ($arResult['PRICE_ALL_FINAL_EUR'] > 300)? 0 : 5;
-$arResult["DELIVERY"]["COURIER"][MSK_HOST]["PHRASE"] = "Москве";
-$arResult["DELIVERY"]["COURIER"][MSK_HOST]["COST"] = "Возможность доставки уточняйте у менеджера";
-$arResult["DELIVERY"]["COURIER"][MSK_HOST]["COST_INT"] = "Возможность доставки уточняйте у менеджера";
-$arResult["DELIVERY"]["COURIER"][SPB_HOST]["PHRASE"] = "Санкт-Петербургу";
-$arResult["DELIVERY"]["COURIER"][SPB_HOST]["COST"] = "бесплатно";
-$arResult["DELIVERY"]["COURIER"][SPB_HOST]["COST_INT"] = 0;
-$arResult["DELIVERY"]["COURIER"][UA_HOST]["PHRASE"] = "Киеву";
-$arResult["DELIVERY"]["COURIER"][UA_HOST]["COST"] = "бесплатно";
-$arResult["DELIVERY"]["COURIER"][UA_HOST]["COST_INT"] = 0;
+//$arResult["DELIVERY"]["CARGO"][BY_HOST]["PHRASE"] = "Доставка грузоперевозчиком по Беларуси";
+//$arResult["DELIVERY"]["CARGO"][BY_HOST]["REGIONS"] = array(
+//    "Брестская область",
+//    "Витебская область",
+//    "Гомельская область",
+//    "Березинский район",
+//    "Клецкий район",
+//    "Копыльский район",
+//    "Стародорожский район",
+//    "Узденский район",
+//    "Червенский район",
+//    "Мядельский район",
+//    "Несвижский район",
+//    "Любанский район",
+//    "Молодечненский район",
+//    "Крупский район",
+//    "Логойский район",
+//    "Смолевичский район",
+//    "Столбцовский район",
+//    "Солигорский район",
+//    "Пуховичский район",
+//    "Слуцкий район",
+//    "Дзержинский район",
+//    "Воложинский район",
+//    "Вилейский район",
+//    "Борисовский район",
+//    "Жодино",
+//    "Могилёвская область",
+//    "Гродненская область",
+//    "Старые Дороги",
+//    "Заславль");
+//
+//if($arResult['PRICE_ALL_REGION_FINAL'] > 1000) {
+//    $arResult["DELIVERY"]["CARGO"][BY_HOST]["COST"] = "бесплатно";
+//    $arResult["DELIVERY"]["CARGO"][BY_HOST]["COST_INT"] = 0;
+//} else {
+//    if($arResult["WEIGHT_ALL"] <= 1000) {
+//        $arResult["DELIVERY"]["CARGO"][BY_HOST]["COST"] = "4 руб";
+//        $arResult["DELIVERY"]["CARGO"][BY_HOST]["COST_INT"] = 4;
+//    }
+//    if($arResult["WEIGHT_ALL"] >= 1001 && $arResult["WEIGHT_ALL"] <= 2000) {
+//        $arResult["DELIVERY"]["CARGO"][BY_HOST]["COST"] = "8 руб";
+//        $arResult["DELIVERY"]["CARGO"][BY_HOST]["COST_INT"] = 8;
+//    }
+//    if($arResult["WEIGHT_ALL"] >= 2001 && $arResult["WEIGHT_ALL"] <= 3000) {
+//        $arResult["DELIVERY"]["CARGO"][BY_HOST]["COST"] = "12 руб";
+//        $arResult["DELIVERY"]["CARGO"][BY_HOST]["COST_INT"] = 12;
+//    }
+//    if($arResult["WEIGHT_ALL"] >= 3001 && $arResult["WEIGHT_ALL"] <= 4000) {
+//        $arResult["DELIVERY"]["CARGO"][BY_HOST]["COST"] = "16 руб";
+//        $arResult["DELIVERY"]["CARGO"][BY_HOST]["COST_INT"] = 16;
+//    }
+//    if($arResult["WEIGHT_ALL"] >= 5001 && $arResult["WEIGHT_ALL"] <= 6000) {
+//        $arResult["DELIVERY"]["CARGO"][BY_HOST]["COST"] = "24 руб";
+//        $arResult["DELIVERY"]["CARGO"][BY_HOST]["COST_INT"] = 24;
+//    }
+//}
 
 
 //print_pre($arResult);

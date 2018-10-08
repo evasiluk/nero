@@ -119,6 +119,7 @@ function jsChekout() {
 			return true;
 		},
 		success: function (responseText, statusText, xhr, $_form) {
+            console.log(responseText);
             var data = $.parseJSON(responseText);
 
             if(data.status == "ok" && !isNaN(data.order_id)) {

@@ -20,10 +20,12 @@ if($_POST["make_order"]) {
 
 }
 
+
 global $USER;
 $user_id = $USER->GetID();
 
-$person_id = 1; //дилер
+$person_id = 4; //покупатель (тип плательщика)
+$person_type = "Дилер";
 
 if(!$user_id) {
     $us_name = $_POST["user"]["name"];
@@ -33,7 +35,7 @@ if(!$user_id) {
     $ar = CUser::GetList($by = "timestamp_x", $order = "desc", ['EMAIL' => $us_email])->GetNext();
     if($ar["ID"]) {
         $user_id = $ar["ID"];
-        $person_id = 2; //зарегестрированный пользователь
+        $person_type = "Зарегестрированный пользователь";
     } else {
         $user = new CUser;
         $psswd = uniqid();
@@ -51,7 +53,7 @@ if(!$user_id) {
         );
 
         if($user_id = $user->Add($arFields)) {
-            $person_id = 3; // незарегестрированный пользователь
+            $person_type = "Незарегестрированный пользователь";
         } else {
             echo json_encode(array("status" => "error", "error" => "New user create error."));
             exit;
@@ -113,10 +115,8 @@ $order->setBasket($basket);
 $items_total_sum =  $order->getPrice();
 
 /*Shipment*/
-$delivery_id = 5; // самовывоз
-if($_POST["delivery"][0] == 2) {
-    $delivery_id = 23; //курьер
-}
+
+$delivery_id = $_POST["delivery"][0]; // id службы доставки
 
 $shipmentCollection = $order->getShipmentCollection();
 $shipment = $shipmentCollection->createItem();
@@ -128,6 +128,39 @@ $shipment->setFields(array(
 $shipmentItemCollection = $shipment->getShipmentItemCollection();
 $shipmentItem = $shipmentItemCollection->createItem($basketItem);
 $shipmentItem->setQuantity($basketItem->getQuantity());
+
+
+// адрес и тип покупателя
+$kuriers_ar = array(28, 29, 48, 49, 50);
+$cargo_ar = array(33,34,35,36,37,38);
+
+$delivery_ar_key = "";
+
+if(in_array($_POST["delivery"][0], $kuriers_ar)) {
+    $delivery_ar_key = "kur";
+}
+
+if(in_array($_POST["delivery"][0], $cargo_ar)) {
+    $delivery_ar_key = "gruz";
+}
+
+$propertyCollection = $order->getPropertyCollection();
+
+if($delivery_ar_key) {
+    $adress = $propertyCollection->getItemByOrderPropertyId(17);
+    $adress->setValue($_POST[$delivery_ar_key]["city"]);
+    $street = $propertyCollection->getItemByOrderPropertyId(18);
+    $street->setValue($_POST[$delivery_ar_key]["street"]);
+    $house = $propertyCollection->getItemByOrderPropertyId(19);
+    $house->setValue($_POST[$delivery_ar_key]["house"]);
+    $korpus = $propertyCollection->getItemByOrderPropertyId(20);
+    $korpus->setValue($_POST[$delivery_ar_key]["house-2"]);
+    $room = $propertyCollection->getItemByOrderPropertyId(21);
+    $room->setValue($_POST[$delivery_ar_key]["kv"]);
+}
+
+$type = $propertyCollection->getItemByOrderPropertyId(22);
+$type->setValue($person_type);
 
 
 /*Payment*/
@@ -150,54 +183,6 @@ if($_POST["user_comment"]) {
     $order->setField('USER_DESCRIPTION', $_POST["user_comment"]);
 }
 
-
-
-if($_POST["delivery"][0] == 2 && $person_id == 1) {
-    $propertyCollection = $order->getPropertyCollection();
-    $adress = $propertyCollection->getItemByOrderPropertyId(2);
-    $adress->setValue($_POST["kur"]["city"]);
-    $street = $propertyCollection->getItemByOrderPropertyId(3);
-    $street->setValue($_POST["kur"]["street"]);
-    $house = $propertyCollection->getItemByOrderPropertyId(4);
-    $house->setValue($_POST["kur"]["house"]);
-    $korpus = $propertyCollection->getItemByOrderPropertyId(5);
-    $korpus->setValue($_POST["kur"]["house-2"]);
-    $room = $propertyCollection->getItemByOrderPropertyId(6);
-    $room->setValue($_POST["kur"]["kv"]);
-}
-
-if($_POST["delivery"][0] == 2 && $person_id == 2) {
-    $propertyCollection = $order->getPropertyCollection();
-    $adress = $propertyCollection->getItemByOrderPropertyId(7);
-    $adress->setValue($_POST["kur"]["city"]);
-    $street = $propertyCollection->getItemByOrderPropertyId(8);
-    $street->setValue($_POST["kur"]["street"]);
-    $house = $propertyCollection->getItemByOrderPropertyId(9);
-    $house->setValue($_POST["kur"]["house"]);
-    $korpus = $propertyCollection->getItemByOrderPropertyId(10);
-    $korpus->setValue($_POST["kur"]["house-2"]);
-    $room = $propertyCollection->getItemByOrderPropertyId(11);
-    $room->setValue($_POST["kur"]["kv"]);
-}
-
-if($_POST["delivery"][0] == 2 && $person_id == 3) {
-    $propertyCollection = $order->getPropertyCollection();
-    $adress = $propertyCollection->getItemByOrderPropertyId(12);
-    $adress->setValue($_POST["kur"]["city"]);
-    $street = $propertyCollection->getItemByOrderPropertyId(13);
-    $street->setValue($_POST["kur"]["street"]);
-    $house = $propertyCollection->getItemByOrderPropertyId(14);
-    $house->setValue($_POST["kur"]["house"]);
-    $korpus = $propertyCollection->getItemByOrderPropertyId(15);
-    $korpus->setValue($_POST["kur"]["house-2"]);
-    $room = $propertyCollection->getItemByOrderPropertyId(16);
-    $room->setValue($_POST["kur"]["kv"]);
-}
-//print_pre($order); exit;
-
-//$pr = $order->getDeliveryPrice();
-//echo $pr; exit;
-
 $order->doFinalAction(true);
 $result = $order->save();
 //print_pre($result);
@@ -213,12 +198,12 @@ $ar = $discount->getApplyResult();
 $order->save();
 
 
-if($_POST["delivery"][0] == 2 && $items_total_sum > 300) {
-    $arFields = array(
-        "PRICE_DELIVERY" => 0
-    );
-    CSaleOrder::Update($orderId, $arFields);
-}
+//if($_POST["delivery"][0] == 2 && $items_total_sum > 300) {
+//    $arFields = array(
+//        "PRICE_DELIVERY" => 0
+//    );
+//    CSaleOrder::Update($orderId, $arFields);
+//}
 
 echo json_encode(array("status" => "ok", "order_id" => $orderId));
 

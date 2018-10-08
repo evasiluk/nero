@@ -1,5 +1,6 @@
 <? if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 ?>
+
 <section class="wrap form-wrap form-wrap-bgtransparent">
     <div class="usercontent form-loading js-form-loading">
         <h4 class="align-center">Загрузка…</h4>
@@ -72,7 +73,7 @@
                     <div class="flex-row" style="">
                         <div class="col-xs-12 col-md-8">
                             <label>
-                                <input data-price="0" data-title="самовывоз" type="radio" name="delivery[]" value="1" required checked class="js-delivery-radio">
+                                <input data-price="0" data-title="самовывоз" type="radio" name="delivery[]" value="5" required checked class="js-delivery-radio">
                                 <span>Самовывоз из представительства компании Nero Electronics</span>
                             </label>
                             <div class="radio-block-descr">
@@ -82,121 +83,137 @@
                     </div>
                 </div>
 
-                <div class="radio-block js-delivery">
-                    <div class="flex-row" style="">
-                        <div class="col-xs-12 col-md-8">
-                            <label>
-                                <input data-price="<?=$arResult["DELIVERY"]["COURIER"][CURRENT_USER_HOST]["COST_INT"]?>" data-title="доставка курьером" type="radio" name="delivery[]" value="2"  class="js-delivery-radio">
-                                <span>Доставка курьером по <?=$arResult["DELIVERY"]["COURIER"][CURRENT_USER_HOST]["PHRASE"]?>:</span>
-                            </label>
-                            <div class="radio-block-descr">
-                                <ul>
-                                    <li>стоимость доставки: <?=$arResult["DELIVERY"]["COURIER"][CURRENT_USER_HOST]["COST"]?></li>
-                                    <li>курьер доставит заказ по указанному Вами адресу. Срок доставки: от 2 до 7 дней</li>
-                                </ul>
+                <?if($arResult["DELIVERY"]["COURIER"]):?>
+                    <div class="radio-block js-delivery">
+                        <div class="flex-row" style="">
+                            <div class="col-xs-12 col-md-8">
+                                <label>
+                                    <input data-price="<?=$arResult["DELIVERY"]["COURIER"]["PRICE"]?>" data-title="курьером" type="radio" name="delivery[]" value="<?=$arResult["DELIVERY"]["COURIER"]["ID"]?>"  class="js-delivery-radio">
+                                    <span><?=$arResult["DELIVERY"]["COURIER"]["DESCRIPTION"]?>:</span>
+                                </label>
+                                <div class="radio-block-descr">
+                                    <ul>
+                                        <li>стоимость доставки: <?=$arResult["DELIVERY"]["COURIER"]["PRICE"]? $arResult["DELIVERY"]["COURIER"]["PRICE"]." ".$arResult["VALUTE_SHORT"] : "бесплатно"?></li>
+                                        <li>курьер доставит заказ по указанному Вами адресу. Срок доставки: от 2 до 7 дней</li>
+                                        <?if($arResult["DELIVERY"]["COURIER"]["NOTICE"]):?>
+                                            <li><?=$arResult["DELIVERY"]["COURIER"]["NOTICE"]?></li>
+                                        <?endif?>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="form-row flex-row flex-row-padding js-delivery-details" style="display: none;">
-                        <div class="col-xs-12 col-sm-6 col-md-4">
-                            <label class="input">
-                                <span class="input-label">Населенный пункт<sup>*</sup></span>
-                                <div class="input-in">
-                                    <input type="text" name="kur[city]" value="Минск, Минская область"/>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4">
-                            <label class="input">
-                                <span class="input-label">Улица<sup>*</sup></span>
-                                <div class="input-in">
-                                    <input type="text" name="kur[street]" value="" required data-parsley-group="kur"/>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4">
-                            <div class="form-row flex-row form-row-nopadd">
-                                <label class="col-xs input">
-                                    <span class="input-label">Дом<sup>*</sup></span>
+                        <div class="form-row flex-row flex-row-padding js-delivery-details" style="display: none;">
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <label class="input">
+                                    <span class="input-label">Населенный пункт<sup>*</sup></span>
                                     <div class="input-in">
-                                        <input type="text" name="kur[house]" value="" required data-parsley-group="kur"/>
-                                    </div>
-                                </label>
-                                <label class="col-xs input">
-                                    <span class="input-label">Корпус</span>
-                                    <div class="input-in">
-                                        <input type="text" name="kur[house-2]" value=""/>
-                                    </div>
-                                </label>
-                                <label class="col-xs input">
-                                    <span class="input-label">Квартира</span>
-                                    <div class="input-in">
-                                        <input type="text" name="kur[kv]" value=""/>
+                                        <input type="text" name="kur[city]" value="Минск, Минская область"/>
                                     </div>
                                 </label>
                             </div>
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <label class="input">
+                                    <span class="input-label">Улица<sup>*</sup></span>
+                                    <div class="input-in">
+                                        <input type="text" name="kur[street]" value="" required data-parsley-group="kur"/>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <div class="form-row flex-row form-row-nopadd">
+                                    <label class="col-xs input">
+                                        <span class="input-label">Дом<sup>*</sup></span>
+                                        <div class="input-in">
+                                            <input type="text" name="kur[house]" value="" required data-parsley-group="kur"/>
+                                        </div>
+                                    </label>
+                                    <label class="col-xs input">
+                                        <span class="input-label">Корпус</span>
+                                        <div class="input-in">
+                                            <input type="text" name="kur[house-2]" value=""/>
+                                        </div>
+                                    </label>
+                                    <label class="col-xs input">
+                                        <span class="input-label">Квартира</span>
+                                        <div class="input-in">
+                                            <input type="text" name="kur[kv]" value=""/>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                <?endif?>
 
-                <!--                    <div class="radio-block js-delivery">-->
-                <!--                        <div class="flex-row">-->
-                <!--                            <div class="col-xs-12 col-md-8">-->
-                <!--                                <label>-->
-                <!--                                    <input type="radio" name="delivery[]" value="3" class="js-delivery-radio">-->
-                <!--                                    <span>Доставка грузоперевозчиком по Беларуси (России, Украине):</span>-->
-                <!--                                </label>-->
-                <!--                                <div class="radio-block-descr">-->
-                <!--                                    <ul>-->
-                <!--                                        <li>Ваш заказ будет доставлен грузоперевозчиком в течение 2-8 дней.</li>-->
-                <!--                                        <li>Стоимость доставки зависит от пункта назначения и веса отправления.</li>-->
-                <!--                                    </ul>-->
-                <!--                                </div>-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!---->
-                <!--                        <div class="form-row flex-row flex-row-padding js-delivery-details" style="display: none;">-->
-                <!--                            <div class="col-xs-12 col-sm-6 col-md-4">-->
-                <!--                                <label class="input">-->
-                <!--                                    <span class="input-label">Населенный пункт<sup>*</sup></span>-->
-                <!--                                    <div class="input-in">-->
-                <!--                                        <input type="text" name="gruz[city]" value="Минск, Минская область" disabled="disabled"/>-->
-                <!--                                    </div>-->
-                <!--                                </label>-->
-                <!--                            </div>-->
-                <!--                            <div class="col-xs-12 col-sm-6 col-md-4">-->
-                <!--                                <label class="input">-->
-                <!--                                    <span class="input-label">Улица<sup>*</sup></span>-->
-                <!--                                    <div class="input-in">-->
-                <!--                                        <input type="text" name="gruz[street]" value="" required data-parsley-group="gruz"/>-->
-                <!--                                    </div>-->
-                <!--                                </label>-->
-                <!--                            </div>-->
-                <!--                            <div class="col-xs-12 col-sm-6 col-md-4">-->
-                <!--                                <div class="form-row flex-row form-row-nopadd">-->
-                <!--                                    <label class="col-xs input">-->
-                <!--                                        <span class="input-label">Дом<sup>*</sup></span>-->
-                <!--                                        <div class="input-in">-->
-                <!--                                            <input type="text" name="gruz[house]" value="" required data-parsley-group="gruz"/>-->
-                <!--                                        </div>-->
-                <!--                                    </label>-->
-                <!--                                    <label class="col-xs input">-->
-                <!--                                        <span class="input-label">Корпус</span>-->
-                <!--                                        <div class="input-in">-->
-                <!--                                            <input type="text" name="gruz[house-2]" value=""/>-->
-                <!--                                        </div>-->
-                <!--                                    </label>-->
-                <!--                                    <label class="col-xs input">-->
-                <!--                                        <span class="input-label">Квартира</span>-->
-                <!--                                        <div class="input-in">-->
-                <!--                                            <input type="text" name="gruz[kv]" value=""/>-->
-                <!--                                        </div>-->
-                <!--                                    </label>-->
-                <!--                                </div>-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
+
+
+                <?if($arResult["DELIVERY"]["CARGO"]):?>
+                    <div class="radio-block js-delivery">
+                        <div class="flex-row">
+                            <div class="col-xs-12 col-md-8">
+                                <label>
+                                    <input data-price="<?=$arResult["DELIVERY"]["CARGO"]["PRICE"]?>" data-title="грузоперевозчиком" type="radio" name="delivery[]" value="<?=$arResult["DELIVERY"]["CARGO"]["ID"]?>" class="js-delivery-radio">
+                                    <span><?=$arResult["DELIVERY"]["CARGO"]["DESCRIPTION"]?>:</span>
+                                </label>
+                                <div class="radio-block-descr">
+                                    <ul>
+                                        <li>Ваш заказ будет доставлен грузоперевозчиком в течение 2-8 дней.</li>
+                                        <li>Стоимость доставки зависит от пункта назначения и веса отправления.</li>
+                                        <li>стоимость доставки: <?=$arResult["DELIVERY"]["CARGO"]["PRICE"]? $arResult["DELIVERY"]["CARGO"]["PRICE"]." ".$arResult["VALUTE_SHORT"] : "бесплатно"?></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row flex-row flex-row-padding js-delivery-details" style="display: none;">
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <div class="input">
+                                    <span class="input-label">Населенный пункт<sup>*</sup></span>
+                                    <div class="input-in">
+                                        <select data-select name="gruz[city]">
+                                            <?foreach($arResult["DELIVERY"]["CARGO"][CURRENT_USER_HOST]["REGIONS"] as $i=>$region):?>
+                                                <option value="<?=$i?>"><?=$region?></option>
+                                            <?endforeach?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <label class="input">
+                                    <span class="input-label">Улица<sup>*</sup></span>
+                                    <div class="input-in">
+                                        <input type="text" name="gruz[street]" value="" required data-parsley-group="gruz"/>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <div class="form-row flex-row form-row-nopadd">
+                                    <label class="col-xs input">
+                                        <span class="input-label">Дом<sup>*</sup></span>
+                                        <div class="input-in">
+                                            <input type="text" name="gruz[house]" value="" required data-parsley-group="gruz"/>
+                                        </div>
+                                    </label>
+                                    <label class="col-xs input">
+                                        <span class="input-label">Корпус</span>
+                                        <div class="input-in">
+                                            <input type="text" name="gruz[house-2]" value=""/>
+                                        </div>
+                                    </label>
+                                    <label class="col-xs input">
+                                        <span class="input-label">Квартира</span>
+                                        <div class="input-in">
+                                            <input type="text" name="gruz[kv]" value=""/>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?endif?>
+
+
             </div>
 
             <div class="form-checkout-section" id="payment_type">
