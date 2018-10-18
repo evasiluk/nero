@@ -20,6 +20,19 @@ switch($_SERVER["HTTP_HOST"]) {
         break;
 }
 
+if($_GET["set_region"] == "belarus") {
+    $region = 390;
+}
+if($_GET["set_region"] == "ukraine") {
+    $region = 398;
+}
+if($_GET["set_region"] == "moscow") {
+    $region = 391;
+}
+if($_GET["set_region"] == "peterburg") {
+    $region = 392;
+}
+
 
 //var_dump($region);
 ?>
