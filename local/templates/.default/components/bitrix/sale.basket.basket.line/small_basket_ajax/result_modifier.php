@@ -15,10 +15,12 @@ switch($_SERVER["HTTP_HOST"]) {
 
 $sum = 0;
 $discount_sum = 0;
+$arResult["TOTAL_ITEMS"] = 0;
 
 
 if($arResult["CATEGORIES"]["READY"]) {
     foreach($arResult["CATEGORIES"]["READY"] as $item) {
+        $arResult["TOTAL_ITEMS"] += $item["QUANTITY"];
         $item_price = convert_valute($item["BASE_PRICE"], $id);
         $item_price = $item_price * $item["QUANTITY"];
         $sum += $item_price;

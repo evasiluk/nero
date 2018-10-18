@@ -53,11 +53,12 @@ $dealer = $class->is_dealer(CUser::GetUserGroup(CUser::GetID()));
 
 
 
-$arResult["TOTAL_ITEMS_COUNT"] = count($arResult["GRID"]["ROWS"]);
+$arResult["TOTAL_ITEMS_COUNT"] = 0;
 $arResult["TOTAL_SUM"] = 0;
 $arResult["TOTAL_SUM_DISCOUNT"] = 0;
 $arResult["VALUTE_SHORT"] = get_valute_short($iblock_id);
 $arResult["DISCOUNT"] = 0;
+$arResult["TOTAL_DEALER_SAVINGS"] = 0;
 
 $arResult["BASKET_ITEMS"] = array();
 
@@ -76,6 +77,7 @@ foreach($arResult["GRID"]["ROWS"] as &$arItem) {
 
         if($arFields["CATALOG_PRICE_7"]) {
             $arItem["ROSN_PRICE"] = convert_valute($arFields["CATALOG_PRICE_7"], $iblock_id);
+            $arItem["ROSN_PRICE_SUM"] = $arItem["ROSN_PRICE"] * $arItem["QUANTITY"];
         }
 
         $arItem["COLOR_CODE"] = $arFields["PROPERTY_COLOR_CODE_VALUE"];
@@ -90,6 +92,11 @@ foreach($arResult["GRID"]["ROWS"] as &$arItem) {
 
     $arResult["TOTAL_SUM"] += $arItem["FULL_PRICE_SUM"];
     $arResult["TOTAL_SUM_DISCOUNT"] += convert_valute($arItem["SUM_DISCOUNT_PRICE"], $iblock_id);
+    $arResult["TOTAL_ITEMS_COUNT"] += $arItem["QUANTITY"];
+
+    if($dealer) {
+        $arResult["TOTAL_DEALER_SAVINGS"] += $arItem["ROSN_PRICE_SUM"] - $arItem["FULL_PRICE_SUM"];
+    }
 
     $arResult["BASKET_ITEMS"][] = $arItem;
 }
@@ -116,6 +123,11 @@ foreach($arResult["BASKET_ITEMS"] as $arItem) {
 $ajax["TOTAL_SUM"] = $arResult["TOTAL_SUM"];
 $ajax["TOTAL_SUM_DISCOUNT"] = $arResult["TOTAL_SUM_DISCOUNT"];
 $ajax["FINAL_SUM"] = number_format($arResult["FINAL_SUM"], 2, '.', '');
+$ajax["TOTAL_ITEMS_COUNT"] = $arResult["TOTAL_ITEMS_COUNT"];
+
+if($dealer) {
+    $ajax["TOTAL_DEALER_SAVINGS"] = number_format( $arResult["TOTAL_DEALER_SAVINGS"] + $arResult["TOTAL_SUM_DISCOUNT"], 2, '.', '');
+}
 
 print_r(json_encode($ajax)); exit;
 

@@ -298,7 +298,7 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
 
 
     <?if(count($arResult["BASKET_ITEMS"])):?>
-        <form action="" class="usercontent personal-basket js-personal-basket">
+        <form action="/content/personal/cart/make/" class="usercontent personal-basket js-personal-basket" method="post">
             <?//print_pre($arResult["BASKET_ITEMS"]);?>
             <div class="personal-basket-header">
                 <div class="flex-row flex-row-padding">
@@ -436,6 +436,15 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
                                         <sup><?=$arResult["VALUTE_SHORT"]?></sup>
                                     </div>
                                 </div>
+                                <?if($arResult["TOTAL_DEALER_SAVINGS"]):?>
+                                    <div class="b-summary-node">
+                                        <span>Вы экономите:</span>
+                                        <div class="basket-item-price">
+                                            <span class="js-basket-savings"><?=$arResult["TOTAL_DEALER_SAVINGS"]?></span>
+                                            <sup><?=$arResult["VALUTE_SHORT"]?></sup>
+                                        </div>
+                                    </div>
+                                <?endif?>
                                 <div class="b-summary-node">
                                     <button class="button button--big button--bgred">Оформить заказ</button>
                                 </div>
