@@ -108,5 +108,9 @@ class managersClass {
        return $iblock_id;
    }
 
+   public function get_manager_group($portal_code) {
+       return $this->managers_groups[$portal_code];
+   }
+
 
 }

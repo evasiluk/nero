@@ -48,6 +48,19 @@ $(document).ready(function() {
 
         $("#final_price").text(result.toFixed(2));
     }
+
+    var $locSelWrap = $('.js-loc-sel-wrap');
+
+    $(".js-loc-edit").on('click', function() {
+    	event.preventDefault();
+    	$locSelWrap.slideDown();
+    });
+
+    $(".js-loc-save").on('click', function(event) {
+    	event.preventDefault();
+        var loc = $("input[name=LOCATION]").val();
+        window.location = '?setLocation=' + loc;
+    });
 });
 
 function jsChekout() {
@@ -62,6 +75,8 @@ function jsChekout() {
 
 	var $section = $('.form-step'),
 		$submitButton = $form.find('input[type="submit"]');
+
+	var $phoneInput = $form.find('input[type="tel"]');
 
 	var offset = $('.l-header').height() + 80;
 
@@ -95,6 +110,31 @@ function jsChekout() {
 		});
 	}
 
+	(function maskPhone() {
+		if (!$phoneInput || !Inputmask || !Portal.region) return false;
+
+		var region = Portal.region;
+
+		switch(region) {
+			case 'by':
+				mask = {'mask': '+375 (99) 999-99-99'};
+				break;
+
+			case 'ru':
+				mask = {'mask': '+7 (999) 999-99-99'};
+				break;
+
+			case 'ua':
+				mask = {'mask': '+380 (99) 999-99-99'};
+				break;
+
+			default:
+				mask = 'remove';
+		}
+
+		$phoneInput.inputmask(mask);
+	})();
+
 	$section.addClass('current').slideDown('300');
 
 	$submitButton.on('click', function(event) {
@@ -113,6 +153,8 @@ function jsChekout() {
 		}
 	});
 
+
+
 	$form.ajaxForm({
 		beforeSubmit: function (formData, jqForm, options) {
 			console.log(formData);
@@ -127,6 +169,16 @@ function jsChekout() {
                 $("#res").show();
                 $(".form-step").remove();
                 $('html, body').animate({scrollTop: 0},500);
+
+                var dealer = $("#isdeal").val();
+
+                if(dealer == "Y") {
+                    var pcode = $("#pcode").val();
+                    $.post("/local/ajax/managerNotify.php", {order : data.order_id, pcode : pcode}, function(data) {
+                        console.log(data);
+                    });
+                }
+
             }
 
 

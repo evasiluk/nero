@@ -67,6 +67,9 @@ $site = CSite::GetByID(SITE_ID)->GetNext();
     <? Asset::getInstance()->addJs(DEFAULT_JS_PATH . '/lib/parsley.min.js'); ?>
     <? Asset::getInstance()->addJs(DEFAULT_JS_PATH . '/lib/intersection-observer.js'); ?>
     <? Asset::getInstance()->addJs(DEFAULT_JS_PATH . '/lib/lozad.js'); ?>
+    <? Asset::getInstance()->addJs(DEFAULT_JS_PATH . '/lib/inputmask.min.js'); ?>
+    <? Asset::getInstance()->addJs(DEFAULT_JS_PATH . '/lib/inputmask.extensions.min.js'); ?>
+    <? Asset::getInstance()->addJs(DEFAULT_JS_PATH . '/lib/jquery.inputmask.min.js'); ?>
 
     <? Asset::getInstance()->addCss(DEFAULT_JS_PATH . '/lib/fullpage/jquery.fullPage.css'); ?>
     <? Asset::getInstance()->addJs(DEFAULT_JS_PATH . '/lib/fullpage/jquery.fullPage.min.js'); ?>
@@ -78,10 +81,23 @@ $site = CSite::GetByID(SITE_ID)->GetNext();
     <? Asset::getInstance()->addJs(DEFAULT_JS_PATH . '/lib/choices/scripts/dist/choices.min.js'); ?>
     <? Asset::getInstance()->addCss(DEFAULT_JS_PATH . '/lib/choices/styles/css/choices.min.css'); ?>
 
+    <?
+    $portal_regions = array(
+        BY_HOST => "by",
+        MSK_HOST => "ru",
+        SPB_HOST => "ru",
+        UA_HOST => "ua"
+
+    );
+
+    $current_reg = $portal_regions[CURRENT_USER_HOST];
+    ?>
+
     <? Asset::getInstance()->addString('<script>
         if (!ie) {
             document.write(\'\x3Cscript src="' . DEFAULT_JS_PATH . '/lib/swiper/js/swiper.min.js">\x3C/script>\');
         }
+        var Portal = {region: \''.$current_reg.'\'};
     </script>'); ?>
 
     <? Asset::getInstance()->addJs(DEFAULT_JS_PATH . '/lib/lightgallery/js/lightgallery-all.js'); ?>
@@ -357,7 +373,7 @@ $site = CSite::GetByID(SITE_ID)->GetNext();
     $manager_groups = CUser::GetUserGroup(CUser::GetID());
     $manager_code = $class->get_manager_code($manager_groups);
     if(CSite::InDir("/managers/") && $APPLICATION->GetCurDir() != "/managers/" && !$manager_code) {
-        LocalRedirect("/managers/");
+        LocalRedirect("/");
     }
     ?>
 
