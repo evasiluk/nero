@@ -7,6 +7,7 @@ $(document).ready(function() {
 
 
 
+
         $("#result_delivery_name").text(title);
 
         if(isNaN(price)) {
@@ -167,17 +168,34 @@ function jsChekout() {
             if(data.status == "ok" && !isNaN(data.order_id)) {
                 $("#res").find("h3").text("Ваш заказ №" + data.order_id + " успешно оформлен");
                 $("#res").show();
-                $(".form-step").remove();
-                $('html, body').animate({scrollTop: 0},500);
+
+
+
+
 
                 var dealer = $("#isdeal").val();
 
-                if(dealer == "Y") {
+//                if(dealer == "Y") {
+                // сказали уведомлять менеджеров для всех пользователей
+                if(true) {
                     var pcode = $("#pcode").val();
-                    $.post("/local/ajax/managerNotify.php", {order : data.order_id, pcode : pcode}, function(data) {
+                    var delivery_name = $("#result_delivery_name").text();
+
+                    var delivery_price = $("#result_delivery_price").text();
+                    if(delivery_price != "бесплатно") {
+                        delivery_price += " " + $("#result_delivery_valute").text();
+                    }
+
+                    console.log(delivery_price);
+
+
+                    $.post("/local/ajax/managerNotify.php", {order : data.order_id, pcode : pcode, delivery_price : delivery_price, delivery_name : delivery_name}, function(data) {
                         console.log(data);
                     });
                 }
+
+                $(".form-step").remove();
+                $('html, body').animate({scrollTop: 0},500);
 
             }
 

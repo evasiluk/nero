@@ -168,6 +168,9 @@ $payment_id = 2; //наличные
 if($_POST["payment"][0] == 2) {
     $payment_id = 3;
 }
+if($_POST["payment"][0] == 3) {
+    $payment_id = 4;
+}
 
 $paymentCollection = $order->getPaymentCollection();
 $payment = $paymentCollection->createItem(

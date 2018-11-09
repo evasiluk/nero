@@ -174,6 +174,7 @@
                                         <span class="input-label">Населенный пункт<sup>*</sup></span>
                                         <div class="input-in">
                                             <input disabled type="text" name="kur[city]" value="<?=$arResult["LOCATION_PATH"]?>"/>
+                                            <input type="hidden" name="kur[city]" value="<?=$arResult["LOCATION_PATH"]?>">
                                         </div>
                                     </label>
                                     <br>
@@ -243,6 +244,7 @@
                                         <span class="input-label">Населенный пункт<sup>*</sup></span>
                                         <div class="input-in">
                                             <input disabled type="text" name="gruz[city]" value="<?=$arResult["LOCATION_PATH"]?>"/>
+                                            <input type="hidden" name="gruz[city]" value="<?=$arResult["LOCATION_PATH"]?>">
                                         </div>
                                     </label>
                                 <br>
@@ -319,7 +321,17 @@
                         </div>
                     </div>
                 <?endif?>
-
+                <div class="radio-block">
+                    <div class="flex-row" style="">
+                        <div class="col-xs-12 col-md-8">
+                            <label>
+                                <input data-title="через банк с помощью счета" type="radio" name="payment[]" value="3">
+                                <span>Через банк с помощью счета</span>
+                                <div class="radio-block-descr">Запросите счет у менеджера при оформлении заказа.</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="form-checkout-footer">
