@@ -17,7 +17,7 @@ $APPLICATION->SetTitle("Заявки");
         <?if($pretenders):?>
             <ol>
                 <?foreach($pretenders as $us):?>
-                    <li><a href="/managers/dealer/<?=$us["ID"]?>/"><?=$us["LOGIN"]?></a></li>
+                    <li><a href="/managers/dealer/<?=$us["ID"]?>/"><?=$us["LOGIN"]?><?if($us["NAME"] || $us["LAST_NAME"]):?> - <?=$us["NAME"]?>&nbsp;<?=$us["LAST_NAME"]?><?endif?></a></li>
                 <?endforeach?>
             </ol>
         <?else:?>

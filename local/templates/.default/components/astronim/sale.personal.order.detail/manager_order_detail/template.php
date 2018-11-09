@@ -405,7 +405,7 @@ else
                                                         else
                                                         {
                                                             ?>
-                                                            <a class="btn-theme sale-order-detail-payment-options-methods-button-element active-button"><?= Loc::getMessage('SPOD_ORDER_PAY') ?></a>
+<!--                                                            <a class="btn-theme sale-order-detail-payment-options-methods-button-element active-button">--><?//= Loc::getMessage('SPOD_ORDER_PAY') ?><!--</a>-->
                                                         <?
                                                         }
                                                     }
@@ -655,7 +655,7 @@ else
 							{
 								?>
 								<li class="sale-order-detail-total-payment-list-left-item">
-									<?= Loc::getMessage('SPOD_TOTAL_WEIGHT')?>:
+									<strong><?= Loc::getMessage('SPOD_TOTAL_WEIGHT')?>:</strong>
 								</li>
 								<?
 							}
@@ -664,7 +664,7 @@ else
 							{
 								?>
 								<li class="sale-order-detail-total-payment-list-left-item">
-									<?= Loc::getMessage('SPOD_COMMON_SUM')?>:
+                                    <strong><?= Loc::getMessage('SPOD_COMMON_SUM')?>:</strong>
 								</li>
 								<?
 							}
@@ -694,14 +694,14 @@ else
 							if (floatval($arResult["ORDER_WEIGHT"]))
 							{
 								?>
-								<li class="sale-order-detail-total-payment-list-right-item"><?= $arResult['ORDER_WEIGHT_FORMATED'] ?></li>
+								<li class="sale-order-detail-total-payment-list-right-item"><strong><?= $arResult['ORDER_WEIGHT_FORMATED'] ?></strong></li>
 								<?
 							}
 
 							if ($arResult['PRODUCT_SUM_FORMATED'] != $arResult['PRICE_FORMATED'] && !empty($arResult['PRODUCT_SUM_FORMATED']))
 							{
 								?>
-								<li class="sale-order-detail-total-payment-list-right-item"><?=$arResult['PRODUCT_SUM_FORMATED']?></li>
+								<li class="sale-order-detail-total-payment-list-right-item"><strong><?=$arResult['PRODUCT_SUM_FORMATED']?></strong></li>
 								<?
 							}
 

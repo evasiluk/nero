@@ -11,7 +11,7 @@ if($USER->IsAuthorized()) {
 ?>
     <div class="managers-wrap">
         <div class="usercontent bg--white wrap wrap-content">
-            <?$APPLICATION->IncludeComponent("bitrix:system.auth.form", "nero_auth", Array(
+            <?$APPLICATION->IncludeComponent("bitrix:system.auth.form", "nero_auth_admin", Array(
                     "FORGOT_PASSWORD_URL" => "",	// Страница забытого пароля
                     "PROFILE_URL" => "/content/personal/lichnye-dannye/",	// Страница профиля
                     "REGISTER_URL" => "",	// Страница регистрации

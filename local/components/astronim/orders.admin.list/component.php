@@ -24,6 +24,11 @@ $class = new managersClass();
 
 $manager_code = $class->get_manager_code($manager_groups);
 $dealers_groups = $class->get_dilers_groups($manager_code);
+
+//добавили и розничных покупателей - раньше не надо было
+$rosn_groups = $class->get_rosn_groups($manager_code);
+$dealers_groups = array_merge($dealers_groups, $rosn_groups);
+
 $dealers = $class->get_active_dealers_list($dealers_groups);
 
 $dealers_ids = array();

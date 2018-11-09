@@ -8,6 +8,14 @@ class managersClass {
        "EN" => array(33,34,35,36,37)
    );
 
+   private $rosnByManagers = array(
+       "BY" => array(26),
+       "MSC" => array(14),
+       "SPB" => array(8),
+       "UA" => array(20),
+       "EN" => array(32)
+   );
+
    private $managers_groups = array(
        "BY" => 38,
        "MSC" => 39,
@@ -38,6 +46,12 @@ class managersClass {
         if($this->dealersByManagers[$manager_code]) {
             return $this->dealersByManagers[$manager_code];
         } else return false;
+   }
+
+   public function get_rosn_groups($manager_code) {
+       if($this->rosnByManagers[$manager_code]) {
+           return $this->rosnByManagers[$manager_code];
+       } else return false;
    }
 
    public function get_manager_host($manager_code) {

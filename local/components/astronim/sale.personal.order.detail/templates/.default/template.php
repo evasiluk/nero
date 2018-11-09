@@ -361,7 +361,7 @@ else
 																	$paymentSubTitle .= " ".Loc::getMessage('SPOD_FROM')." ".$payment['DATE_BILL']->format($arParams['ACTIVE_DATE_FORMAT']);
 																}
 																$paymentSubTitle .=",";
-																echo htmlspecialcharsbx($paymentSubTitle);
+																echo htmlspecialcharsbx($paymentSubTitle)."5555";
 																?>
 																<span class="sale-order-list-payment-title-element"><?=$payment['PAY_SYSTEM_NAME']?></span>
 																<?
