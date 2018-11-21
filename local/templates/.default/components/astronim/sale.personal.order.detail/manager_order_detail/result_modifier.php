@@ -37,10 +37,14 @@ if(!$row) {
 
 $arResult["PRICE_IN_VALUTE"] = convert_valute($arResult["PRICE"], $iblock_id, $row["DATE_RATE"]? $row["DATE_RATE"] : "");
 
+$arResult["PRICE_ALL_POSITIONS_REG"] = 0;
 
 foreach($arResult["BASKET"] as &$item) {
     $item["PRICE"] = convert_valute($item["PRICE"], $iblock_id, $row["DATE_RATE"]? $row["DATE_RATE"] : "");
     $item["PRICE_ALL"] = $item["PRICE"] * $item["QUANTITY"];
+    $arResult["PRICE_ALL_POSITIONS_REG"] += $item["PRICE_ALL"];
 }
+
+
 
 //print_pre($arResult);

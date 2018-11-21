@@ -147,6 +147,7 @@ else
 									<div class="sale-order-detail-about-order-inner-container-status-detail">
                                         <select name="status">
                                             <option value="N" <?if($arResult["STATUS"]["ID"] == "N"):?>selected<?endif?>>Принят, ожидается оплата</option>
+                                            <option value="P" <?if($arResult["STATUS"]["ID"] == "P"):?>selected<?endif?>>Принят, оплачен</option>
                                             <option value="F" <?if($arResult["STATUS"]["ID"] == "F"):?>selected<?endif?>>Выполнен</option>
                                             <option value="С" <?if($arResult['CANCELED'] == 'Y'):?>selected<?endif?>>Отменен</option>
                                         </select>
@@ -275,6 +276,7 @@ else
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
+                            <?//print_pre($arResult['PAYMENT'])?>
                             <?
                             foreach ($arResult['PAYMENT'] as $payment)
                             {
@@ -313,13 +315,9 @@ else
 																	<?=Loc::getMessage('SPOD_PAYMENT_PAID')?></span>
                                                         <?
                                                         }
-                                                        elseif ($arResult['IS_ALLOW_PAY'] == 'N')
-                                                        {
-                                                            ?>
-                                                            <span class="sale-order-detail-payment-options-methods-info-title-status-restricted">
-																	<?=Loc::getMessage('SPOD_TPL_RESTRICTED_PAID')?></span>
-                                                        <?
-                                                        }
+
+
+
                                                         else
                                                         {
                                                             ?>
@@ -367,19 +365,20 @@ else
                                                 <?
                                                 }
                                                 ?>
-                                                <?
-                                                if ($arResult['IS_ALLOW_PAY'] === 'N' && $payment['PAID'] !== 'Y')
-                                                {
-                                                    ?>
-                                                    <div class="sale-order-detail-status-restricted-message-block">
-                                                        <span class="sale-order-detail-status-restricted-message"><?=Loc::getMessage('SOPD_TPL_RESTRICTED_PAID_MESSAGE')?></span>
-                                                    </div>
-                                                <?
-                                                }
-                                                ?>
+<!--                                                --><?//
+//                                                if ($arResult['IS_ALLOW_PAY'] === 'N' && $payment['PAID'] !== 'Y')
+//                                                {
+//                                                    ?>
+<!--                                                    <div class="sale-order-detail-status-restricted-message-block">-->
+<!--                                                        <span class="sale-order-detail-status-restricted-message">--><?//=Loc::getMessage('SOPD_TPL_RESTRICTED_PAID_MESSAGE')?><!--</span>-->
+<!--                                                    </div>-->
+<!--                                                --><?//
+//                                                }
+//                                                ?>
                                             </div>
                                             <?
-                                            if ($payment['PAY_SYSTEM']["IS_CASH"] !== "Y")
+                                            if(false)
+                                            //if ($payment['PAY_SYSTEM']["IS_CASH"] !== "Y")
                                             {
                                                 ?>
                                                 <div class="col-md-2 col-sm-12 col-xs-12 sale-order-detail-payment-options-methods-button-container">
@@ -649,7 +648,7 @@ else
 			<div class="row sale-order-detail-total-payment">
 				<div class="col-md-7 col-md-offset-5 col-sm-12 col-xs-12 sale-order-detail-total-payment-container">
 					<div class="row">
-						<ul class="col-md-8 col-sm-6 col-xs-6 sale-order-detail-total-payment-list-left">
+						<ul class="col-md-7 col-sm-6 col-xs-6 sale-order-detail-total-payment-list-left">
 							<?
 							if (floatval($arResult["ORDER_WEIGHT"]))
 							{
@@ -660,7 +659,10 @@ else
 								<?
 							}
 
-							if ($arResult['PRODUCT_SUM_FORMATED'] != $arResult['PRICE_FORMATED'] && !empty($arResult['PRODUCT_SUM_FORMATED']))
+							//if ($arResult['PRODUCT_SUM_FORMATED'] != $arResult['PRICE_FORMATED'] && !empty($arResult['PRODUCT_SUM_FORMATED']))
+                            //не выводилось при нулевой стоимости доставки т.е. при сумма товаров == итого
+                            //попросили выводить всегда
+                            if (!empty($arResult['PRODUCT_SUM_FORMATED']))
 							{
 								?>
 								<li class="sale-order-detail-total-payment-list-left-item">
@@ -689,7 +691,7 @@ else
 							?>
 							<li class="sale-order-detail-total-payment-list-left-item"><strong><?= Loc::getMessage('SPOD_SUMMARY')?>:</strong></li>
 						</ul>
-						<ul class="col-md-4 col-sm-6 col-xs-6 sale-order-detail-total-payment-list-right">
+						<ul class="col-md-5 col-sm-6 col-xs-6 sale-order-detail-total-payment-list-right">
 							<?
 							if (floatval($arResult["ORDER_WEIGHT"]))
 							{
@@ -698,17 +700,20 @@ else
 								<?
 							}
 
-							if ($arResult['PRODUCT_SUM_FORMATED'] != $arResult['PRICE_FORMATED'] && !empty($arResult['PRODUCT_SUM_FORMATED']))
+							//if ($arResult['PRODUCT_SUM_FORMATED'] != $arResult['PRICE_FORMATED'] && !empty($arResult['PRODUCT_SUM_FORMATED']))
+                            //не выводилось при нулевой стоимости доставки т.е. при сумма товаров == итого
+                            //попросили выводить всегда
+                            if (!empty($arResult['PRODUCT_SUM_FORMATED']))
 							{
 								?>
-								<li class="sale-order-detail-total-payment-list-right-item"><strong><?=$arResult['PRODUCT_SUM_FORMATED']?></strong></li>
+								<li class="sale-order-detail-total-payment-list-right-item"><strong><?=$arResult['PRODUCT_SUM_FORMATED']?></strong> <strong>(<?=$arResult["PRICE_ALL_POSITIONS_REG"]?> <?=$arResult["VALUTE_SHORT"]?>)</strong></li>
 								<?
 							}
 
 							if (strlen($arResult["PRICE_DELIVERY_FORMATED"]))
 							{
 								?>
-								<li class="sale-order-detail-total-payment-list-right-item"><strong><?= $arResult["PRICE_DELIVERY_FORMATED"] ?></strong></li>
+								<li class="sale-order-detail-total-payment-list-right-item"><strong><?= $arResult["PRICE_DELIVERY_FORMATED"] ?></strong> <strong>(<?=$arResult["PRICE_IN_VALUTE"] - $arResult["PRICE_ALL_POSITIONS_REG"] ?> <?=$arResult["VALUTE_SHORT"]?>)</strong></li>
 								<?
 							}
 
@@ -719,8 +724,7 @@ else
 								<?
 							}
 							?>
-							<li class="sale-order-detail-total-payment-list-right-item"><strong><?=$arResult['PRICE_FORMATED']?></strong></li>
-                            <li class="sale-order-detail-total-payment-list-right-item"><strong><?= $arResult["PRICE_IN_VALUTE"]?> <?=$arResult["VALUTE_SHORT"]?></strong></li>
+							<li class="sale-order-detail-total-payment-list-right-item"><strong><?=$arResult['PRICE_FORMATED']?></strong> <strong>(<?= $arResult["PRICE_IN_VALUTE"]?> <?=$arResult["VALUTE_SHORT"]?>)</strong></li>
 						</ul>
 					</div>
 				</div>
