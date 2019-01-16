@@ -9,7 +9,7 @@ if (!($arOrder = CSaleOrder::GetByID(85)))
 else
 {
     echo "<pre>";
-    //1print_r($arOrder);
+    //12print_r($arOrder);
     echo "</pre>";
 }
 
